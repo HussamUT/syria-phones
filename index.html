@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>أسعار الهواتف في سورية</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Tajawal:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#f4f1ec; --surface:#fff; --surface2:#faf8f5;
+  --ink:#1a1714; --muted:#6b6560; --light:#a09890;
+  --accent:#c8a96e; --border:#e8e3db;
+  --shadow:rgba(26,23,20,.08); --r:20px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Cairo','Tajawal',sans-serif;background:var(--bg);color:var(--ink);direction:rtl;}
+
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(circle at 15% 20%,rgba(200,169,110,.12) 0%,transparent 45%),
+    radial-gradient(circle at 85% 75%,rgba(45,106,79,.08) 0%,transparent 45%);
+}
+
+.wrap{max-width:1280px;margin:0 auto;padding:0 22px 80px;position:relative;z-index:1;}
+
+/* ── HERO ── */
+.hero{text-align:center;padding:60px 20px 36px;}
+.badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--ink);color:var(--accent);
+  font-size:12px;font-weight:700;letter-spacing:2px;
+  padding:6px 18px;border-radius:100px;margin-bottom:22px;
+}
+.dot{width:6px;height:6px;background:var(--accent);border-radius:50%;animation:pulse 1.5s infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+
+h1{font-family:'Tajawal',sans-serif;font-size:clamp(38px,7vw,84px);font-weight:800;line-height:1.05;margin-bottom:12px;}
+h1 em{font-style:normal;color:var(--accent);}
+.sub{font-size:15px;color:var(--muted);margin-bottom:28px;}
+
+/* ── SEARCH ── */
+.search-box{max-width:500px;margin:0 auto 18px;position:relative;}
+.search-box input{
+  width:100%;padding:14px 48px 14px 20px;
+  border:2px solid var(--border);border-radius:100px;
+  background:var(--surface);font-family:'Cairo',sans-serif;
+  font-size:14px;color:var(--ink);outline:none;direction:rtl;
+  transition:border-color .2s,box-shadow .2s;
+}
+.search-box input:focus{border-color:var(--accent);box-shadow:0 0 0 4px rgba(200,169,110,.12);}
+.search-box input::placeholder{color:var(--light);}
+.si{position:absolute;left:16px;top:50%;transform:translateY(-50%);font-size:17px;pointer-events:none;}
+
+/* ── FILTERS ── */
+.filters{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:36px;}
+.fbtn{
+  padding:7px 17px;border:2px solid var(--border);border-radius:100px;
+  background:var(--surface);font-family:'Cairo',sans-serif;
+  font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;transition:all .2s;
+}
+.fbtn:hover,.fbtn.on{background:var(--ink);border-color:var(--ink);color:#fff;}
+
+/* ── STATS ── */
+.stats{
+  display:flex;justify-content:center;gap:32px;flex-wrap:wrap;
+  padding:18px 32px;background:var(--surface);
+  border-radius:var(--r);border:1px solid var(--border);
+  max-width:660px;margin:0 auto 44px;
+  box-shadow:0 4px 20px var(--shadow);
+}
+.st{text-align:center;}
+.st-n{font-size:24px;font-weight:800;font-family:'Tajawal',sans-serif;}
+.st-l{font-size:11px;color:var(--muted);margin-top:2px;}
+.sdiv{width:1px;background:var(--border);}
+
+/* ── UPDATE BADGE ── */
+.upd{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:12px;color:var(--muted);background:var(--surface);
+  border:1px solid var(--border);padding:5px 14px;border-radius:100px;margin-bottom:14px;
+}
+
+/* ── GRID ── */
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+@media(max-width:900px){.grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:560px){.grid{grid-template-columns:1fr;}}
+
+/* ── CARD ── */
+.card{
+  background:var(--surface);border-radius:var(--r);
+  border:1px solid var(--border);overflow:hidden;
+  box-shadow:0 4px 20px var(--shadow);
+  transition:transform .3s,box-shadow .3s;
+  animation:up .5s ease both;
+}
+.card:hover{transform:translateY(-4px);box-shadow:0 14px 42px rgba(26,23,20,.13);}
+@keyframes up{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+
+.card-top{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:18px 20px 14px;border-bottom:1px solid var(--border);
+}
+.bi{display:flex;align-items:center;gap:10px;}
+.logo{
+  width:42px;height:42px;border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px;font-weight:900;color:#fff;letter-spacing:-.5px;flex-shrink:0;
+}
+.bname{font-size:19px;font-weight:800;font-family:'Tajawal',sans-serif;}
+.bcnt{font-size:11px;color:var(--muted);margin-top:1px;}
+
+.thead{
+  display:grid;grid-template-columns:1fr 100px 85px;
+  padding:7px 18px;background:var(--surface2);
+  font-size:11px;font-weight:700;color:var(--muted);
+  border-bottom:1px solid var(--border);
+}
+.tp{text-align:left;} .tc{text-align:center;}
+
+.prow{
+  display:grid;grid-template-columns:1fr 100px 85px;
+  align-items:center;padding:8px 18px;
+  border-bottom:1px solid var(--border);transition:background .15s;
+}
+.prow:last-child{border-bottom:none;}
+.prow:hover{background:var(--surface2);}
+.prow.gone{display:none!important;}
+
+.pn{font-size:12.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.pr{font-size:11px;color:var(--light);text-align:center;}
+.pp{font-size:13px;font-weight:800;text-align:left;font-family:'Tajawal',sans-serif;direction:ltr;}
+
+.more-btn{
+  display:flex;align-items:center;justify-content:center;gap:5px;
+  padding:12px;background:none;border:none;
+  border-top:1px solid var(--border);
+  font-family:'Cairo',sans-serif;font-size:12.5px;font-weight:700;
+  cursor:pointer;width:100%;transition:background .15s;
+}
+.more-btn:hover{background:var(--surface2);}
+
+/* ── LOADING / EMPTY ── */
+#loading{text-align:center;padding:70px;color:var(--muted);font-size:16px;}
+.empty{text-align:center;padding:40px;color:var(--muted);display:none;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="badge"><span class="dot"></span>تحديث يومي للأسعار</div>
+    <h1>أسعار الهواتف<br>في <em>سورية</em></h1>
+    <p class="sub">أحدث الموديلات · أفضل الأسعار · جميع الماركات</p>
+    <div class="upd" id="updBadge">🕐 جاري التحميل...</div>
+
+    <div class="search-box">
+      <input id="q" type="text" placeholder="ابحث عن هاتف... مثال: iPhone 17، Galaxy S26"/>
+      <span class="si">🔍</span>
+    </div>
+    <div class="filters" id="filters">
+      <button class="fbtn on" data-brand="all">الكل</button>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats" id="stats" style="display:none">
+    <div class="st"><div class="st-n" id="s1">—</div><div class="st-l">ماركة</div></div>
+    <div class="sdiv"></div>
+    <div class="st"><div class="st-n" id="s2">—</div><div class="st-l">موديل</div></div>
+    <div class="sdiv"></div>
+    <div class="st"><div class="st-n" id="s3">—</div><div class="st-l">أقل سعر</div></div>
+    <div class="sdiv"></div>
+    <div class="st"><div class="st-n" id="s4">—</div><div class="st-l">أعلى سعر</div></div>
+  </div>
+
+  <div id="loading">⏳ جاري تحميل الأسعار من prices.md ...</div>
+  <div class="grid" id="grid"></div>
+  <div class="empty" id="empty">😕 لا توجد نتائج</div>
+
+</div>
+
+<script>
+/* ════════════════════════════════
+   MD PARSER
+   ════════════════════════════════ */
+function parseMD(text) {
+  const lines = text.split('\n');
+  const result = { updated: '', brands: [] };
+  let brand = null;
+
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i].trim();
+
+    // Title & date
+    if (line.startsWith('# ')) continue;
+    if (line.startsWith('updated:')) {
+      result.updated = line.replace('updated:', '').trim();
+      continue;
+    }
+
+    // Brand heading
+    if (line.startsWith('## ')) {
+      brand = { name: line.replace('## ', '').trim(), color: '#888', logo: '?', phones: [] };
+      result.brands.push(brand);
+      continue;
+    }
+
+    // Brand meta
+    if (brand && line.startsWith('color:')) { brand.color = line.replace('color:', '').trim(); continue; }
+    if (brand && line.startsWith('logo:'))  { brand.logo  = line.replace('logo:', '').trim();  continue; }
+
+    // Table row (skip header and separator rows)
+    if (brand && line.startsWith('|') && !line.includes('---')) {
+      const cols = line.split('|').map(c => c.trim()).filter(Boolean);
+      if (cols.length < 3) continue;
+      // skip header row (contains Arabic column names)
+      if (cols[0] === 'الموديل' || cols[0] === 'اسم الموديل') continue;
+
+      const model   = cols[0];
+      const ramStor = cols[1];
+      const price   = parseInt(cols[2].replace(/[^0-9]/g, ''), 10);
+      if (!model || isNaN(price)) continue;
+      brand.phones.push({ model, ramStor, price });
+    }
+  }
+  return result;
+}
+
+/* ════════════════════════════════
+   RENDER
+   ════════════════════════════════ */
+let data = null;
+let activeBrand = 'all';
+
+function render(brands) {
+  const grid = document.getElementById('grid');
+  grid.innerHTML = '';
+  brands.forEach((b, i) => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.dataset.brand = b.name;
+    card.style.animationDelay = (i * 0.07) + 's';
+
+    const preview = b.phones.slice(0, 6);
+    const extra   = b.phones.slice(6);
+
+    card.innerHTML = `
+      <div class="card-top">
+        <div class="bi">
+          <div class="logo" style="background:${b.color}">${b.logo}</div>
+          <div>
+            <div class="bname">${b.name}</div>
+            <div class="bcnt">${b.phones.length} موديل</div>
+          </div>
+        </div>
+        <div style="font-size:34px;opacity:.1">📱</div>
+      </div>
+      <div class="thead">
+        <div>الموديل</div>
+        <div class="tc">الرام/التخزين</div>
+        <div class="tp">السعر</div>
+      </div>
+      <div class="plist" id="pl-${i}">
+        ${preview.map(p => row(p, b.color)).join('')}
+        ${extra.map(p => row(p, b.color, true)).join('')}
+      </div>
+      ${extra.length ? `
+        <button class="more-btn" style="color:${b.color}" data-open="0" onclick="toggleMore(this,'pl-${i}',${extra.length})">
+          عرض المزيد (${extra.length} موديل) ↓
+        </button>` : ''}
+    `;
+    grid.appendChild(card);
+  });
+}
+
+function row(p, color, hidden=false) {
+  return `
+    <div class="prow${hidden?' gone':''}">
+      <span class="pn">${p.model}</span>
+      <span class="pr">${p.ramStor}</span>
+      <span class="pp" style="color:${color}">$${p.price.toLocaleString()}</span>
+    </div>`;
+}
+
+function toggleMore(btn, listId, extraCount) {
+  const open = btn.dataset.open === '1';
+  document.querySelectorAll(`#${listId} .gone`).forEach(r => r.classList.toggle('gone', open));
+  btn.dataset.open = open ? '0' : '1';
+  btn.innerHTML = open
+    ? `عرض المزيد (${extraCount} موديل) ↓`
+    : `عرض أقل ↑`;
+}
+
+/* ════════════════════════════════
+   FILTERS
+   ════════════════════════════════ */
+function buildFilters() {
+  const bar = document.getElementById('filters');
+  data.brands.forEach(b => {
+    const btn = document.createElement('button');
+    btn.className = 'fbtn';
+    btn.dataset.brand = b.name;
+    btn.textContent = b.name;
+    btn.onclick = () => applyBrand(b.name);
+    bar.appendChild(btn);
+  });
+  document.querySelector('[data-brand="all"]').onclick = () => applyBrand('all');
+}
+
+function applyBrand(brand) {
+  activeBrand = brand;
+  document.querySelectorAll('.fbtn').forEach(b =>
+    b.classList.toggle('on', b.dataset.brand === brand));
+  document.querySelectorAll('.card').forEach(c =>
+    c.style.display = (brand === 'all' || c.dataset.brand === brand) ? '' : 'none');
+}
+
+/* ════════════════════════════════
+   SEARCH
+   ════════════════════════════════ */
+document.getElementById('q').addEventListener('input', function() {
+  const q = this.value.toLowerCase().trim();
+  let any = false;
+
+  document.querySelectorAll('.card').forEach(card => {
+    if (activeBrand !== 'all' && card.dataset.brand !== activeBrand) return;
+    let hit = false;
+    card.querySelectorAll('.prow').forEach(r => {
+      const name = r.querySelector('.pn').textContent.toLowerCase();
+      const show = !q || name.includes(q);
+      r.style.display = show ? '' : 'none';
+      if (show) { hit = true; any = true; }
+    });
+    // when searching, show all rows in matching cards
+    card.style.display = (q && !hit) ? 'none' : '';
+  });
+
+  document.getElementById('empty').style.display = (q && !any) ? 'block' : 'none';
+});
+
+/* ════════════════════════════════
+   STATS
+   ════════════════════════════════ */
+function showStats() {
+  const all = data.brands.flatMap(b => b.phones).map(p => p.price);
+  document.getElementById('s1').textContent = data.brands.length;
+  document.getElementById('s2').textContent = all.length + '+';
+  document.getElementById('s3').textContent = '$' + Math.min(...all).toLocaleString();
+  document.getElementById('s4').textContent = '$' + Math.max(...all).toLocaleString();
+  document.getElementById('stats').style.display = 'flex';
+  document.getElementById('updBadge').textContent = '🕐 آخر تحديث: ' + data.updated;
+}
+
+/* ════════════════════════════════
+   LOAD prices.md
+   ════════════════════════════════ */
+async function init() {
+  try {
+    const res = await fetch('prices.md');
+    if (!res.ok) throw new Error();
+    const text = await res.text();
+    data = parseMD(text);
+    document.getElementById('loading').style.display = 'none';
+    showStats();
+    buildFilters();
+    render(data.brands);
+  } catch(e) {
+    document.getElementById('loading').innerHTML =
+      '❌ تعذّر تحميل <code>prices.md</code> — تأكد من رفعه على GitHub';
+  }
+}
+
+init();
+</script>
+</body>
+</html>
