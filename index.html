@@ -80,10 +80,11 @@ h1 em{font-style:normal;color:var(--accent);}
 /* TABLE HEADER — 5 columns */
 .thead{
   display:grid;
-  grid-template-columns: minmax(120px,1fr) 64px 70px 78px 108px;
-  padding:6px 14px;background:var(--surface2);
+  grid-template-columns: 1fr 56px 66px 76px 106px;
+  padding:6px 12px;background:var(--surface2);
   font-size:10px;font-weight:700;color:var(--muted);
   border-bottom:1px solid var(--border);gap:4px;
+  overflow:hidden;
 }
 .tc{text-align:center;}
 .tl{text-align:left;direction:ltr;}
@@ -91,22 +92,47 @@ h1 em{font-style:normal;color:var(--accent);}
 /* PHONE ROW */
 .prow{
   display:grid;
-  grid-template-columns: minmax(120px,1fr) 64px 70px 78px 108px;
-  align-items:center;padding:8px 14px;
+  grid-template-columns: 1fr 56px 66px 76px 106px;
+  align-items:center;padding:8px 12px;
   border-bottom:1px solid var(--border);gap:4px;
   transition:background .15s;
+  overflow:hidden;
 }
 .prow:last-child{border-bottom:none;}
 .prow:hover{background:var(--surface2);}
 .prow.gone{display:none!important;}
 
-.pn{font-size:12.5px;font-weight:600;direction:ltr;text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.pram{font-size:11px;color:var(--light);text-align:center;white-space:nowrap;}
-.pstor{font-size:11px;color:var(--light);text-align:center;white-space:nowrap;}
-.pusd{font-size:13px;font-weight:800;text-align:left;direction:ltr;font-family:'Tajawal',sans-serif;white-space:nowrap;}
-.psyp-wrap{display:flex;align-items:center;gap:3px;direction:ltr;justify-content:flex-start;}
-.psyp{font-size:11px;font-weight:700;font-family:'Tajawal',sans-serif;color:var(--muted);white-space:nowrap;}
-.arrow{font-size:12px;line-height:1;flex-shrink:0;font-weight:900;}
+/* model name */
+.pn{
+  font-size:12px;font-weight:600;
+  direction:ltr;text-align:right;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  min-width:0;
+}
+.pram{ font-size:10.5px;color:var(--light);text-align:center;white-space:nowrap; }
+.pstor{ font-size:10.5px;color:var(--light);text-align:center;white-space:nowrap; }
+
+/* USD — always visible */
+.pusd{
+  font-size:12.5px;font-weight:800;
+  text-align:left;direction:ltr;
+  font-family:'Tajawal',sans-serif;
+  white-space:nowrap;min-width:0;
+}
+
+/* SYP cell */
+.psyp-wrap{
+  display:flex;align-items:center;gap:2px;
+  direction:ltr;justify-content:flex-start;
+  min-width:0;overflow:hidden;
+}
+.psyp{
+  font-size:10.5px;font-weight:700;
+  font-family:'Tajawal',sans-serif;
+  color:var(--muted);white-space:nowrap;
+  overflow:hidden;text-overflow:ellipsis;
+}
+.arrow{font-size:11px;line-height:1;flex-shrink:0;font-weight:900;}
 .arrow.up{color:var(--green);}
 .arrow.down{color:var(--red);}
 .arrow.same{color:var(--light);}
@@ -128,11 +154,11 @@ h1 em{font-style:normal;color:var(--accent);}
 
     <div class="rate-bar">
       <span class="rate-label">سعر الدولار</span>
-      <span class="rate-val" id="rateVal">—</span>
+      <span class="rate-val" id="rateVal">13,500</span>
       <span style="color:var(--accent);font-size:12px;">ل.س</span>
       <div class="rate-sep"></div>
       <div style="display:flex;flex-direction:column;gap:2px;align-items:flex-start;">
-        <span class="rate-status" id="rateStatus">جاري جلب السعر...</span>
+        <span class="rate-status" id="rateStatus">⏳ جاري جلب السعر الحقيقي...</span>
         <span class="countdown" id="countdownEl"></span>
       </div>
       <div class="rate-spin" id="rateSpin"></div>
@@ -164,7 +190,7 @@ h1 em{font-style:normal;color:var(--accent);}
 
 <script>
 /* ══ EXCHANGE RATE ══ */
-let rate = null;
+let rate = 13500; // default so SYP shows immediately before real rate loads
 let cdTimer = null;
 
 async function fetchRate() {
@@ -295,8 +321,11 @@ function parseMD(text) {
 
 /* ══ SYP HELPER ══ */
 function toSYP(usd) {
-  if (!rate) return '—';
-  return Math.round(usd * rate).toLocaleString('en-US');
+  const val = Math.round(usd * rate);
+  // Format as e.g. 7.9M or 500K for large numbers to fit in column
+  if (val >= 1000000) return (val/1000000).toFixed(1) + 'M';
+  if (val >= 10000)   return Math.round(val/1000) + 'K';
+  return val.toLocaleString('en-US');
 }
 
 function arrowCls(price, prev) {
