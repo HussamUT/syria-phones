@@ -892,69 +892,83 @@ async function fetchSpecs(brand, model) {
   const key = brand + '|' + model;
   if (specCache[key]) return specCache[key];
 
-  // Build kimovil slug
-  const bSlug = brandSlug(brand);
-  const mSlug = slugify(
-    model.replace(/\bmi\b/gi,'xiaomi')
-         .replace(/\bpoco\b/gi,'poco')
-         .replace(/iPhone/gi,'iphone')
-  );
-  const kimovilSlug = `${bSlug}-${mSlug}`;
-  const kimovilUrl  = `https://www.kimovil.com/en/where-to-buy-${kimovilSlug}`;
+  // Build search query
+  const query = `${brand} ${model} specifications`;
+  const fullName = `${brand} ${model}`;
 
-  // Use allorigins proxy to bypass CORS/403
-  const proxy = `https://api.allorigins.win/get?url=${encodeURIComponent(kimovilUrl)}`;
-
-  const resp = await fetch(proxy, {signal: AbortSignal.timeout(10000)});
-  const json = await resp.json();
-  const html = json.contents || '';
-
-  // Parse key specs from kimovil HTML
-  const get = (patterns) => {
-    for (const pat of patterns) {
-      const m = html.match(pat);
-      if (m) return m[1].trim();
-    }
-    return null;
-  };
-
-  const specs = {
-    screen:   get([/screen[^<]*<[^>]+>([^<]{4,40})</i, /(\d+\.\d+"[^<]{0,30}(?:AMOLED|LCD|OLED|IPS)[^<]{0,30})/i]),
-    chip:     get([/chipset[^<]*<[^>]+>([^<]{4,40})</i, /Snapdragon[^<"]{3,30}/i, /Dimensity[^<"]{3,30}/i, /Exynos[^<"]{3,30}/i, /Kirin[^<"]{3,30}/i, /Apple A\d[^<"]{0,15}/i]),
-    battery:  get([/battery[^<]*<[^>]+>([^<]{3,30})</i, /(\d{3,5}\s*mAh)/i]),
-    camera:   get([/main camera[^<]*<[^>]+>([^<]{3,50})</i, /(\d{2,3}\s*MP[^<]{0,30})/i]),
-    weight:   get([/weight[^<]*<[^>]+>([^<]{3,20})</i, /(\d{3}\s*g\b)/i]),
-    os:       get([/operating system[^<]*<[^>]+>([^<]{3,30})</i, /Android\s*\d+/i, /iOS\s*\d+/i]),
-    dim:      get([/dimensions[^<]*<[^>]+>([^<]{5,50})</i]),
-    nfc:      /nfc/i.test(html) ? 'NFC' : null,
-    usb:      get([/USB[^<"]{2,20}/i]),
-    source:   kimovilUrl
-  };
-
+  // Try multiple sources
+  const specs = await tryWikipedia(fullName) || await tryDDG(query) || {};
+  specs._source = `https://www.kimovil.com/en/where-to-buy-${brandSlug(brand)}-${slugify(model)}`;
   specCache[key] = specs;
   return specs;
 }
 
+async function tryWikipedia(fullName) {
+  try {
+    const url = `https://en.wikipedia.org/w/api.php?action=query&prop=extracts&exintro=1&explaintext=1&titles=${encodeURIComponent(fullName)}&format=json&origin=*`;
+    const r = await fetch(url, {signal: AbortSignal.timeout(6000)});
+    const j = await r.json();
+    const pages = j.query?.pages || {};
+    const page = Object.values(pages)[0];
+    if (!page || page.missing !== undefined || !page.extract) return null;
+    const txt = page.extract;
+
+    return {
+      screen:  txt.match(/(\d+\.?\d*["-]inch[^.]{0,60}(?:AMOLED|OLED|LCD|display)[^.]{0,30})/i)?.[1]
+              || txt.match(/(\d+\.?\d*["-]inch)/i)?.[1],
+      chip:    txt.match(/(Snapdragon[^,.]{3,30}|Dimensity[^,.]{3,30}|Exynos[^,.]{3,30}|Kirin[^,.]{3,30}|Apple A\d+[^,.]{0,15})/i)?.[1],
+      battery: txt.match(/(\d{3,5}[\s-]?mAh)/i)?.[1],
+      camera:  txt.match(/(\d{2,3}[\s]?MP[^.]{0,40})/i)?.[1],
+      weight:  txt.match(/(\d{2,3}\.?\d*\s*g(?:rams?)?)/i)?.[1],
+      os:      txt.match(/(Android\s*\d+(?:\.\d+)?|iOS\s*\d+(?:\.\d+)?)/i)?.[1],
+    };
+  } catch(e) { return null; }
+}
+
+async function tryDDG(query) {
+  try {
+    const url = `https://api.duckduckgo.com/?q=${encodeURIComponent(query)}&format=json&no_redirect=1&skip_disambig=1`;
+    const r = await fetch(url, {signal: AbortSignal.timeout(6000)});
+    const j = await r.json();
+    const txt = (j.AbstractText || '') + ' ' + (j.Answer || '');
+    if (!txt.trim()) return null;
+    return {
+      screen:  txt.match(/(\d+\.?\d*["-]inch[^.]{0,50})/i)?.[1],
+      chip:    txt.match(/(Snapdragon[^,.]{3,25}|Dimensity[^,.]{3,25}|Exynos[^,.]{3,25}|Apple A\d+[^,.]{0,15})/i)?.[1],
+      battery: txt.match(/(\d{3,5}[\s-]?mAh)/i)?.[1],
+      camera:  txt.match(/(\d{2,3}[\s]?MP[^.]{0,30})/i)?.[1],
+      weight:  txt.match(/(\d{2,3}\.?\d*\s*g(?:rams?)?)/i)?.[1],
+      os:      txt.match(/(Android\s*\d+(?:\.\d+)?|iOS\s*\d+(?:\.\d+)?)/i)?.[1],
+    };
+  } catch(e) { return null; }
+}
+
 function renderSpecs(specs, color) {
-  const row = (icon, val, lbl, sub='', wide=false) =>
-    val ? `<div class="spec-cell${wide?' wide':''}">
+  const row = (icon, val, lbl) =>
+    val ? `<div class="spec-cell">
       <div class="spec-icon">${icon}</div>
       <div class="spec-val">${val}</div>
       <div class="spec-lbl">${lbl}</div>
-      ${sub ? `<div class="spec-sub">${sub}</div>` : ''}
     </div>` : '';
 
-  return `<div class="spec-grid">
-    ${row('📱', specs.screen,  'الشاشة', '', false)}
-    ${row('⚡', specs.chip,    'المعالج', '', false)}
-    ${row('🔋', specs.battery, 'البطارية', '', false)}
-    ${row('⚖️', specs.weight,  'الوزن', '', false)}
-    ${row('📷', specs.camera,  'الكاميرا', '', false)}
-    ${row('🤖', specs.os,      'نظام التشغيل', '', false)}
-    ${row('📐', specs.dim,     'الأبعاد', '', false)}
-    ${row('🔌', specs.usb,     'USB', '', false)}
-  </div>
-  <div class="spec-source">المصدر: <a class="spec-link" href="${specs.source}" target="_blank">kimovil.com</a></div>`;
+  const items = [
+    row('📱', specs.screen,  'الشاشة'),
+    row('⚡', specs.chip,    'المعالج'),
+    row('🔋', specs.battery, 'البطارية'),
+    row('⚖️', specs.weight,  'الوزن'),
+    row('📷', specs.camera,  'الكاميرا'),
+    row('🤖', specs.os,      'نظام التشغيل'),
+  ].filter(Boolean);
+
+  if (!items.length) return `<div class="modal-loading">
+    ⚠️ لم يتم العثور على مواصفات<br>
+    <small><a href="${specs._source}" target="_blank" style="color:var(--gold)">افتح kimovil.com ←</a></small>
+  </div>`;
+
+  return `<div class="spec-grid">${items.join('')}</div>
+  <div class="spec-source">
+    <a class="spec-link" href="${specs._source}" target="_blank">مواصفات كاملة على kimovil.com ←</a>
+  </div>`;
 }
 
 async function openModal(row) {
@@ -992,13 +1006,12 @@ async function openModal(row) {
   // Fetch specs
   try {
     const specs = await fetchSpecs(brand, name);
-    const hasAny = Object.values(specs).some(v => v && v !== specs.source);
-    document.getElementById('modalSpecs').innerHTML = hasAny
-      ? renderSpecs(specs, color)
-      : `<div class="modal-loading">⚠️ لم يتم العثور على مواصفات<br><small><a href="${specs.source}" target="_blank" style="color:var(--gold)">افتح kimovil.com</a></small></div>`;
+    document.getElementById('modalSpecs').innerHTML = renderSpecs(specs, color);
   } catch(e) {
+    const link = `https://www.kimovil.com/en/where-to-buy-${brandSlug(brand)}-${slugify(name)}`;
     document.getElementById('modalSpecs').innerHTML =
-      `<div class="modal-loading">⚠️ تعذّر تحميل المواصفات</div>`;
+      `<div class="modal-loading">⚠️ تعذّر تحميل المواصفات<br>
+       <small><a href="${link}" target="_blank" style="color:var(--gold)">افتح kimovil.com ←</a></small></div>`;
   }
 }
 
