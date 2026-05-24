@@ -108,40 +108,22 @@ h1 em{font-style:normal;color:var(--gold);}
 .brand-count{font-size:10px;color:var(--muted);}
 .card-icon{font-size:26px;opacity:.07;flex-shrink:0;}
 
-/* ══ PRICE TABLE
-   Columns (RTL display, LTR internal):
-   الموديل (auto) | الرام (50px) | التخزين (60px) | $ دولار (76px) | ↕ ل.س (104px)
-   Order LEFT→RIGHT on screen: ل.س | دولار | التخزين | الرام | الموديل
-   Since dir=rtl, first column in HTML = rightmost on screen.
-   We want Moodel on LEFT visually → it must be LAST in HTML column order.
-   Solution: reverse the visual column order with flex or simply reorder cols.
-   Actually in RTL table: col[0]=right, col[last]=left.
-   So to show model on LEFT: model must be the LAST <td> in each row.
-   We reorder: ل.س | $ | تخزين | رام | موديل  (left to right visually in RTL)
-══ */
+/* ══ PRICE TABLE — 5 cols, RTL: [ل.س][دولار][تخزين][رام][الموديل] right→left ══ */
 .price-table{width:100%;border-collapse:collapse;table-layout:fixed;}
-/* col widths — left to right in HTML = right to left visually in RTL */
-.price-table colgroup col:nth-child(1){width:104px;} /* ل.س  — rightmost visually = first in RTL */
-.price-table colgroup col:nth-child(2){width:76px;}  /* $     */
-.price-table colgroup col:nth-child(3){width:62px;}  /* stor  */
-.price-table colgroup col:nth-child(4){width:52px;}  /* ram   */
-.price-table colgroup col:nth-child(5){width:auto;}  /* model — leftmost visually */
+/* col widths — HTML order maps to RTL visual: first=right, last=left */
+/* Visual: [ل.س][دولار][تخزين][رام][الموديل] right→left */
+.price-table colgroup col:nth-child(1){width:98px;}  /* ل.س */
+.price-table colgroup col:nth-child(2){width:72px;}  /* $ */
+.price-table colgroup col:nth-child(3){width:58px;}  /* تخزين */
+.price-table colgroup col:nth-child(4){width:48px;}  /* رام */
+.price-table colgroup col:nth-child(5){width:auto;}  /* الموديل — takes ALL remaining */
 
 .price-table thead tr{background:var(--card2);border-bottom:2px solid var(--border);}
 .price-table thead th{padding:6px 8px;font-size:10.5px;font-weight:700;color:var(--muted);white-space:nowrap;overflow:hidden;}
-
-/* header alignment — each col */
-.thk{text-align:right;direction:ltr;}   /* ل.س  right-aligned (leftmost visual col) — no wait, in RTL first col is right side */
-/* Let me simplify: RTL means col order in HTML maps right→left visually.
-   So HTML order: [ل.س][دولار][تخزين][رام][موديل]
-   Visually (RTL): right=[ل.س] ... left=[موديل]
-   We want: left=موديل ✓ right=ل.س ✓  Perfect with this order.
-*/
-.thk{text-align:left;direction:ltr;}    /* ل.س cell: number faces left (inside RTL it faces outward) */
-.thu{text-align:left;direction:ltr;}    /* $ */
+.thk{text-align:left;direction:ltr;}   /* ل.س */
+.thu{text-align:left;direction:ltr;}   /* $ */
 .ths{text-align:center;}               /* تخزين */
 .thr{text-align:center;}               /* رام */
-.thm{text-align:right;}               /* موديل: right-aligned text, leftmost column */
 
 /* data cells */
 .price-table tbody tr{border-bottom:1px solid var(--border);transition:background .12s;}
@@ -165,14 +147,17 @@ h1 em{font-style:normal;color:var(--gold);}
 /* تخزين / رام */
 .tds,.tdr{text-align:center;font-size:11px;color:var(--pale);white-space:nowrap;}
 
-/* موديل — leftmost, full name, no ellipsis on desktop */
+/* موديل — leftmost column, full name shown, truncate from end */
 .tdm{
-  text-align:right;
+  text-align:left;
   direction:ltr;
+  unicode-bidi:plaintext;
   font-size:12px;font-weight:600;
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
-  max-width:0; /* enables ellipsis with table-layout:fixed */
+  max-width:0; /* required for ellipsis with table-layout:fixed */
+  padding-left:12px !important;
 }
+.thm{text-align:left !important; padding-left:12px !important;}
 
 /* SHOW MORE */
 .more-btn{width:100%;padding:10px;border:none;border-top:1px solid var(--border);background:none;cursor:pointer;font-family:'Cairo',sans-serif;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:4px;transition:background .15s;}
