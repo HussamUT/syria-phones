@@ -872,116 +872,130 @@ function applyFilters() {
 
 /* ════════════ SPECS MODAL ════════════ */
 
+/* ════════════ SPECS DATABASE (local — no network needed) ════════════ */
+const SPECS = {
+  // ── Xiaomi ──────────────────────────────────────────────
+  'Mi Mix Flip':         { screen:'6.86" AMOLED 1.5K 120Hz', chip:'Snapdragon 8s Gen 3', battery:'4780mAh 67W', camera:'50MP f/1.7 + 50MP Tele', weight:'195g', os:'Android 14' },
+  'Mi 17':               { screen:'6.72" AMOLED 4K 144Hz', chip:'Snapdragon 8 Elite 2', battery:'6100mAh 90W', camera:'200MP + 50MP + 50MP', weight:'225g', os:'Android 15' },
+  'Mi 13 Ultra':         { screen:'6.73" AMOLED 2K 120Hz', chip:'Snapdragon 8 Gen 2', battery:'5000mAh 90W', camera:'50MP Leica × 4', weight:'229g', os:'Android 13' },
+  '14 T Pro':            { screen:'6.67" AMOLED 1.5K 144Hz', chip:'Dimensity 9300+', battery:'5000mAh 67W', camera:'50MP + 50MP + 12MP', weight:'209g', os:'Android 14' },
+  'Poco F8 Ultra':       { screen:'6.67" AMOLED 2K 144Hz', chip:'Snapdragon 8 Elite', battery:'5300mAh 120W', camera:'50MP + 50MP + 12MP', weight:'222g', os:'Android 15' },
+  'Poco F8 Pro':         { screen:'6.67" AMOLED 2K 120Hz', chip:'Snapdragon 8s Gen 3', battery:'5000mAh 67W', camera:'50MP + 64MP + 8MP', weight:'207g', os:'Android 14' },
+  'Poco X8 PRO MAX 5G':  { screen:'6.73" AMOLED 2K 144Hz', chip:'Snapdragon 8s Gen 3', battery:'6000mAh 90W', camera:'50MP + 50MP + 8MP', weight:'227g', os:'Android 14' },
+  'Poco X8 PRO 5G':      { screen:'6.67" AMOLED 1.5K 120Hz', chip:'Snapdragon 7s Gen 3', battery:'5110mAh 45W', camera:'50MP + 8MP + 2MP', weight:'195g', os:'Android 14' },
+  'Poco X7 Pro':         { screen:'6.67" AMOLED 2K 120Hz', chip:'Dimensity 8400 Ultra', battery:'6550mAh 90W', camera:'50MP + 8MP', weight:'220g', os:'Android 15' },
+  'Poco X7 5G':          { screen:'6.67" AMOLED FHD+ 120Hz', chip:'Dimensity 7300 Ultra', battery:'5500mAh 45W', camera:'50MP + 8MP', weight:'195g', os:'Android 15' },
+  'Poco M8 5G':          { screen:'6.79" IPS FHD+ 90Hz', chip:'Dimensity 7025 Ultra', battery:'5160mAh 18W', camera:'50MP + 2MP', weight:'195g', os:'Android 14' },
+  'Poco M7':             { screen:'6.79" AMOLED FHD+ 90Hz', chip:'Snapdragon 4s Gen 2', battery:'5160mAh 18W', camera:'50MP + 2MP', weight:'195g', os:'Android 14' },
+  'Poco C85':            { screen:'6.88" IPS HD+ 90Hz', chip:'Snapdragon 4 Gen 2', battery:'5160mAh 18W', camera:'50MP + 2MP', weight:'205g', os:'Android 14' },
+  'Poco C75':            { screen:'6.88" IPS HD+ 90Hz', chip:'Snapdragon 4s Gen 2', battery:'5160mAh 18W', camera:'50MP + 2MP', weight:'205g', os:'Android 14' },
+  'Poco C71':            { screen:'6.74" IPS HD+ 90Hz', chip:'Unisoc T615', battery:'5000mAh 10W', camera:'13MP', weight:'192g', os:'Android 14' },
+  'Note 15 Pro Plus 5G': { screen:'6.77" AMOLED 2K 144Hz', chip:'Snapdragon 7s Gen 3', battery:'5300mAh 45W', camera:'200MP + 8MP + 2MP', weight:'210g', os:'Android 15' },
+  'Note 15 Pro 4G':      { screen:'6.77" AMOLED FHD+ 120Hz', chip:'Helio G200 Ultra', battery:'5500mAh 45W', camera:'200MP + 8MP + 2MP', weight:'205g', os:'Android 15' },
+  'Note 15':             { screen:'6.77" AMOLED FHD+ 120Hz', chip:'Helio G99 Ultra', battery:'5000mAh 33W', camera:'108MP + 2MP', weight:'195g', os:'Android 14' },
+  'Note 14 Pro 4G':      { screen:'6.67" AMOLED FHD+ 120Hz', chip:'Helio G100 Ultra', battery:'5110mAh 33W', camera:'108MP + 8MP + 2MP', weight:'195g', os:'Android 14' },
+  'Note 14 Pro Plus 5G': { screen:'6.67" AMOLED FHD+ 120Hz', chip:'Dimensity 7300 Ultra', battery:'5110mAh 45W', camera:'200MP + 8MP + 2MP', weight:'195g', os:'Android 15' },
+
+  // ── iPhone ──────────────────────────────────────────────
+  'iPhone 17 Pro Max':   { screen:'6.9" Super Retina XDR OLED', chip:'Apple A19 Pro', battery:'5000mAh MagSafe', camera:'48MP + 48MP + 12MP', weight:'227g', os:'iOS 18' },
+  'iPhone 17 Pro':       { screen:'6.3" Super Retina XDR OLED', chip:'Apple A19 Pro', battery:'3900mAh MagSafe', camera:'48MP + 48MP + 12MP', weight:'190g', os:'iOS 18' },
+  'iPhone 17 Air':       { screen:'6.6" Super Retina OLED', chip:'Apple A19', battery:'3578mAh MagSafe', camera:'48MP + 12MP', weight:'145g', os:'iOS 18' },
+  'iPhone 17':           { screen:'6.1" Super Retina OLED', chip:'Apple A19', battery:'3577mAh MagSafe', camera:'48MP + 12MP', weight:'170g', os:'iOS 18' },
+  'iPhone 17 E':         { screen:'6.1" OLED', chip:'Apple A18', battery:'3279mAh', camera:'48MP', weight:'167g', os:'iOS 18' },
+  'iPhone 16 Pro Max':   { screen:'6.9" OLED 120Hz ProMotion', chip:'Apple A18 Pro', battery:'4685mAh MagSafe', camera:'48MP + 48MP + 12MP', weight:'227g', os:'iOS 18' },
+  'iPhone 16 Pro':       { screen:'6.3" OLED 120Hz ProMotion', chip:'Apple A18 Pro', battery:'3577mAh MagSafe', camera:'48MP + 48MP + 12MP', weight:'199g', os:'iOS 18' },
+  'iPhone 16':           { screen:'6.1" OLED 60Hz', chip:'Apple A18', battery:'3561mAh MagSafe', camera:'48MP + 12MP', weight:'170g', os:'iOS 18' },
+  'iPhone 16 Pro Plus':  { screen:'6.7" OLED 60Hz', chip:'Apple A18', battery:'4006mAh MagSafe', camera:'48MP + 12MP', weight:'194g', os:'iOS 18' },
+
+  // ── Samsung ──────────────────────────────────────────────
+  'Galaxy S26 Ultra':    { screen:'6.9" Dynamic AMOLED 2X 120Hz', chip:'Snapdragon 8 Elite 2', battery:'5500mAh 45W', camera:'200MP + 50MP + 50MP + 10MP', weight:'218g', os:'Android 15 / One UI 8' },
+  'Galaxy S26+':         { screen:'6.7" Dynamic AMOLED 2X 120Hz', chip:'Snapdragon 8 Elite 2', battery:'4900mAh 45W', camera:'50MP + 12MP + 10MP', weight:'196g', os:'Android 15' },
+  'Galaxy S26':          { screen:'6.2" Dynamic AMOLED 2X 120Hz', chip:'Snapdragon 8 Elite 2', battery:'4000mAh 25W', camera:'50MP + 12MP + 10MP', weight:'162g', os:'Android 15' },
+  'Galaxy S25 Ultra':    { screen:'6.9" Dynamic AMOLED 2X 120Hz', chip:'Snapdragon 8 Elite', battery:'5000mAh 45W', camera:'200MP + 50MP + 50MP + 10MP', weight:'218g', os:'Android 15' },
+  'Galaxy Z Fold 7':     { screen:'8.0" AMOLED 120Hz / 6.5" Cover', chip:'Snapdragon 8 Elite 2', battery:'4400mAh 25W', camera:'200MP + 12MP + 10MP', weight:'242g', os:'Android 15' },
+  'Galaxy A56':          { screen:'6.7" AMOLED FHD+ 120Hz', chip:'Exynos 1580', battery:'5000mAh 45W', camera:'50MP + 12MP + 5MP', weight:'198g', os:'Android 15' },
+  'Galaxy A36':          { screen:'6.7" AMOLED FHD+ 120Hz', chip:'Snapdragon 6 Gen 3', battery:'5000mAh 45W', camera:'50MP + 8MP + 5MP', weight:'198g', os:'Android 15' },
+  'Galaxy A26':          { screen:'6.7" AMOLED FHD+ 120Hz', chip:'Exynos 850', battery:'5000mAh 25W', camera:'50MP + 5MP + 2MP', weight:'196g', os:'Android 15' },
+  'Galaxy A17':          { screen:'6.5" PLS LCD HD+ 90Hz', chip:'Exynos 850', battery:'5000mAh 25W', camera:'50MP + 5MP + 2MP', weight:'192g', os:'Android 14' },
+  'Galaxy A07':          { screen:'6.5" PLS LCD HD+ 60Hz', chip:'Exynos 850', battery:'5000mAh 15W', camera:'50MP + 5MP + 2MP', weight:'194g', os:'Android 13' },
+
+  // ── Honor ──────────────────────────────────────────────
+  'Honor Magic V5':      { screen:'7.9" OLED 120Hz / 6.45" Cover', chip:'Kirin 9020', battery:'5150mAh 66W', camera:'50MP + 40MP + 12MP', weight:'256g', os:'Android 14' },
+  'Honor Magic 8 Pro':   { screen:'6.8" OLED 2K 120Hz', chip:'Snapdragon 8 Elite', battery:'5270mAh 100W', camera:'50MP + 50MP + 12MP', weight:'225g', os:'Android 15' },
+  'Honor Magic 7 Pro':   { screen:'6.8" OLED 2K 120Hz', chip:'Snapdragon 8 Elite', battery:'5270mAh 100W', camera:'50MP + 50MP + 12MP', weight:'223g', os:'Android 14' },
+  'Honor 600 PRO':       { screen:'6.7" OLED FHD+ 120Hz', chip:'Snapdragon 7s Gen 3', battery:'5300mAh 66W', camera:'108MP + 12MP + 5MP', weight:'195g', os:'Android 15' },
+  'Honor 600':           { screen:'6.7" OLED FHD+ 120Hz', chip:'Snapdragon 6 Gen 1', battery:'5300mAh 35W', camera:'108MP + 5MP', weight:'190g', os:'Android 15' },
+  'Honor 600 Lite':      { screen:'6.67" OLED FHD+ 90Hz', chip:'Snapdragon 4 Gen 2', battery:'5000mAh 35W', camera:'108MP + 5MP', weight:'185g', os:'Android 15' },
+  'Honor 400 Pro':       { screen:'6.7" OLED FHD+ 120Hz', chip:'Snapdragon 7 Gen 3', battery:'5200mAh 100W', camera:'200MP + 12MP', weight:'195g', os:'Android 14' },
+  'Honor 400':           { screen:'6.7" OLED FHD+ 120Hz', chip:'Snapdragon 6 Gen 1', battery:'5200mAh 66W', camera:'200MP + 5MP', weight:'188g', os:'Android 14' },
+  'Honor X9d':           { screen:'6.78" AMOLED FHD+ 120Hz', chip:'Snapdragon 6 Gen 1', battery:'5230mAh 35W', camera:'108MP + 5MP + 2MP', weight:'195g', os:'Android 14' },
+  'Honor X9C':           { screen:'6.78" AMOLED FHD+ 120Hz', chip:'Snapdragon 6 Gen 1', battery:'5230mAh 35W', camera:'108MP + 5MP', weight:'185g', os:'Android 14' },
+  'Honor X8d':           { screen:'6.8" AMOLED FHD+ 90Hz', chip:'Snapdragon 4 Gen 2', battery:'5230mAh 35W', camera:'108MP + 5MP', weight:'185g', os:'Android 13' },
+  'Honor X7d':           { screen:'6.8" IPS LCD FHD+ 90Hz', chip:'Helio G85', battery:'6000mAh 35W', camera:'108MP + 5MP', weight:'205g', os:'Android 13' },
+  'Honor X8b':           { screen:'6.8" AMOLED FHD+ 90Hz', chip:'Snapdragon 680', battery:'4500mAh 35W', camera:'108MP + 5MP + 2MP', weight:'168g', os:'Android 13' },
+  'Honor X9a':           { screen:'6.67" AMOLED FHD+ 120Hz', chip:'Snapdragon 695', battery:'5100mAh 40W', camera:'64MP + 5MP + 2MP', weight:'183g', os:'Android 13' },
+  'Honor X8a':           { screen:'6.7" AMOLED FHD+ 90Hz', chip:'Helio G88', battery:'4500mAh 22.5W', camera:'100MP + 5MP + 2MP', weight:'179g', os:'Android 12' },
+  'Honor X7':            { screen:'6.74" IPS LCD HD+ 90Hz', chip:'Helio G37', battery:'6000mAh 22.5W', camera:'48MP + 5MP + 2MP', weight:'206g', os:'Android 12' },
+  'Honor X6c':           { screen:'6.7" IPS LCD HD+ 90Hz', chip:'Helio G36', battery:'5000mAh 10W', camera:'50MP + 2MP', weight:'193g', os:'Android 13' },
+  'Honor X5c':           { screen:'6.56" IPS LCD HD+ 90Hz', chip:'Helio G36', battery:'5000mAh 10W', camera:'13MP', weight:'186g', os:'Android 13' },
+  'Honor X5c Plus':      { screen:'6.67" IPS LCD HD+ 90Hz', chip:'Helio G36', battery:'5230mAh 10W', camera:'13MP', weight:'190g', os:'Android 13' },
+  'Honor X6c':           { screen:'6.7" IPS LCD HD+ 90Hz', chip:'Helio G36', battery:'5000mAh 10W', camera:'50MP + 2MP', weight:'193g', os:'Android 13' },
+  'Honor Play 10':       { screen:'6.74" IPS LCD HD+ 90Hz', chip:'Unisoc T606', battery:'5000mAh 10W', camera:'13MP', weight:'189g', os:'Android 13' },
+  'Honor Pad 10':        { screen:'11.5" IPS LCD 2K 120Hz', chip:'Snapdragon 685', battery:'8300mAh 35W', camera:'13MP', weight:'530g', os:'Android 14' },
+  'Honor Magic Pad 3':   { screen:'12.3" OLED 2.8K 144Hz', chip:'Snapdragon 8 Gen 2', battery:'11400mAh 66W', camera:'13MP', weight:'615g', os:'Android 14' },
+  'Honor Watch 4':       { screen:'1.75" AMOLED', chip:'—', battery:'451mAh / 14 days', camera:'—', weight:'35g', os:'HarmonyOS' },
+  'Honor Watch 2i':      { screen:'1.45" TFT', chip:'—', battery:'7 days', camera:'—', weight:'28g', os:'RTOS' },
+  'Honor Earbuds Clip':  { screen:'—', chip:'—', battery:'6h + 24h case', camera:'—', weight:'5g per bud', os:'—' },
+  'Honor Earbuds X7 Lite':{ screen:'—', chip:'—', battery:'6h + 30h case', camera:'—', weight:'4g per bud', os:'—' },
+
+  // ── Infinix ──────────────────────────────────────────────
+  'Note Edge 5G':        { screen:'6.78" AMOLED FHD+ 144Hz', chip:'Dimensity 7300 Ultimate', battery:'5000mAh 45W', camera:'108MP + 2MP', weight:'190g', os:'Android 14' },
+  'Note 60 Pro':         { screen:'6.78" AMOLED FHD+ 120Hz', chip:'Helio G100 Ultra', battery:'5000mAh 45W', camera:'108MP + 2MP', weight:'195g', os:'Android 14' },
+  'Hot 60 Pro Plus':     { screen:'6.85" IPS LCD HD+ 90Hz', chip:'Helio G92 Max', battery:'5000mAh 33W', camera:'50MP + 2MP', weight:'195g', os:'Android 14' },
+  'Hot 60 Pro':          { screen:'6.78" IPS LCD HD+ 90Hz', chip:'Helio G92 Max', battery:'5000mAh 18W', camera:'50MP + 2MP', weight:'190g', os:'Android 14' },
+  'Hot 60i 5G':          { screen:'6.67" IPS LCD HD+ 90Hz', chip:'Dimensity 6300', battery:'5000mAh 18W', camera:'13MP', weight:'190g', os:'Android 14' },
+  'Hot 60i':             { screen:'6.56" IPS LCD HD+ 90Hz', chip:'Helio G85', battery:'5000mAh 10W', camera:'13MP', weight:'185g', os:'Android 14' },
+  'Smart 10 Pro':        { screen:'6.67" IPS LCD HD+ 90Hz', chip:'Helio G91', battery:'5000mAh 18W', camera:'50MP', weight:'190g', os:'Android 14' },
+  'Smart 10 Plus':       { screen:'6.78" IPS LCD HD+ 90Hz', chip:'Helio G85', battery:'5000mAh 10W', camera:'13MP', weight:'190g', os:'Android 14' },
+  'Smart 10':            { screen:'6.56" IPS LCD HD+ 90Hz', chip:'Unisoc T606', battery:'5000mAh 10W', camera:'13MP', weight:'185g', os:'Android 13' },
+  'Smart 20':            { screen:'6.6" IPS LCD HD+ 90Hz', chip:'Helio G85', battery:'5000mAh 10W', camera:'13MP + 2MP', weight:'190g', os:'Android 14' },
+  'X Pad 20 Wifi 4G':    { screen:'11.0" IPS LCD FHD+ 90Hz', chip:'Helio G99', battery:'7000mAh 18W', camera:'13MP', weight:'490g', os:'Android 14' },
+  'X Pad 30 E 4G':       { screen:'10.4" IPS LCD FHD+ 90Hz', chip:'Helio G99', battery:'7000mAh 18W', camera:'8MP', weight:'480g', os:'Android 14' },
+
+  // ── Tecno ──────────────────────────────────────────────
+  'POVA 7 ULTRA 5G':    { screen:'6.78" AMOLED FHD+ 144Hz', chip:'Dimensity 7300 Ultimate', battery:'6000mAh 45W', camera:'108MP + 2MP', weight:'205g', os:'Android 14' },
+  'POVA 7 5G':          { screen:'6.78" IPS LCD HD+ 90Hz', chip:'Dimensity 6300', battery:'6000mAh 18W', camera:'50MP + 2MP', weight:'200g', os:'Android 14' },
+  'POVA Slim 5G':       { screen:'6.67" AMOLED FHD+ 120Hz', chip:'Dimensity 6300', battery:'5000mAh 33W', camera:'50MP + 2MP', weight:'175g', os:'Android 14' },
+  'CAMON 40 pro 4G':    { screen:'6.78" AMOLED FHD+ 120Hz', chip:'Helio G100 Ultra', battery:'5200mAh 45W', camera:'50MP + 50MP + 2MP', weight:'195g', os:'Android 15' },
+  'CAMON 40 4G':        { screen:'6.78" IPS LCD FHD+ 90Hz', chip:'Helio G92 Max', battery:'5200mAh 33W', camera:'50MP + 2MP', weight:'193g', os:'Android 14' },
+  'SPARK 40':           { screen:'6.67" IPS LCD HD+ 90Hz', chip:'Helio G92 Max', battery:'5000mAh 18W', camera:'50MP + 2MP', weight:'192g', os:'Android 14' },
+  'SPARK 40 C':         { screen:'6.56" IPS LCD HD+ 90Hz', chip:'Helio G85', battery:'5000mAh 10W', camera:'13MP', weight:'188g', os:'Android 14' },
+};
+
+function getSpecs(brand, model) {
+  // 1. Direct match
+  if (SPECS[model]) return SPECS[model];
+  // 2. Strip SIM/eSIM/storage variants for iPhone
+  const stripped = model.replace(/\s*(1SIM|2SIM|Esim|Active)\s*/gi, '').trim();
+  if (SPECS[stripped]) return SPECS[stripped];
+  // 3. Match by first meaningful words (handles RAM/storage dupes)
+  const modelLow = model.toLowerCase();
+  const found = Object.keys(SPECS).find(k =>
+    modelLow.startsWith(k.toLowerCase()) || k.toLowerCase().startsWith(modelLow.split(' ').slice(0,3).join(' '))
+  );
+  if (found) return SPECS[found];
+  return null;
+}
+
 const specCache = {};
-
-function slugify(name) {
-  return name.toLowerCase()
-    .replace(/\s+/g,'-')
-    .replace(/[^a-z0-9-]/g,'');
-}
-
+function slugify(name) { return name.toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9-]/g,''); }
 function brandSlug(brand) {
-  const map = {
-    'iPhone':'apple','Samsung':'samsung','Xiaomi':'xiaomi',
-    'Honor':'honor','Infinix':'infinix','Tecno':'tecno'
-  };
-  return map[brand] || brand.toLowerCase();
+  return {iPhone:'apple',Samsung:'samsung',Xiaomi:'xiaomi',Honor:'honor',Infinix:'infinix',Tecno:'tecno'}[brand] || brand.toLowerCase();
 }
 
-async function fetchSpecs(brand, model) {
-  const key = brand + '|' + model;
-  if (specCache[key]) return specCache[key];
-
-  const specs = await tryWikipedia(brand, model) || await tryDDG(`${brand} ${model} specifications`) || {};
-  specs._source = `https://www.kimovil.com/en/where-to-buy-${brandSlug(brand)}-${slugify(model)}`;
-  specCache[key] = specs;
-  return specs;
-}
-
-async function tryWikipedia(brand, model) {
-  try {
-    // Step 1: search to find the correct Wikipedia page title
-    const queries = [
-      `${brand} ${model}`,
-      `${model} smartphone`,
-      `${brand} ${model} phone`,
-    ];
-    // For iPhone strip brand from search
-    if (brand === 'iPhone') queries.unshift(model);
-
-    let pageTitle = null;
-    for (const q of queries) {
-      const searchUrl = `https://en.wikipedia.org/w/api.php?action=opensearch&search=${encodeURIComponent(q)}&limit=3&format=json&origin=*`;
-      const r = await fetch(searchUrl, {signal: AbortSignal.timeout(5000)});
-      const j = await r.json();
-      const titles = j[1] || [];
-      // Find best match — prefer title containing model keywords
-      const modelWords = model.toLowerCase().replace(/[^a-z0-9\s]/g,' ').trim().split(/\s+/);
-      const match = titles.find(t =>
-        modelWords.every(w => w.length < 2 || t.toLowerCase().includes(w))
-      ) || titles[0];
-      if (match) { pageTitle = match; break; }
-    }
-    if (!pageTitle) return null;
-
-    // Step 2: fetch the page extract
-    const extractUrl = `https://en.wikipedia.org/w/api.php?action=query&prop=extracts&exintro=1&explaintext=1&titles=${encodeURIComponent(pageTitle)}&format=json&origin=*`;
-    const r2 = await fetch(extractUrl, {signal: AbortSignal.timeout(6000)});
-    const j2 = await r2.json();
-    const pages = j2.query?.pages || {};
-    const page = Object.values(pages)[0];
-    if (!page || page.missing !== undefined || !page.extract) return null;
-    const txt = page.extract;
-
-    // Extract specs using patterns
-    const get = (...pats) => { for (const p of pats) { const m = txt.match(p); if (m) return (m[1]||m[0]).trim(); } return null; };
-
-    return {
-      screen:  get(/(\d+\.?\d*[-–]?inch[^.]{0,60}(?:AMOLED|OLED|LCD|Super Retina)[^.]{0,30})/i,
-                   /(\d+\.?\d*\s*(?:cm|inch)[^.]{0,30}(?:display|screen)[^.]{0,30})/i,
-                   /display[^.]{0,20}(\d+\.?\d*\s*inch[^.]{0,40})/i),
-      chip:    get(/(Snapdragon\s*\d+[^,.\n]{0,25})/i,
-                   /(Dimensity\s*\d+[^,.\n]{0,25})/i,
-                   /(Exynos\s*\d+[^,.\n]{0,25})/i,
-                   /(Kirin\s*\d+[^,.\n]{0,25})/i,
-                   /(Apple\s*A\d+[^,.\n]{0,20})/i,
-                   /(Bionic[^,.\n]{0,20})/i),
-      battery: get(/(\d{3,5}\s*mAh)/i),
-      camera:  get(/(\d{2,3}\s*(?:MP|megapixel)[^.]{0,50}(?:camera|lens|sensor)[^.]{0,30})/i,
-                   /(?:main|rear|primary)\s*camera[^.]{0,20}(\d{2,3}\s*MP[^.]{0,40})/i,
-                   /(\d{2,3}\s*MP)/i),
-      weight:  get(/(\d{3}\s*g(?:rams?)?)\b/i,
-                   /weigh(?:s|ing)[^.]{0,15}(\d{3}\s*g)/i),
-      os:      get(/(Android\s*\d+(?:\.\d+)?)/i,
-                   /(iOS\s*\d+(?:\.\d+)?)/i,
-                   /runs?\s*(Android\s*\d+[^,.]{0,20})/i),
-      _wikiTitle: pageTitle,
-    };
-  } catch(e) { return null; }
-}
-
-async function tryDDG(query) {
-  try {
-    const url = `https://api.duckduckgo.com/?q=${encodeURIComponent(query)}&format=json&no_redirect=1&skip_disambig=1`;
-    const r = await fetch(url, {signal: AbortSignal.timeout(6000)});
-    const j = await r.json();
-    const txt = (j.AbstractText || '') + ' ' + (j.Answer || '');
-    if (txt.trim().length < 20) return null;
-    const get = (...pats) => { for (const p of pats) { const m = txt.match(p); if (m) return (m[1]||m[0]).trim(); } return null; };
-    return {
-      screen:  get(/(\d+\.?\d*["-]?inch[^.]{0,50})/i),
-      chip:    get(/(Snapdragon\s*\d+[^,.]{0,25}|Dimensity\s*\d+[^,.]{0,25}|Exynos\s*\d+[^,.]{0,25}|Apple\s*A\d+[^,.]{0,20})/i),
-      battery: get(/(\d{3,5}\s*mAh)/i),
-      camera:  get(/(\d{2,3}\s*MP[^.]{0,30})/i),
-      weight:  get(/(\d{3}\s*g(?:rams?)?)\b/i),
-      os:      get(/(Android\s*\d+(?:\.\d+)?|iOS\s*\d+(?:\.\d+)?)/i),
-    };
-  } catch(e) { return null; }
-}
-
-function renderSpecs(specs, color) {
+function renderSpecs(specs, color, link) {
   const row = (icon, val, lbl) =>
-    val ? `<div class="spec-cell">
+    val && val !== '—' ? `<div class="spec-cell">
       <div class="spec-icon">${icon}</div>
       <div class="spec-val">${val}</div>
       <div class="spec-lbl">${lbl}</div>
@@ -991,19 +1005,14 @@ function renderSpecs(specs, color) {
     row('📱', specs.screen,  'الشاشة'),
     row('⚡', specs.chip,    'المعالج'),
     row('🔋', specs.battery, 'البطارية'),
-    row('⚖️', specs.weight,  'الوزن'),
     row('📷', specs.camera,  'الكاميرا'),
+    row('⚖️', specs.weight,  'الوزن'),
     row('🤖', specs.os,      'نظام التشغيل'),
   ].filter(Boolean);
 
-  if (!items.length) return `<div class="modal-loading">
-    ⚠️ لم يتم العثور على مواصفات<br>
-    <small><a href="${specs._source}" target="_blank" style="color:var(--gold)">افتح kimovil.com ←</a></small>
-  </div>`;
-
   return `<div class="spec-grid">${items.join('')}</div>
   <div class="spec-source">
-    <a class="spec-link" href="${specs._source}" target="_blank">مواصفات كاملة على kimovil.com ←</a>
+    <a class="spec-link" href="${link}" target="_blank">مواصفات كاملة على kimovil.com ←</a>
   </div>`;
 }
 
@@ -1016,11 +1025,11 @@ async function openModal(row) {
   const isnew  = row.dataset.new === 'true';
 
   // Fill header
-  document.getElementById('modalDot').style.background   = color;
-  document.getElementById('modalTitle').textContent       = name;
-  document.getElementById('modalUsd').style.color         = color;
-  document.getElementById('modalUsd').textContent         = `$${usd.toLocaleString()}`;
-  document.getElementById('modalSyp').textContent         = RATE ? `≈ ${fmtSYP(usd)} ل.س` : '';
+  document.getElementById('modalDot').style.background = color;
+  document.getElementById('modalTitle').textContent    = name;
+  document.getElementById('modalUsd').style.color      = color;
+  document.getElementById('modalUsd').textContent      = `$${usd.toLocaleString()}`;
+  document.getElementById('modalSyp').textContent      = RATE ? `≈ ${fmtSYP(usd)} ل.س` : '';
 
   const chEl = document.getElementById('modalChange');
   if (isnew) {
@@ -1033,22 +1042,20 @@ async function openModal(row) {
     chEl.textContent = '— مستقر'; chEl.className = 'modal-change flat';
   }
 
-  // Show modal with loading
-  document.getElementById('modalSpecs').innerHTML =
-    `<div class="modal-loading"><div class="modal-spinner"></div>جاري تحميل المواصفات…</div>`;
+  // Show modal
   document.getElementById('specsModal').classList.add('open');
   document.body.style.overflow = 'hidden';
 
-  // Fetch specs
-  try {
-    const specs = await fetchSpecs(brand, name);
-    document.getElementById('modalSpecs').innerHTML = renderSpecs(specs, color);
-  } catch(e) {
-    const link = `https://www.kimovil.com/en/where-to-buy-${brandSlug(brand)}-${slugify(name)}`;
-    document.getElementById('modalSpecs').innerHTML =
-      `<div class="modal-loading">⚠️ تعذّر تحميل المواصفات<br>
-       <small><a href="${link}" target="_blank" style="color:var(--gold)">افتح kimovil.com ←</a></small></div>`;
-  }
+  // Get specs from local DB — instant, no network
+  const specs = getSpecs(brand, name);
+  const kimovilLink = `https://www.kimovil.com/en/where-to-buy-${brandSlug(brand)}-${slugify(name)}`;
+  document.getElementById('modalSpecs').innerHTML = specs
+    ? renderSpecs(specs, color, kimovilLink)
+    : `<div class="modal-loading">
+        <span style="font-size:28px">📋</span>
+        لا تتوفر مواصفات لهذا الجهاز<br>
+        <small><a href="${kimovilLink}" target="_blank" style="color:var(--gold)">عرض على kimovil.com ←</a></small>
+      </div>`;
 }
 
 function closeModal(e) {
