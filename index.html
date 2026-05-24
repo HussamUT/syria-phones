@@ -120,7 +120,85 @@ h1 em{font-style:normal;color:var(--gold);}
 .brand-count{font-size:10px;color:var(--muted);}
 .card-icon{font-size:26px;opacity:.07;flex-shrink:0;}
 
-/* ══ PRICE LIST ══ */
+/* ══ SPECS MODAL ══ */
+.modal-overlay{
+  position:fixed;inset:0;z-index:999;
+  background:rgba(0,0,0,.45);backdrop-filter:blur(4px);
+  display:flex;align-items:flex-end;justify-content:center;
+  opacity:0;pointer-events:none;transition:opacity .25s;
+}
+.modal-overlay.open{opacity:1;pointer-events:all;}
+.modal-box{
+  width:100%;max-width:560px;
+  background:var(--card);border-radius:24px 24px 0 0;
+  padding:0 0 32px;
+  transform:translateY(40px);transition:transform .3s cubic-bezier(.2,.8,.3,1);
+  max-height:88vh;overflow-y:auto;
+}
+.modal-overlay.open .modal-box{transform:translateY(0);}
+.modal-drag{width:40px;height:4px;border-radius:2px;background:var(--border);margin:12px auto 0;}
+.modal-head{
+  display:flex;align-items:center;gap:12px;
+  padding:16px 20px 12px;
+  border-bottom:1px solid var(--border);
+  position:sticky;top:0;background:var(--card);z-index:2;
+}
+.modal-brand-dot{
+  width:10px;height:10px;border-radius:50%;flex-shrink:0;
+}
+.modal-title{flex:1;font-size:15px;font-weight:700;direction:ltr;text-align:left;}
+.modal-close{
+  width:30px;height:30px;border-radius:50%;
+  background:var(--card2);border:none;cursor:pointer;
+  font-size:14px;display:flex;align-items:center;justify-content:center;
+  color:var(--muted);
+}
+.modal-price{
+  display:flex;gap:12px;align-items:center;
+  padding:14px 20px;border-bottom:1px solid var(--border);
+  direction:ltr;
+}
+.modal-usd{font-size:22px;font-weight:900;font-family:'Tajawal',sans-serif;}
+.modal-syp{font-size:13px;color:var(--muted);font-family:'Tajawal',sans-serif;}
+.modal-change{font-size:11px;font-weight:700;padding:3px 8px;border-radius:20px;}
+.modal-change.up{background:#fff0f0;color:var(--red);}
+.modal-change.down{background:#f0fff6;color:var(--green);}
+.modal-change.flat{background:var(--card2);color:var(--pale);}
+
+/* spec grid */
+.spec-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:1px;background:var(--border);
+  margin:0;
+}
+.spec-cell{
+  background:var(--card);
+  padding:14px 16px;
+  display:flex;flex-direction:column;gap:4px;
+}
+.spec-cell.wide{grid-column:1/-1;}
+.spec-icon{font-size:22px;margin-bottom:2px;}
+.spec-val{font-size:13.5px;font-weight:700;line-height:1.35;direction:ltr;text-align:left;}
+.spec-lbl{font-size:10.5px;color:var(--pale);font-weight:600;}
+.spec-sub{font-size:11px;color:var(--muted);direction:ltr;text-align:left;}
+
+/* loading & error */
+.modal-loading{
+  display:flex;flex-direction:column;align-items:center;
+  gap:14px;padding:48px 20px;color:var(--muted);font-size:13px;
+}
+.modal-spinner{
+  width:28px;height:28px;border:3px solid var(--border);
+  border-top-color:var(--gold);border-radius:50%;
+  animation:spin .75s linear infinite;
+}
+.spec-source{
+  font-size:10px;color:var(--pale);text-align:center;
+  padding:12px;direction:ltr;
+}
+.spec-link{color:var(--gold);text-decoration:none;}
+
+
 
 /* Header row */
 .plist-head{
@@ -584,7 +662,7 @@ function buildCards() {
         sypHtml = `<span class="syp-num">${fmtSYP(ph.p)}</span>`;
       }
 
-      return `<div class="prow${hidden ? ' rh' : ''}" data-usd="${ph.p}" data-prev="${ph.pp}" data-model="${ph.m.toLowerCase()}" data-new="${ph.isnew}">
+      return `<div class="prow${hidden ? ' rh' : ''}" data-usd="${ph.p}" data-prev="${ph.pp}" data-model="${ph.m.toLowerCase()}" data-new="${ph.isnew}" data-name="${ph.m}" data-brand="${brand.name}" data-color="${brand.color}" onclick="openModal(this)" style="cursor:pointer">
         <div class="cell-mod" title="${ph.m}">${ph.m}</div>
         <div class="cell-ram">${ph.r || '—'}</div>
         <div class="cell-stor">${ph.s || '—'}</div>
@@ -792,6 +870,144 @@ function applyFilters() {
   document.getElementById('noResults').style.display = (any ? 'none' : 'block');
 }
 
+/* ════════════ SPECS MODAL ════════════ */
+
+const specCache = {};
+
+function slugify(name) {
+  return name.toLowerCase()
+    .replace(/\s+/g,'-')
+    .replace(/[^a-z0-9-]/g,'');
+}
+
+function brandSlug(brand) {
+  const map = {
+    'iPhone':'apple','Samsung':'samsung','Xiaomi':'xiaomi',
+    'Honor':'honor','Infinix':'infinix','Tecno':'tecno'
+  };
+  return map[brand] || brand.toLowerCase();
+}
+
+async function fetchSpecs(brand, model) {
+  const key = brand + '|' + model;
+  if (specCache[key]) return specCache[key];
+
+  // Build kimovil slug
+  const bSlug = brandSlug(brand);
+  const mSlug = slugify(
+    model.replace(/\bmi\b/gi,'xiaomi')
+         .replace(/\bpoco\b/gi,'poco')
+         .replace(/iPhone/gi,'iphone')
+  );
+  const kimovilSlug = `${bSlug}-${mSlug}`;
+  const kimovilUrl  = `https://www.kimovil.com/en/where-to-buy-${kimovilSlug}`;
+
+  // Use allorigins proxy to bypass CORS/403
+  const proxy = `https://api.allorigins.win/get?url=${encodeURIComponent(kimovilUrl)}`;
+
+  const resp = await fetch(proxy, {signal: AbortSignal.timeout(10000)});
+  const json = await resp.json();
+  const html = json.contents || '';
+
+  // Parse key specs from kimovil HTML
+  const get = (patterns) => {
+    for (const pat of patterns) {
+      const m = html.match(pat);
+      if (m) return m[1].trim();
+    }
+    return null;
+  };
+
+  const specs = {
+    screen:   get([/screen[^<]*<[^>]+>([^<]{4,40})</i, /(\d+\.\d+"[^<]{0,30}(?:AMOLED|LCD|OLED|IPS)[^<]{0,30})/i]),
+    chip:     get([/chipset[^<]*<[^>]+>([^<]{4,40})</i, /Snapdragon[^<"]{3,30}/i, /Dimensity[^<"]{3,30}/i, /Exynos[^<"]{3,30}/i, /Kirin[^<"]{3,30}/i, /Apple A\d[^<"]{0,15}/i]),
+    battery:  get([/battery[^<]*<[^>]+>([^<]{3,30})</i, /(\d{3,5}\s*mAh)/i]),
+    camera:   get([/main camera[^<]*<[^>]+>([^<]{3,50})</i, /(\d{2,3}\s*MP[^<]{0,30})/i]),
+    weight:   get([/weight[^<]*<[^>]+>([^<]{3,20})</i, /(\d{3}\s*g\b)/i]),
+    os:       get([/operating system[^<]*<[^>]+>([^<]{3,30})</i, /Android\s*\d+/i, /iOS\s*\d+/i]),
+    dim:      get([/dimensions[^<]*<[^>]+>([^<]{5,50})</i]),
+    nfc:      /nfc/i.test(html) ? 'NFC' : null,
+    usb:      get([/USB[^<"]{2,20}/i]),
+    source:   kimovilUrl
+  };
+
+  specCache[key] = specs;
+  return specs;
+}
+
+function renderSpecs(specs, color) {
+  const row = (icon, val, lbl, sub='', wide=false) =>
+    val ? `<div class="spec-cell${wide?' wide':''}">
+      <div class="spec-icon">${icon}</div>
+      <div class="spec-val">${val}</div>
+      <div class="spec-lbl">${lbl}</div>
+      ${sub ? `<div class="spec-sub">${sub}</div>` : ''}
+    </div>` : '';
+
+  return `<div class="spec-grid">
+    ${row('📱', specs.screen,  'الشاشة', '', false)}
+    ${row('⚡', specs.chip,    'المعالج', '', false)}
+    ${row('🔋', specs.battery, 'البطارية', '', false)}
+    ${row('⚖️', specs.weight,  'الوزن', '', false)}
+    ${row('📷', specs.camera,  'الكاميرا', '', false)}
+    ${row('🤖', specs.os,      'نظام التشغيل', '', false)}
+    ${row('📐', specs.dim,     'الأبعاد', '', false)}
+    ${row('🔌', specs.usb,     'USB', '', false)}
+  </div>
+  <div class="spec-source">المصدر: <a class="spec-link" href="${specs.source}" target="_blank">kimovil.com</a></div>`;
+}
+
+async function openModal(row) {
+  const name   = row.dataset.name;
+  const brand  = row.dataset.brand;
+  const color  = row.dataset.color;
+  const usd    = +row.dataset.usd;
+  const prev   = +row.dataset.prev;
+  const isnew  = row.dataset.new === 'true';
+
+  // Fill header
+  document.getElementById('modalDot').style.background   = color;
+  document.getElementById('modalTitle').textContent       = name;
+  document.getElementById('modalUsd').style.color         = color;
+  document.getElementById('modalUsd').textContent         = `$${usd.toLocaleString()}`;
+  document.getElementById('modalSyp').textContent         = RATE ? `≈ ${fmtSYP(usd)} ل.س` : '';
+
+  const chEl = document.getElementById('modalChange');
+  if (isnew) {
+    chEl.textContent = 'جديد'; chEl.className = 'modal-change flat';
+  } else if (usd > prev) {
+    chEl.textContent = `▲ ارتفع من $${prev}`; chEl.className = 'modal-change up';
+  } else if (usd < prev) {
+    chEl.textContent = `▼ انخفض من $${prev}`; chEl.className = 'modal-change down';
+  } else {
+    chEl.textContent = '— مستقر'; chEl.className = 'modal-change flat';
+  }
+
+  // Show modal with loading
+  document.getElementById('modalSpecs').innerHTML =
+    `<div class="modal-loading"><div class="modal-spinner"></div>جاري تحميل المواصفات…</div>`;
+  document.getElementById('specsModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+
+  // Fetch specs
+  try {
+    const specs = await fetchSpecs(brand, name);
+    const hasAny = Object.values(specs).some(v => v && v !== specs.source);
+    document.getElementById('modalSpecs').innerHTML = hasAny
+      ? renderSpecs(specs, color)
+      : `<div class="modal-loading">⚠️ لم يتم العثور على مواصفات<br><small><a href="${specs.source}" target="_blank" style="color:var(--gold)">افتح kimovil.com</a></small></div>`;
+  } catch(e) {
+    document.getElementById('modalSpecs').innerHTML =
+      `<div class="modal-loading">⚠️ تعذّر تحميل المواصفات</div>`;
+  }
+}
+
+function closeModal(e) {
+  if (e && e.target !== document.getElementById('specsModal')) return;
+  document.getElementById('specsModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
 /* ════════════ INIT ════════════ */
 buildFilters();
 buildCards();
@@ -799,3 +1015,26 @@ fetchRate();
 </script>
 </body>
 </html>
+<!-- SPECS MODAL -->
+<div class="modal-overlay" id="specsModal" onclick="closeModal(event)">
+  <div class="modal-box" id="modalBox">
+    <div class="modal-drag"></div>
+    <div class="modal-head">
+      <div class="modal-brand-dot" id="modalDot"></div>
+      <div class="modal-title" id="modalTitle">—</div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-price">
+      <div>
+        <div class="modal-usd" id="modalUsd">—</div>
+        <div class="modal-syp" id="modalSyp">—</div>
+      </div>
+      <div class="modal-change" id="modalChange"></div>
+    </div>
+    <div id="modalSpecs">
+      <div class="modal-loading"><div class="modal-spinner"></div>جاري تحميل المواصفات…</div>
+    </div>
+  </div>
+</div>
+
+
