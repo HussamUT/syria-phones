@@ -8,129 +8,170 @@
 <style>
 :root {
   --bg:#edeae3; --card:#fff; --card2:#f8f6f2;
-  --ink:#161310; --muted:#6c6258; --pale:#b2a99e;
+  --ink:#161310; --muted:#6c6258; --pale:#b5ada3;
   --gold:#c8a43e; --green:#18965a; --red:#ce3b3b;
   --border:#e0dbd2; --r:18px;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 body{font-family:'Cairo','Tajawal',sans-serif;background:var(--bg);color:var(--ink);direction:rtl;min-height:100vh;}
 body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
-  background:radial-gradient(ellipse 60% 50% at 5% 5%,rgba(200,164,62,.15) 0%,transparent 100%),
-             radial-gradient(ellipse 50% 40% at 95% 95%,rgba(24,150,90,.09) 0%,transparent 100%);}
+  background:radial-gradient(ellipse 60% 50% at 5% 5%,rgba(200,164,62,.14) 0%,transparent 100%),
+             radial-gradient(ellipse 50% 40% at 95% 95%,rgba(24,150,90,.08) 0%,transparent 100%);}
 .page{position:relative;z-index:1;max-width:1180px;margin:0 auto;padding:0 18px 80px;}
 
-/* HERO */
-.hero{text-align:center;padding:48px 16px 26px;}
-.live-badge{display:inline-flex;align-items:center;gap:7px;background:var(--ink);color:var(--gold);font-size:10.5px;font-weight:700;letter-spacing:2px;padding:5px 16px;border-radius:100px;margin-bottom:18px;}
+/* ══ HERO ══ */
+.hero{text-align:center;padding:46px 16px 24px;}
+.live-badge{display:inline-flex;align-items:center;gap:7px;background:var(--ink);color:var(--gold);font-size:10.5px;font-weight:700;letter-spacing:2px;padding:5px 16px;border-radius:100px;margin-bottom:16px;}
 .live-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);animation:blink 1.5s ease-in-out infinite;}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.1}}
-h1{font-family:'Tajawal',sans-serif;font-size:clamp(32px,6vw,74px);font-weight:900;line-height:1.05;margin-bottom:8px;}
+h1{font-family:'Tajawal',sans-serif;font-size:clamp(30px,5.5vw,70px);font-weight:900;line-height:1.05;margin-bottom:7px;}
 h1 em{font-style:normal;color:var(--gold);}
-.subtitle{font-size:13px;color:var(--muted);margin-bottom:20px;}
+.subtitle{font-size:13px;color:var(--muted);margin-bottom:18px;}
 
-/* RATE PILL */
-.rate-pill{display:inline-flex;align-items:center;gap:10px;background:var(--ink);color:#fff;padding:8px 20px;border-radius:100px;margin-bottom:20px;flex-wrap:wrap;justify-content:center;}
+/* ══ RATE PILL ══ */
+.rate-pill{display:inline-flex;align-items:center;gap:10px;background:var(--ink);color:#fff;padding:8px 18px;border-radius:100px;margin-bottom:18px;flex-wrap:wrap;justify-content:center;}
 .rl{color:var(--gold);font-size:10px;font-weight:700;letter-spacing:1.5px;}
-.rv{font-family:'Tajawal',sans-serif;font-size:17px;font-weight:800;}
+.rv{font-family:'Tajawal',sans-serif;font-size:16px;font-weight:800;}
 .ru{color:var(--gold);font-size:11px;}
-.rdiv{width:1px;height:16px;background:rgba(255,255,255,.15);}
+.rdiv{width:1px;height:15px;background:rgba(255,255,255,.15);}
 .ri{display:flex;flex-direction:column;align-items:flex-start;gap:1px;}
 .rst{font-size:10px;color:rgba(255,255,255,.4);}
 .rcd{font-size:10px;color:rgba(255,255,255,.25);font-family:'Tajawal',sans-serif;}
 .spin{width:8px;height:8px;border:2px solid rgba(255,255,255,.2);border-top-color:var(--gold);border-radius:50%;animation:spin .75s linear infinite;display:none;}
 @keyframes spin{to{transform:rotate(360deg)}}
 
-/* SEARCH */
-.sw{max-width:440px;margin:0 auto 13px;position:relative;}
-.sw input{width:100%;padding:13px 44px 13px 18px;border:2px solid var(--border);border-radius:100px;background:var(--card);font-family:'Cairo',sans-serif;font-size:13.5px;color:var(--ink);outline:none;direction:rtl;transition:border-color .2s,box-shadow .2s;}
+/* ══ SEARCH ══ */
+.sw{max-width:440px;margin:0 auto 12px;position:relative;}
+.sw input{width:100%;padding:12px 44px 12px 18px;border:2px solid var(--border);border-radius:100px;background:var(--card);font-family:'Cairo',sans-serif;font-size:13.5px;color:var(--ink);outline:none;direction:rtl;transition:border-color .2s,box-shadow .2s;}
 .sw input::placeholder{color:var(--pale);}
 .sw input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(200,164,62,.13);}
 .si{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:15px;pointer-events:none;}
 
-/* FILTERS */
-.filters{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-bottom:24px;}
+/* ══ PRICE RANGE SLIDER ══ */
+.range-wrap{max-width:540px;margin:0 auto 16px;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px 22px 18px;}
+.range-labels{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+.range-title{font-size:12px;font-weight:700;color:var(--muted);}
+.range-vals{display:flex;gap:6px;align-items:center;font-family:'Tajawal',sans-serif;font-size:13px;font-weight:800;}
+.range-val{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:3px 10px;color:var(--ink);}
+.range-sep{color:var(--pale);font-size:11px;}
+
+/* dual range track */
+.slider-track{position:relative;height:5px;background:var(--border);border-radius:10px;margin:6px 0 8px;}
+.slider-fill{position:absolute;height:100%;background:var(--gold);border-radius:10px;pointer-events:none;}
+.dual-range{position:absolute;width:100%;height:5px;background:none;outline:none;pointer-events:none;appearance:none;-webkit-appearance:none;top:0;left:0;}
+.dual-range::-webkit-slider-thumb{appearance:none;-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:#fff;border:3px solid var(--gold);cursor:pointer;pointer-events:all;box-shadow:0 2px 6px rgba(0,0,0,.15);transition:transform .15s;}
+.dual-range::-webkit-slider-thumb:hover{transform:scale(1.2);}
+.dual-range::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:#fff;border:3px solid var(--gold);cursor:pointer;pointer-events:all;box-shadow:0 2px 6px rgba(0,0,0,.15);}
+.range-ticks{display:flex;justify-content:space-between;font-size:10px;color:var(--pale);font-family:'Tajawal',sans-serif;margin-top:2px;}
+
+/* ══ FILTERS ══ */
+.filters{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-bottom:22px;}
 .fbtn{padding:6px 14px;border:2px solid var(--border);border-radius:100px;background:var(--card);font-family:'Cairo',sans-serif;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;transition:all .2s;}
 .fbtn:hover,.fbtn.active{background:var(--ink);border-color:var(--ink);color:#fff;}
 
-/* STATS */
-.stats-bar{display:flex;justify-content:center;align-items:center;gap:20px;flex-wrap:wrap;padding:13px 22px;background:var(--card);border-radius:14px;border:1px solid var(--border);max-width:560px;margin:0 auto 30px;box-shadow:0 2px 12px rgba(22,19,13,.06);}
+/* ══ STATS ══ */
+.stats-bar{display:flex;justify-content:center;align-items:center;gap:18px;flex-wrap:wrap;padding:12px 20px;background:var(--card);border-radius:14px;border:1px solid var(--border);max-width:540px;margin:0 auto 28px;box-shadow:0 2px 10px rgba(22,19,13,.05);}
 .st{text-align:center;}
-.stn{font-size:20px;font-weight:800;font-family:'Tajawal',sans-serif;}
+.stn{font-size:19px;font-weight:800;font-family:'Tajawal',sans-serif;}
 .stl{font-size:10px;color:var(--muted);}
-.sdiv{width:1px;height:28px;background:var(--border);}
+.sdiv{width:1px;height:26px;background:var(--border);}
 
-/* 2-COL GRID */
+/* ══ 2-COL GRID ══ */
 .brands-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;}
 @media(max-width:640px){.brands-grid{grid-template-columns:1fr;}}
 
-/* CARD */
-.brand-card{background:var(--card);border-radius:var(--r);border:1px solid var(--border);overflow:hidden;box-shadow:0 2px 14px rgba(22,19,13,.06);transition:transform .28s cubic-bezier(.22,.68,0,1.2),box-shadow .28s;animation:fadeUp .45s ease both;}
-.brand-card:hover{transform:translateY(-5px);box-shadow:0 14px 38px rgba(22,19,13,.11);}
+/* ══ CARD ══ */
+.brand-card{background:var(--card);border-radius:var(--r);border:1px solid var(--border);overflow:hidden;box-shadow:0 2px 12px rgba(22,19,13,.06);transition:transform .28s cubic-bezier(.22,.68,0,1.2),box-shadow .28s;animation:fadeUp .45s ease both;}
+.brand-card:hover{transform:translateY(-4px);box-shadow:0 12px 36px rgba(22,19,13,.1);}
 @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 
 /* CARD HEADER */
-.card-header{display:flex;align-items:center;gap:11px;padding:13px 16px 11px;border-bottom:1px solid var(--border);}
-.brand-logo-img{height:26px;max-width:70px;object-fit:contain;display:block;flex-shrink:0;}
-.brand-logo-fb{width:38px;height:38px;border-radius:10px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:900;color:#fff;}
+.card-header{display:flex;align-items:center;gap:10px;padding:13px 16px 11px;border-bottom:1px solid var(--border);}
+.brand-logo-img{height:26px;max-width:68px;object-fit:contain;display:block;flex-shrink:0;}
+.brand-logo-fb{width:36px;height:36px;border-radius:9px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:900;color:#fff;}
 .brand-text{flex:1;min-width:0;}
-.brand-name{font-size:15px;font-weight:800;font-family:'Tajawal',sans-serif;line-height:1.1;}
+.brand-name{font-size:15px;font-weight:800;font-family:'Tajawal',sans-serif;}
 .brand-count{font-size:10px;color:var(--muted);}
-.card-icon{font-size:28px;opacity:.07;flex-shrink:0;}
+.card-icon{font-size:26px;opacity:.07;flex-shrink:0;}
 
-/* ══ PRICE TABLE ══
-   table-layout:fixed + explicit col widths
-   = headers ALWAYS aligned with data cells
-*/
+/* ══ PRICE TABLE
+   Columns (RTL display, LTR internal):
+   الموديل (auto) | الرام (50px) | التخزين (60px) | $ دولار (76px) | ↕ ل.س (104px)
+   Order LEFT→RIGHT on screen: ل.س | دولار | التخزين | الرام | الموديل
+   Since dir=rtl, first column in HTML = rightmost on screen.
+   We want Moodel on LEFT visually → it must be LAST in HTML column order.
+   Solution: reverse the visual column order with flex or simply reorder cols.
+   Actually in RTL table: col[0]=right, col[last]=left.
+   So to show model on LEFT: model must be the LAST <td> in each row.
+   We reorder: ل.س | $ | تخزين | رام | موديل  (left to right visually in RTL)
+══ */
 .price-table{width:100%;border-collapse:collapse;table-layout:fixed;}
+/* col widths — left to right in HTML = right to left visually in RTL */
+.price-table colgroup col:nth-child(1){width:104px;} /* ل.س  — rightmost visually = first in RTL */
+.price-table colgroup col:nth-child(2){width:76px;}  /* $     */
+.price-table colgroup col:nth-child(3){width:62px;}  /* stor  */
+.price-table colgroup col:nth-child(4){width:52px;}  /* ram   */
+.price-table colgroup col:nth-child(5){width:auto;}  /* model — leftmost visually */
 
-/* fixed column widths */
-.price-table col.cm{width:auto;}
-.price-table col.cr{width:52px;}
-.price-table col.cs{width:62px;}
-.price-table col.cu{width:78px;}
-.price-table col.ck{width:108px;}
-
-/* header */
 .price-table thead tr{background:var(--card2);border-bottom:2px solid var(--border);}
 .price-table thead th{padding:6px 8px;font-size:10.5px;font-weight:700;color:var(--muted);white-space:nowrap;overflow:hidden;}
-.thm{text-align:right;}
-.thr{text-align:center;}
-.ths{text-align:center;}
-.thu{text-align:left;direction:ltr;}
-.thk{text-align:left;direction:ltr;}
 
-/* rows */
+/* header alignment — each col */
+.thk{text-align:right;direction:ltr;}   /* ل.س  right-aligned (leftmost visual col) — no wait, in RTL first col is right side */
+/* Let me simplify: RTL means col order in HTML maps right→left visually.
+   So HTML order: [ل.س][دولار][تخزين][رام][موديل]
+   Visually (RTL): right=[ل.س] ... left=[موديل]
+   We want: left=موديل ✓ right=ل.س ✓  Perfect with this order.
+*/
+.thk{text-align:left;direction:ltr;}    /* ل.س cell: number faces left (inside RTL it faces outward) */
+.thu{text-align:left;direction:ltr;}    /* $ */
+.ths{text-align:center;}               /* تخزين */
+.thr{text-align:center;}               /* رام */
+.thm{text-align:right;}               /* موديل: right-aligned text, leftmost column */
+
+/* data cells */
 .price-table tbody tr{border-bottom:1px solid var(--border);transition:background .12s;}
 .price-table tbody tr:last-child{border-bottom:none;}
 .price-table tbody tr:hover{background:var(--card2);}
 .price-table tbody tr.rh{display:none;}
+.price-table td{padding:8px 8px;overflow:hidden;vertical-align:middle;}
 
-/* cells */
-.price-table td{padding:7px 8px;overflow:hidden;vertical-align:middle;}
-.tdm{text-align:right;direction:ltr;font-size:12.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:0;}
-.tdr{text-align:center;font-size:11px;color:var(--pale);white-space:nowrap;}
-.tds{text-align:center;font-size:11px;color:var(--pale);white-space:nowrap;}
-.tdu{text-align:left;direction:ltr;font-size:13px;font-weight:800;font-family:'Tajawal',sans-serif;white-space:nowrap;}
-.tdk{text-align:left;direction:ltr;white-space:nowrap;}
-
-/* SYP cell contents */
-.syp-inner{display:inline-flex;align-items:center;gap:2px;}
+/* ل.س */
+.tdk{text-align:left;direction:ltr;}
+.syp-inner{display:inline-flex;align-items:center;gap:3px;}
 .arr{font-size:11px;font-weight:900;line-height:1;flex-shrink:0;}
 .arr.up{color:var(--green);}
 .arr.down{color:var(--red);}
-.arr.same{color:var(--pale);}
+/* no arrow for same — empty */
 .syp-num{font-size:11.5px;font-weight:700;font-family:'Tajawal',sans-serif;color:var(--muted);}
+
+/* $ */
+.tdu{text-align:left;direction:ltr;font-size:13px;font-weight:800;font-family:'Tajawal',sans-serif;white-space:nowrap;}
+
+/* تخزين / رام */
+.tds,.tdr{text-align:center;font-size:11px;color:var(--pale);white-space:nowrap;}
+
+/* موديل — leftmost, full name, no ellipsis on desktop */
+.tdm{
+  text-align:right;
+  direction:ltr;
+  font-size:12px;font-weight:600;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  max-width:0; /* enables ellipsis with table-layout:fixed */
+}
 
 /* SHOW MORE */
 .more-btn{width:100%;padding:10px;border:none;border-top:1px solid var(--border);background:none;cursor:pointer;font-family:'Cairo',sans-serif;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:4px;transition:background .15s;}
 .more-btn:hover{background:var(--card2);}
 
 .no-results{text-align:center;padding:50px 20px;color:var(--muted);display:none;}
+.hidden-by-range{display:none !important;}
 </style>
 </head>
 <body>
 <div class="page">
 
+  <!-- HERO -->
   <div class="hero">
     <div class="live-badge"><span class="live-dot"></span>تحديث تلقائي كل ١٠ دقائق</div>
     <h1>أسعار الهواتف<br>في <em>سورية</em></h1>
@@ -148,24 +189,47 @@ h1 em{font-style:normal;color:var(--gold);}
       <div class="spin" id="rateSpin"></div>
     </div>
 
+    <!-- SEARCH -->
     <div class="sw">
       <input type="text" id="searchInput" placeholder="ابحث... iPhone 17، Galaxy S26، Poco X8"/>
       <span class="si">🔍</span>
     </div>
 
+    <!-- PRICE RANGE SLIDER -->
+    <div class="range-wrap">
+      <div class="range-labels">
+        <span class="range-title">🎯 فلتر حسب السعر بالدولار</span>
+        <div class="range-vals">
+          <span class="range-val" id="valMin">$20</span>
+          <span class="range-sep">—</span>
+          <span class="range-val" id="valMax">$2,030</span>
+        </div>
+      </div>
+      <div class="slider-track" id="sliderTrack">
+        <div class="slider-fill" id="sliderFill"></div>
+        <input class="dual-range" type="range" id="rangeMin" min="20" max="2030" value="20" step="10">
+        <input class="dual-range" type="range" id="rangeMax" min="20" max="2030" value="2030" step="10">
+      </div>
+      <div class="range-ticks">
+        <span>$20</span><span>$500</span><span>$1,000</span><span>$1,500</span><span>$2,030</span>
+      </div>
+    </div>
+
+    <!-- BRAND FILTERS -->
     <div class="filters" id="filtersBar">
       <button class="fbtn active" data-bid="all">الكل</button>
     </div>
   </div>
 
+  <!-- STATS -->
   <div class="stats-bar" id="statsBar">
-    <div class="st"><div class="stn" id="st1">6</div><div class="stl">ماركة</div></div>
+    <div class="st"><div class="stn">6</div><div class="stl">ماركة</div></div>
     <div class="sdiv"></div>
-    <div class="st"><div class="stn" id="st2">83+</div><div class="stl">موديل</div></div>
+    <div class="st"><div class="stn" id="visCount">83+</div><div class="stl">موديل مرئي</div></div>
     <div class="sdiv"></div>
-    <div class="st"><div class="stn" id="st3">$20</div><div class="stl">أقل سعر</div></div>
+    <div class="st"><div class="stn">$20</div><div class="stl">أقل سعر</div></div>
     <div class="sdiv"></div>
-    <div class="st"><div class="stn" id="st4">$2,030</div><div class="stl">أعلى سعر</div></div>
+    <div class="st"><div class="stn">$2,030</div><div class="stl">أعلى سعر</div></div>
   </div>
 
   <div class="brands-grid" id="brandsGrid"></div>
@@ -173,117 +237,118 @@ h1 em{font-style:normal;color:var(--gold);}
 </div>
 
 <script>
+/* ════════════ DATA ════════════ */
 const DATA = [
   { id:'xiaomi', name:'Xiaomi', color:'#ff6900',
     logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Xiaomi_logo.svg/120px-Xiaomi_logo.svg.png',
     phones:[
-      {m:'Mi Mix Flip',         r:'12GB', s:'512GB', p:590,  pp:575},
-      {m:'Mi 17',               r:'12GB', s:'512GB', p:780,  pp:780},
-      {m:'Mi 13 Ultra',         r:'16GB', s:'512GB', p:1170, pp:1190},
-      {m:'14 T Pro',            r:'12GB', s:'1TB',   p:590,  pp:560},
-      {m:'Poco F8 Ultra',       r:'16GB', s:'512GB', p:780,  pp:790},
-      {m:'Poco F8 Pro',         r:'12GB', s:'512GB', p:595,  pp:595},
-      {m:'Poco X8 PRO MAX 5G',  r:'12GB', s:'256GB', p:455,  pp:470},
-      {m:'Poco X8 PRO MAX 5G',  r:'12GB', s:'512GB', p:500,  pp:500},
-      {m:'Poco X8 PRO 5G',      r:'8GB',  s:'256GB', p:330,  pp:320},
-      {m:'Poco X8 PRO 5G',      r:'8GB',  s:'512GB', p:351,  pp:360},
-      {m:'Poco X7 Pro',         r:'12GB', s:'512GB', p:386,  pp:386},
-      {m:'Poco X7 Pro',         r:'8GB',  s:'256GB', p:310,  pp:300},
-      {m:'Poco X7 5G',          r:'12GB', s:'512GB', p:350,  pp:355},
-      {m:'Poco X7 5G',          r:'8GB',  s:'256GB', p:237,  pp:237},
-      {m:'Poco M8 5G',          r:'12GB', s:'512GB', p:335,  pp:340},
+      {m:'Mi Mix Flip',        r:'12GB',s:'512GB',p:590, pp:575},
+      {m:'Mi 17',              r:'12GB',s:'512GB',p:780, pp:780},
+      {m:'Mi 13 Ultra',        r:'16GB',s:'512GB',p:1170,pp:1190},
+      {m:'14 T Pro',           r:'12GB',s:'1TB',  p:590, pp:560},
+      {m:'Poco F8 Ultra',      r:'16GB',s:'512GB',p:780, pp:790},
+      {m:'Poco F8 Pro',        r:'12GB',s:'512GB',p:595, pp:595},
+      {m:'Poco X8 PRO MAX 5G', r:'12GB',s:'256GB',p:455, pp:470},
+      {m:'Poco X8 PRO MAX 5G', r:'12GB',s:'512GB',p:500, pp:500},
+      {m:'Poco X8 PRO 5G',     r:'8GB', s:'256GB',p:330, pp:320},
+      {m:'Poco X8 PRO 5G',     r:'8GB', s:'512GB',p:351, pp:360},
+      {m:'Poco X7 Pro',        r:'12GB',s:'512GB',p:386, pp:386},
+      {m:'Poco X7 Pro',        r:'8GB', s:'256GB',p:310, pp:300},
+      {m:'Poco X7 5G',         r:'12GB',s:'512GB',p:350, pp:355},
+      {m:'Poco X7 5G',         r:'8GB', s:'256GB',p:237, pp:237},
+      {m:'Poco M8 5G',         r:'12GB',s:'512GB',p:335, pp:340},
     ]},
   { id:'iphone', name:'iPhone', color:'#1d1d1f',
     logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Apple_logo_black.svg/80px-Apple_logo_black.svg.png',
     phones:[
-      {m:'iPhone 17 Pro Max 1SIM 2TB',   r:'—', s:'2TB',   p:1960, pp:1940},
-      {m:'iPhone 17 Pro Max 1SIM 1TB',   r:'—', s:'1TB',   p:1840, pp:1850},
-      {m:'iPhone 17 Pro Max 1SIM 512GB', r:'—', s:'512GB', p:1580, pp:1580},
-      {m:'iPhone 17 Pro Max 2SIM 256GB', r:'—', s:'256GB', p:1520, pp:1500},
-      {m:'iPhone 17 Pro Max Esim 2TB',   r:'—', s:'2TB',   p:2030, pp:2030},
-      {m:'iPhone 17 Pro Max Esim 1TB',   r:'—', s:'1TB',   p:1610, pp:1625},
-      {m:'iPhone 17 Pro Max Esim 512GB', r:'—', s:'512GB', p:1470, pp:1450},
-      {m:'iPhone 17 Pro Max Esim 256GB', r:'—', s:'256GB', p:1280, pp:1280},
-      {m:'iPhone 17 Pro Esim 256GB',     r:'—', s:'256GB', p:1200, pp:1210},
-      {m:'iPhone 17 Pro Esim 512GB',     r:'—', s:'512GB', p:1370, pp:1370},
-      {m:'iPhone 17 Pro Esim 1TB',       r:'—', s:'1TB',   p:1570, pp:1550},
-      {m:'iPhone 17 Pro 2SIM 256GB',     r:'—', s:'256GB', p:1400, pp:1400},
-      {m:'iPhone 17 Pro 1SIM 1TB',       r:'—', s:'1TB',   p:1660, pp:1680},
-      {m:'iPhone 17 Pro 1SIM 512GB',     r:'—', s:'512GB', p:1500, pp:1490},
-      {m:'iPhone 17 Pro 1SIM 256GB',     r:'—', s:'256GB', p:1310, pp:1310},
+      {m:'iPhone 17 Pro Max 1SIM 2TB',  r:'—',s:'2TB',  p:1960,pp:1940},
+      {m:'iPhone 17 Pro Max 1SIM 1TB',  r:'—',s:'1TB',  p:1840,pp:1850},
+      {m:'iPhone 17 Pro Max 1SIM 512G', r:'—',s:'512GB',p:1580,pp:1580},
+      {m:'iPhone 17 Pro Max 2SIM 256G', r:'—',s:'256GB',p:1520,pp:1500},
+      {m:'iPhone 17 Pro Max Esim 2TB',  r:'—',s:'2TB',  p:2030,pp:2030},
+      {m:'iPhone 17 Pro Max Esim 1TB',  r:'—',s:'1TB',  p:1610,pp:1625},
+      {m:'iPhone 17 Pro Max Esim 512G', r:'—',s:'512GB',p:1470,pp:1450},
+      {m:'iPhone 17 Pro Max Esim 256G', r:'—',s:'256GB',p:1280,pp:1280},
+      {m:'iPhone 17 Pro Esim 256GB',    r:'—',s:'256GB',p:1200,pp:1210},
+      {m:'iPhone 17 Pro Esim 512GB',    r:'—',s:'512GB',p:1370,pp:1370},
+      {m:'iPhone 17 Pro Esim 1TB',      r:'—',s:'1TB',  p:1570,pp:1550},
+      {m:'iPhone 17 Pro 2SIM 256GB',    r:'—',s:'256GB',p:1400,pp:1400},
+      {m:'iPhone 17 Pro 1SIM 1TB',      r:'—',s:'1TB',  p:1660,pp:1680},
+      {m:'iPhone 17 Pro 1SIM 512GB',    r:'—',s:'512GB',p:1500,pp:1490},
+      {m:'iPhone 17 Pro 1SIM 256GB',    r:'—',s:'256GB',p:1310,pp:1310},
     ]},
   { id:'samsung', name:'Samsung', color:'#1428a0',
     logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Samsung_Logo.svg/120px-Samsung_Logo.svg.png',
     phones:[
-      {m:'Galaxy S26 Ultra',   r:'16GB', s:'1TB',   p:1599, pp:1620},
-      {m:'Galaxy S26 Ultra',   r:'12GB', s:'512GB', p:1180, pp:1180},
-      {m:'Galaxy S26 Ultra',   r:'12GB', s:'256GB', p:1139, pp:1150},
-      {m:'Galaxy S26+',        r:'12GB', s:'256GB', p:865,  pp:850},
-      {m:'Galaxy S26',         r:'12GB', s:'256GB', p:754,  pp:754},
-      {m:'Galaxy S25 Ultra',   r:'12GB', s:'256GB', p:930,  pp:945},
-      {m:'Galaxy Z Fold 7',    r:'16GB', s:'1TB',   p:1599, pp:1580},
-      {m:'Galaxy A56',         r:'12GB', s:'256GB', p:380,  pp:380},
-      {m:'Galaxy A36',         r:'8GB',  s:'256GB', p:288,  pp:295},
-      {m:'Galaxy A26',         r:'8GB',  s:'256GB', p:240,  pp:240},
-      {m:'Galaxy A17',         r:'8GB',  s:'128GB', p:210,  pp:205},
-      {m:'Galaxy A07',         r:'4GB',  s:'128GB', p:105,  pp:105},
-      {m:'Galaxy A07',         r:'4GB',  s:'64GB',  p:90,   pp:92},
-      {m:'Galaxy A07 Big box', r:'4GB',  s:'64GB',  p:90,   pp:90},
-      {m:'Galaxy A17',         r:'4GB',  s:'128GB', p:145,  pp:148},
+      {m:'Galaxy S26 Ultra',  r:'16GB',s:'1TB',  p:1599,pp:1620},
+      {m:'Galaxy S26 Ultra',  r:'12GB',s:'512GB',p:1180,pp:1180},
+      {m:'Galaxy S26 Ultra',  r:'12GB',s:'256GB',p:1139,pp:1150},
+      {m:'Galaxy S26+',       r:'12GB',s:'256GB',p:865, pp:850},
+      {m:'Galaxy S26',        r:'12GB',s:'256GB',p:754, pp:754},
+      {m:'Galaxy S25 Ultra',  r:'12GB',s:'256GB',p:930, pp:945},
+      {m:'Galaxy Z Fold 7',   r:'16GB',s:'1TB',  p:1599,pp:1580},
+      {m:'Galaxy A56',        r:'12GB',s:'256GB',p:380, pp:380},
+      {m:'Galaxy A36',        r:'8GB', s:'256GB',p:288, pp:295},
+      {m:'Galaxy A26',        r:'8GB', s:'256GB',p:240, pp:240},
+      {m:'Galaxy A17',        r:'8GB', s:'128GB',p:210, pp:205},
+      {m:'Galaxy A07',        r:'4GB', s:'128GB',p:105, pp:105},
+      {m:'Galaxy A07',        r:'4GB', s:'64GB', p:90,  pp:92},
+      {m:'Galaxy A07 Big box',r:'4GB', s:'64GB', p:90,  pp:90},
+      {m:'Galaxy A17',        r:'4GB', s:'128GB',p:145, pp:148},
     ]},
   { id:'honor', name:'Honor', color:'#cf0a2c',
     logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Honor_brand_logo.svg/120px-Honor_brand_logo.svg.png',
     phones:[
-      {m:'Honor Magic V5',        r:'16GB', s:'512GB', p:1450, pp:1470},
-      {m:'Honor Magic 8 Pro',     r:'12GB', s:'512GB', p:940,  pp:940},
-      {m:'Honor Magic 7 Pro',     r:'12GB', s:'512GB', p:780,  pp:795},
-      {m:'Honor 600 PRO',         r:'12GB', s:'512GB', p:735,  pp:720},
-      {m:'Honor 400 Pro',         r:'12GB', s:'512GB', p:595,  pp:595},
-      {m:'Honor 400',             r:'12GB', s:'512GB', p:390,  pp:400},
-      {m:'Honor 400',             r:'12GB', s:'256GB', p:360,  pp:360},
-      {m:'Honor X9d',             r:'12GB', s:'256GB', p:318,  pp:310},
-      {m:'Honor X9C',             r:'8GB',  s:'256GB', p:265,  pp:265},
-      {m:'Honor Pad 10',          r:'8GB',  s:'256GB', p:280,  pp:285},
-      {m:'Honor Watch 4',         r:'—',    s:'—',     p:130,  pp:130},
-      {m:'Honor Watch 2i',        r:'—',    s:'—',     p:35,   pp:35},
-      {m:'Honor Earbuds Clip',    r:'—',    s:'—',     p:50,   pp:52},
-      {m:'Honor Earbuds X7 Lite', r:'—',    s:'—',     p:20,   pp:20},
-      {m:'Honor Play 10',         r:'3GB',  s:'64GB',  p:85,   pp:85},
+      {m:'Honor Magic V5',        r:'16GB',s:'512GB',p:1450,pp:1470},
+      {m:'Honor Magic 8 Pro',     r:'12GB',s:'512GB',p:940, pp:940},
+      {m:'Honor Magic 7 Pro',     r:'12GB',s:'512GB',p:780, pp:795},
+      {m:'Honor 600 PRO',         r:'12GB',s:'512GB',p:735, pp:720},
+      {m:'Honor 400 Pro',         r:'12GB',s:'512GB',p:595, pp:595},
+      {m:'Honor 400',             r:'12GB',s:'512GB',p:390, pp:400},
+      {m:'Honor 400',             r:'12GB',s:'256GB',p:360, pp:360},
+      {m:'Honor X9d',             r:'12GB',s:'256GB',p:318, pp:310},
+      {m:'Honor X9C',             r:'8GB', s:'256GB',p:265, pp:265},
+      {m:'Honor Pad 10',          r:'8GB', s:'256GB',p:280, pp:285},
+      {m:'Honor Watch 4',         r:'—',   s:'—',    p:130, pp:130},
+      {m:'Honor Watch 2i',        r:'—',   s:'—',    p:35,  pp:35},
+      {m:'Honor Earbuds Clip',    r:'—',   s:'—',    p:50,  pp:52},
+      {m:'Honor Earbuds X7 Lite', r:'—',   s:'—',    p:20,  pp:20},
+      {m:'Honor Play 10',         r:'3GB', s:'64GB', p:85,  pp:85},
     ]},
   { id:'infinix', name:'Infinix', color:'#00a651',
     logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/Infinix_Mobility_logo.svg/120px-Infinix_Mobility_logo.svg.png',
     phones:[
-      {m:'Note 60 Pro',              r:'12GB', s:'256GB', p:405, pp:405},
-      {m:'Note 60 PRO XWATCH H5PRO', r:'8GB',  s:'256GB', p:357, pp:360},
-      {m:'Note 60 Pro',              r:'8GB',  s:'256GB', p:330, pp:325},
-      {m:'Note Edge 5G',             r:'8GB',  s:'256GB', p:240, pp:240},
-      {m:'Hot 60 Pro Plus',          r:'8GB',  s:'256GB', p:180, pp:185},
-      {m:'Hot 60 Pro',               r:'8GB',  s:'256GB', p:154, pp:154},
-      {m:'Hot 60i 5G',               r:'8GB',  s:'256GB', p:145, pp:140},
-      {m:'Smart 10 Pro',             r:'4GB',  s:'256GB', p:129, pp:129},
-      {m:'Smart 10 Plus',            r:'4GB',  s:'128GB', p:100, pp:100},
-      {m:'Smart 10',                 r:'4GB',  s:'128GB', p:95,  pp:97},
-      {m:'Smart 10',                 r:'3GB',  s:'64GB',  p:80,  pp:80},
-      {m:'Smart 20',                 r:'4GB',  s:'256GB', p:133, pp:133},
-      {m:'X Pad 20 Wifi 4G',         r:'8GB',  s:'256GB', p:167, pp:170},
-      {m:'X Pad 30 E 4G + Cover',    r:'4GB',  s:'128GB', p:250, pp:250},
-      {m:'Smart 20',                 r:'4GB',  s:'64GB',  p:108, pp:108},
+      {m:'Note 60 Pro',             r:'12GB',s:'256GB',p:405,pp:405},
+      {m:'Note 60 PRO XWATCH H5PRO',r:'8GB', s:'256GB',p:357,pp:360},
+      {m:'Note 60 Pro',             r:'8GB', s:'256GB',p:330,pp:325},
+      {m:'Note Edge 5G',            r:'8GB', s:'256GB',p:240,pp:240},
+      {m:'Hot 60 Pro Plus',         r:'8GB', s:'256GB',p:180,pp:185},
+      {m:'Hot 60 Pro',              r:'8GB', s:'256GB',p:154,pp:154},
+      {m:'Hot 60i 5G',              r:'8GB', s:'256GB',p:145,pp:140},
+      {m:'Smart 10 Pro',            r:'4GB', s:'256GB',p:129,pp:129},
+      {m:'Smart 10 Plus',           r:'4GB', s:'128GB',p:100,pp:100},
+      {m:'Smart 10',                r:'4GB', s:'128GB',p:95, pp:97},
+      {m:'Smart 10',                r:'3GB', s:'64GB', p:80, pp:80},
+      {m:'Smart 20',                r:'4GB', s:'256GB',p:133,pp:133},
+      {m:'X Pad 20 Wifi 4G',        r:'8GB', s:'256GB',p:167,pp:170},
+      {m:'X Pad 30 E 4G + Cover',   r:'4GB', s:'128GB',p:250,pp:250},
+      {m:'Smart 20',                r:'4GB', s:'64GB', p:108,pp:108},
     ]},
   { id:'tecno', name:'Tecno', color:'#0057b8',
     logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Tecno_Mobile_logo.svg/120px-Tecno_Mobile_logo.svg.png',
     phones:[
-      {m:'POVA 7 ULTRA 5G', r:'12GB', s:'256GB', p:320, pp:315},
-      {m:'POVA 7 5G',       r:'8GB',  s:'256GB', p:205, pp:205},
-      {m:'POVA Slim 5G',    r:'8GB',  s:'256GB', p:220, pp:225},
-      {m:'CAMON 40 pro 4G', r:'8GB',  s:'256GB', p:228, pp:228},
-      {m:'CAMON 40 4G',     r:'8GB',  s:'256GB', p:195, pp:195},
-      {m:'SPARK 40',        r:'8GB',  s:'256GB', p:133, pp:135},
-      {m:'SPARK 40 C',      r:'8GB',  s:'256GB', p:126, pp:126},
-      {m:'SPARK 40',        r:'4GB',  s:'256GB', p:123, pp:120},
+      {m:'POVA 7 ULTRA 5G', r:'12GB',s:'256GB',p:320,pp:315},
+      {m:'POVA 7 5G',       r:'8GB', s:'256GB',p:205,pp:205},
+      {m:'POVA Slim 5G',    r:'8GB', s:'256GB',p:220,pp:225},
+      {m:'CAMON 40 pro 4G', r:'8GB', s:'256GB',p:228,pp:228},
+      {m:'CAMON 40 4G',     r:'8GB', s:'256GB',p:195,pp:195},
+      {m:'SPARK 40',        r:'8GB', s:'256GB',p:133,pp:135},
+      {m:'SPARK 40 C',      r:'8GB', s:'256GB',p:126,pp:126},
+      {m:'SPARK 40',        r:'4GB', s:'256GB',p:123,pp:120},
     ]},
 ];
 
-/* ══ RATE ══ */
+/* ════════════ RATE ════════════ */
 let RATE = 13500;
 let cdTimer = null;
 
@@ -301,7 +366,7 @@ async function fetchRate() {
       const h = await r.text();
       for (const pat of [/الدولار[^٠-٩\d]*([\d,]+)/,/\b(1[2-9]\d{3}|[23]\d{4})\b/]) {
         const m = h.match(pat);
-        if (m) { const v=parseFloat(m[1].replace(/,/g,'')); if(v>8000&&v<600000) return v; }
+        if (m){const v=parseFloat(m[1].replace(/,/g,''));if(v>8000&&v<600000)return v;}
       }
       return null;
     }
@@ -323,65 +388,64 @@ async function fetchRate() {
   refreshSYP(); startCountdown();
 }
 
-function startCountdown() {
-  if (cdTimer) clearInterval(cdTimer);
-  let s = 600;
-  const el = document.getElementById('rateCd');
-  cdTimer = setInterval(()=>{
+function startCountdown(){
+  if(cdTimer)clearInterval(cdTimer);
+  let s=600;
+  const el=document.getElementById('rateCd');
+  cdTimer=setInterval(()=>{
     s--;
-    el.textContent = `تحديث بعد ${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`;
-    if (s<=0){clearInterval(cdTimer);fetchRate();}
+    el.textContent=`تحديث بعد ${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`;
+    if(s<=0){clearInterval(cdTimer);fetchRate();}
   },1000);
 }
 
-/* ══ HELPERS ══ */
-function fmtSYP(usd) {
-  const v = Math.round(usd * RATE);
-  if (v >= 1000000) return (v/1000000).toFixed(1).replace('.0','')+'M';
-  if (v >= 1000)    return Math.round(v/1000)+'K';
+/* ════════════ SYP ════════════ */
+function fmtSYP(usd){
+  const v=Math.round(usd*RATE);
+  if(v>=1000000)return(v/1000000).toFixed(1).replace('.0','')+'M';
+  if(v>=1000)return Math.round(v/1000)+'K';
   return v.toLocaleString();
 }
-function arrowOf(p, pp) {
-  if (!pp || p===pp) return {sym:'→',cls:'same'};
-  return p>pp ? {sym:'↑',cls:'up'} : {sym:'↓',cls:'down'};
-}
 
-/* ══ BUILD CARDS ══ */
-function buildCards() {
-  const grid = document.getElementById('brandsGrid');
-  grid.innerHTML = '';
-  DATA.forEach((brand, bi) => {
-    const card = document.createElement('div');
-    card.className = 'brand-card';
-    card.dataset.bid = brand.id;
-    card.style.animationDelay = (bi*.07)+'s';
+/* ════════════ BUILD CARDS ════════════ */
+function buildCards(){
+  const grid=document.getElementById('brandsGrid');
+  grid.innerHTML='';
+  DATA.forEach((brand,bi)=>{
+    const card=document.createElement('div');
+    card.className='brand-card';
+    card.dataset.bid=brand.id;
+    card.style.animationDelay=(bi*.07)+'s';
 
-    const fbHtml = `<div class="brand-logo-fb" style="background:${brand.color}">${brand.name.slice(0,3).toUpperCase()}</div>`;
-    const logoHtml = brand.logo
-      ? `<img class="brand-logo-img" src="${brand.logo}" alt="${brand.name}"
-           onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"
-         >${fbHtml.replace('display:flex','display:none')}`
-      : fbHtml;
+    const fb=`<div class="brand-logo-fb" style="background:${brand.color}">${brand.name.slice(0,3).toUpperCase()}</div>`;
+    const logoHtml=brand.logo
+      ?`<img class="brand-logo-img" src="${brand.logo}" alt="${brand.name}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">${fb.replace('display:flex','display:none')}`
+      :fb;
 
-    const preview = brand.phones.slice(0,6);
-    const extra   = brand.phones.slice(6);
-    const tbId    = 'tb-'+brand.id;
+    const preview=brand.phones.slice(0,6);
+    const extra=brand.phones.slice(6);
+    const tbId='tb-'+brand.id;
 
-    function rowHtml(ph, hidden) {
-      const a = arrowOf(ph.p, ph.pp);
-      return `<tr class="${hidden?'rh':''}" data-usd="${ph.p}" data-prev="${ph.pp}">
-        <td class="tdm" title="${ph.m}">${ph.m}</td>
-        <td class="tdr">${ph.r||'—'}</td>
-        <td class="tds">${ph.s||'—'}</td>
+    function rowHtml(ph,hidden){
+      /* Arrow: only show if changed, empty if same */
+      let arrHtml='';
+      if(ph.p>ph.pp) arrHtml=`<span class="arr up">↑</span>`;
+      else if(ph.p<ph.pp) arrHtml=`<span class="arr down">↓</span>`;
+
+      /* Column ORDER in HTML (RTL: first=rightmost visually):
+         [ل.س] [دولار] [تخزين] [رام] [موديل]
+         Visually left→right: موديل | رام | تخزين | دولار | ل.س
+      */
+      return `<tr class="${hidden?'rh':''}" data-usd="${ph.p}" data-prev="${ph.pp}" data-model="${ph.m.toLowerCase()}">
+        <td class="tdk"><span class="syp-inner">${arrHtml}<span class="syp-num">${fmtSYP(ph.p)}</span></span></td>
         <td class="tdu" style="color:${brand.color}">$${ph.p.toLocaleString()}</td>
-        <td class="tdk"><span class="syp-inner">
-          <span class="arr ${a.cls}">${a.sym}</span>
-          <span class="syp-num">${fmtSYP(ph.p)}</span>
-        </span></td>
+        <td class="tds">${ph.s||'—'}</td>
+        <td class="tdr">${ph.r||'—'}</td>
+        <td class="tdm" title="${ph.m}">${ph.m}</td>
       </tr>`;
     }
 
-    card.innerHTML = `
+    card.innerHTML=`
       <div class="card-header">
         ${logoHtml}
         <div class="brand-text">
@@ -391,86 +455,154 @@ function buildCards() {
         <div class="card-icon">📱</div>
       </div>
       <table class="price-table">
-        <colgroup>
-          <col class="cm"><col class="cr"><col class="cs"><col class="cu"><col class="ck">
-        </colgroup>
+        <colgroup><col><col><col><col><col></colgroup>
         <thead><tr>
-          <th class="thm">الموديل</th>
-          <th class="thr">الرام</th>
-          <th class="ths">التخزين</th>
-          <th class="thu">$ دولار</th>
           <th class="thk">↕ ل.س</th>
+          <th class="thu">$ دولار</th>
+          <th class="ths">التخزين</th>
+          <th class="thr">الرام</th>
+          <th class="thm">الموديل</th>
         </tr></thead>
         <tbody id="${tbId}">
           ${preview.map(ph=>rowHtml(ph,false)).join('')}
           ${extra.map(ph=>rowHtml(ph,true)).join('')}
         </tbody>
       </table>
-      ${extra.length ? `<button class="more-btn" style="color:${brand.color}"
-        data-open="0" onclick="toggleMore(this,'${tbId}',${extra.length})">
-        عرض المزيد (${extra.length} موديل) ↓</button>` : ''}`;
+      ${extra.length?`<button class="more-btn" style="color:${brand.color}" data-open="0"
+        onclick="toggleMore(this,'${tbId}',${extra.length})">
+        عرض المزيد (${extra.length} موديل) ↓</button>`:''}`;
     grid.appendChild(card);
   });
 }
 
-function refreshSYP() {
-  document.querySelectorAll('tr[data-usd]').forEach(row => {
-    const usd=+row.dataset.usd, prev=+row.dataset.prev;
-    const valEl=row.querySelector('.syp-num'), arrEl=row.querySelector('.arr');
-    if (valEl) valEl.textContent = fmtSYP(usd);
-    if (arrEl) { const a=arrowOf(usd,prev); arrEl.textContent=a.sym; arrEl.className='arr '+a.cls; }
+function refreshSYP(){
+  document.querySelectorAll('tr[data-usd]').forEach(row=>{
+    const usd=+row.dataset.usd,prev=+row.dataset.prev;
+    const valEl=row.querySelector('.syp-num');
+    const syp=row.querySelector('.syp-inner');
+    if(!valEl)return;
+    valEl.textContent=fmtSYP(usd);
+    let arrHtml='';
+    if(usd>prev) arrHtml=`<span class="arr up">↑</span>`;
+    else if(usd<prev) arrHtml=`<span class="arr down">↓</span>`;
+    syp.innerHTML=arrHtml+`<span class="syp-num">${fmtSYP(usd)}</span>`;
   });
 }
 
-function toggleMore(btn, tbId, n) {
-  const open = btn.dataset.open==='1';
-  if (open) {
+function toggleMore(btn,tbId,n){
+  const open=btn.dataset.open==='1';
+  if(open){
     let i=0;
-    document.querySelectorAll(`#${tbId} tr`).forEach(r=>{ if(i++>=6) r.classList.add('rh'); });
+    document.querySelectorAll(`#${tbId} tr`).forEach(r=>{if(i++>=6)r.classList.add('rh');});
   } else {
     document.querySelectorAll(`#${tbId} tr.rh`).forEach(r=>r.classList.remove('rh'));
   }
-  btn.dataset.open = open?'0':'1';
-  btn.textContent  = open ? `عرض المزيد (${n} موديل) ↓` : 'عرض أقل ↑';
+  btn.dataset.open=open?'0':'1';
+  btn.textContent=open?`عرض المزيد (${n} موديل) ↓`:'عرض أقل ↑';
 }
 
-/* ══ FILTERS & SEARCH ══ */
-let activeF = 'all';
+/* ════════════ DUAL RANGE SLIDER ════════════ */
+const rMin=document.getElementById('rangeMin');
+const rMax=document.getElementById('rangeMax');
+const fill=document.getElementById('sliderFill');
+const vMin=document.getElementById('valMin');
+const vMax=document.getElementById('valMax');
 
-function buildFilters() {
-  const bar = document.getElementById('filtersBar');
-  DATA.forEach(b => {
-    const btn = document.createElement('button');
+function updateSlider(){
+  let lo=+rMin.value, hi=+rMax.value;
+  if(lo>hi-10){
+    if(this===rMin) lo=hi-10;
+    else hi=lo+10;
+    rMin.value=lo; rMax.value=hi;
+  }
+  const total=+rMax.max - +rMin.min;
+  const leftPct=(lo - +rMin.min)/total*100;
+  const rightPct=(+rMax.max - hi)/total*100;
+  fill.style.left=leftPct+'%';
+  fill.style.right=rightPct+'%';
+  vMin.textContent='$'+lo.toLocaleString();
+  vMax.textContent='$'+hi.toLocaleString();
+  applyAllFilters();
+}
+rMin.addEventListener('input',updateSlider);
+rMax.addEventListener('input',updateSlider);
+// init fill
+(function(){
+  const total=+rMax.max - +rMin.min;
+  fill.style.left='0%'; fill.style.right='0%';
+})();
+
+/* ════════════ FILTERS & SEARCH ════════════ */
+let activeF='all';
+let searchQ='';
+
+function buildFilters(){
+  const bar=document.getElementById('filtersBar');
+  DATA.forEach(b=>{
+    const btn=document.createElement('button');
     btn.className='fbtn'; btn.dataset.bid=b.id; btn.textContent=b.name;
     btn.onclick=()=>setFilter(b.id);
     bar.appendChild(btn);
   });
   document.querySelector('[data-bid="all"]').onclick=()=>setFilter('all');
 }
-function setFilter(id) {
-  activeF = id;
+function setFilter(id){
+  activeF=id;
   document.querySelectorAll('.fbtn').forEach(b=>b.classList.toggle('active',b.dataset.bid===id));
-  document.querySelectorAll('.brand-card').forEach(c=>
-    c.style.display=(id==='all'||c.dataset.bid===id)?'':'none');
+  applyAllFilters();
 }
 
-document.getElementById('searchInput').addEventListener('input', function(){
-  const q=this.value.toLowerCase().trim();
-  let any=false;
-  document.querySelectorAll('.brand-card').forEach(card=>{
-    if(activeF!=='all'&&card.dataset.bid!==activeF)return;
-    let hit=false;
-    card.querySelectorAll('tr[data-usd]').forEach(row=>{
-      const show=!q||row.querySelector('.tdm').textContent.toLowerCase().includes(q);
-      row.style.display=show?'':'none';
-      if(show){hit=true;any=true;}
-    });
-    card.style.display=(q&&!hit)?'none':'';
-  });
-  document.getElementById('noResults').style.display=(q&&!any)?'block':'none';
+document.getElementById('searchInput').addEventListener('input',function(){
+  searchQ=this.value.toLowerCase().trim();
+  applyAllFilters();
 });
 
-/* ══ INIT ══ */
+function applyAllFilters(){
+  const lo=+rMin.value, hi=+rMax.value;
+  let visCount=0;
+  let anyVisible=false;
+
+  document.querySelectorAll('.brand-card').forEach(card=>{
+    const brandMatch=(activeF==='all'||card.dataset.bid===activeF);
+    if(!brandMatch){card.style.display='none';return;}
+    card.style.display='';
+
+    let cardHit=false;
+    card.querySelectorAll('tr[data-usd]').forEach(row=>{
+      const usd=+row.dataset.usd;
+      const name=row.dataset.model||'';
+      const inRange=(usd>=lo && usd<=hi);
+      const inSearch=(!searchQ||name.includes(searchQ));
+      /* only show if not manually hidden by "show more" */
+      const wasHidden=row.classList.contains('rh');
+      if(inRange&&inSearch){
+        row.classList.remove('hidden-by-range');
+        if(!wasHidden){cardHit=true;visCount++;}
+      } else {
+        row.classList.add('hidden-by-range');
+      }
+    });
+
+    /* if filtering, show all matching rows regardless of "show more" */
+    if(searchQ||lo>20||hi<2030){
+      card.querySelectorAll('tr[data-usd]').forEach(row=>{
+        if(!row.classList.contains('hidden-by-range')){
+          row.classList.remove('rh');
+          cardHit=true; visCount++;
+        }
+      });
+    }
+
+    const hasAny=card.querySelectorAll('tr[data-usd]:not(.hidden-by-range)').length>0;
+    card.style.display=hasAny?'':'none';
+    if(hasAny)anyVisible=true;
+  });
+
+  document.getElementById('noResults').style.display=anyVisible?'none':'block';
+  document.getElementById('visCount').textContent=visCount+'+';
+}
+
+/* ════════════ INIT ════════════ */
 buildFilters();
 buildCards();
 fetchRate();
