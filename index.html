@@ -47,22 +47,36 @@ h1 em{font-style:normal;color:var(--gold);}
 .sw input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(200,164,62,.13);}
 .si{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:15px;pointer-events:none;}
 
-/* ══ PRICE RANGE SLIDER ══ */
-.range-wrap{max-width:540px;margin:0 auto 16px;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px 22px 18px;}
-.range-labels{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+/* ══ PRICE RANGE SLIDER — Custom RTL ══ */
+.range-wrap{max-width:540px;margin:0 auto 16px;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px 22px 20px;}
+.range-labels{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;}
 .range-title{font-size:12px;font-weight:700;color:var(--muted);}
 .range-vals{display:flex;gap:6px;align-items:center;font-family:'Tajawal',sans-serif;font-size:13px;font-weight:800;}
 .range-val{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:3px 10px;color:var(--ink);}
 .range-sep{color:var(--pale);font-size:11px;}
 
-/* dual range track */
-.slider-track{position:relative;height:5px;background:var(--border);border-radius:10px;margin:6px 0 8px;}
-.slider-fill{position:absolute;height:100%;background:var(--gold);border-radius:10px;pointer-events:none;}
-.dual-range{position:absolute;width:100%;height:5px;background:none;outline:none;pointer-events:none;appearance:none;-webkit-appearance:none;top:0;left:0;}
-.dual-range::-webkit-slider-thumb{appearance:none;-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:#fff;border:3px solid var(--gold);cursor:pointer;pointer-events:all;box-shadow:0 2px 6px rgba(0,0,0,.15);transition:transform .15s;}
-.dual-range::-webkit-slider-thumb:hover{transform:scale(1.2);}
-.dual-range::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:#fff;border:3px solid var(--gold);cursor:pointer;pointer-events:all;box-shadow:0 2px 6px rgba(0,0,0,.15);}
-.range-ticks{display:flex;justify-content:space-between;font-size:10px;color:var(--pale);font-family:'Tajawal',sans-serif;margin-top:2px;}
+/* custom slider container */
+.cslider{position:relative;height:20px;margin:0 0 10px;user-select:none;}
+.cslider-track{position:absolute;top:50%;transform:translateY(-50%);left:0;right:0;height:5px;background:var(--border);border-radius:10px;}
+.cslider-fill{position:absolute;top:0;height:100%;background:var(--gold);border-radius:10px;}
+/* thumbs */
+.cthumb{
+  position:absolute;top:50%;transform:translate(-50%,-50%);
+  width:20px;height:20px;border-radius:50%;
+  background:#fff;border:3px solid var(--gold);
+  cursor:grab;box-shadow:0 2px 8px rgba(0,0,0,.18);
+  transition:transform .12s,box-shadow .12s;
+  z-index:2;
+}
+.cthumb:hover,.cthumb.drag{transform:translate(-50%,-50%) scale(1.25);box-shadow:0 4px 12px rgba(200,164,62,.4);cursor:grabbing;}
+/* labels under thumbs */
+.cthumb-label{
+  position:absolute;top:22px;
+  transform:translateX(-50%);
+  font-size:9px;font-weight:700;color:var(--gold);
+  font-family:'Tajawal',sans-serif;white-space:nowrap;pointer-events:none;
+}
+.range-ticks{display:flex;justify-content:space-between;font-size:10px;color:var(--pale);font-family:'Tajawal',sans-serif;margin-top:4px;}
 
 /* ══ FILTERS ══ */
 .filters{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-bottom:22px;}
@@ -195,7 +209,7 @@ h1 em{font-style:normal;color:var(--gold);}
       <span class="si">🔍</span>
     </div>
 
-    <!-- PRICE RANGE SLIDER -->
+    <!-- PRICE RANGE SLIDER — Custom RTL: right thumb = min, left thumb = max -->
     <div class="range-wrap">
       <div class="range-labels">
         <span class="range-title">🎯 فلتر حسب السعر بالدولار</span>
@@ -205,13 +219,21 @@ h1 em{font-style:normal;color:var(--gold);}
           <span class="range-val" id="valMax">$2,030</span>
         </div>
       </div>
-      <div class="slider-track" id="sliderTrack">
-        <div class="slider-fill" id="sliderFill"></div>
-        <input class="dual-range" type="range" id="rangeMin" min="20" max="2030" value="20" step="10">
-        <input class="dual-range" type="range" id="rangeMax" min="20" max="2030" value="2030" step="10">
+      <div class="cslider" id="cslider">
+        <div class="cslider-track">
+          <div class="cslider-fill" id="cFill"></div>
+        </div>
+        <!-- RIGHT thumb = حد أدنى (min price) -->
+        <div class="cthumb" id="tMin" style="right:0%;left:auto;transform:translate(50%,-50%)">
+          <div class="cthumb-label">حد أدنى</div>
+        </div>
+        <!-- LEFT thumb = حد أعلى (max price) -->
+        <div class="cthumb" id="tMax" style="left:0%;transform:translate(-50%,-50%)">
+          <div class="cthumb-label">حد أعلى</div>
+        </div>
       </div>
       <div class="range-ticks">
-        <span>$20</span><span>$500</span><span>$1,000</span><span>$1,500</span><span>$2,030</span>
+        <span>$2,030</span><span>$1,500</span><span>$1,000</span><span>$500</span><span>$20</span>
       </div>
     </div>
 
@@ -501,36 +523,101 @@ function toggleMore(btn,tbId,n){
   btn.textContent=open?`عرض المزيد (${n} موديل) ↓`:'عرض أقل ↑';
 }
 
-/* ════════════ DUAL RANGE SLIDER ════════════ */
-const rMin=document.getElementById('rangeMin');
-const rMax=document.getElementById('rangeMax');
-const fill=document.getElementById('sliderFill');
-const vMin=document.getElementById('valMin');
-const vMax=document.getElementById('valMax');
+/* ════════════ CUSTOM RTL DUAL SLIDER ════════════
+   RTL: right side = low price (min), left side = high price (max)
+   tMin thumb on RIGHT controls minimum price
+   tMax thumb on LEFT  controls maximum price
+════════════════════════════════════════════════ */
+const PRICE_MIN = 20;
+const PRICE_MAX = 2030;
+let curMin = PRICE_MIN;
+let curMax = PRICE_MAX;
 
-function updateSlider(){
-  let lo=+rMin.value, hi=+rMax.value;
-  if(lo>hi-10){
-    if(this===rMin) lo=hi-10;
-    else hi=lo+10;
-    rMin.value=lo; rMax.value=hi;
-  }
-  const total=+rMax.max - +rMin.min;
-  const leftPct=(lo - +rMin.min)/total*100;
-  const rightPct=(+rMax.max - hi)/total*100;
-  fill.style.left=leftPct+'%';
-  fill.style.right=rightPct+'%';
-  vMin.textContent='$'+lo.toLocaleString();
-  vMax.textContent='$'+hi.toLocaleString();
-  applyAllFilters();
+const slider  = document.getElementById('cslider');
+const tMin    = document.getElementById('tMin');
+const tMax    = document.getElementById('tMax');
+const cFill   = document.getElementById('cFill');
+const vMin    = document.getElementById('valMin');
+const vMax    = document.getElementById('valMax');
+
+/* price → percent from LEFT (0%=left=max price, 100%=right=min price)
+   In RTL: left=high, right=low
+   pct from left = (PRICE_MAX - price) / range * 100  */
+function priceToLeftPct(price){
+  return (PRICE_MAX - price) / (PRICE_MAX - PRICE_MIN) * 100;
 }
-rMin.addEventListener('input',updateSlider);
-rMax.addEventListener('input',updateSlider);
-// init fill
-(function(){
-  const total=+rMax.max - +rMin.min;
-  fill.style.left='0%'; fill.style.right='0%';
-})();
+function leftPctToPrice(pct){
+  return Math.round((PRICE_MAX - pct / 100 * (PRICE_MAX - PRICE_MIN)) / 10) * 10;
+}
+
+function renderSlider(){
+  const minPct = priceToLeftPct(curMin); // right side → larger leftPct
+  const maxPct = priceToLeftPct(curMax); // left side  → smaller leftPct
+
+  /* tMin thumb: positioned from RIGHT */
+  tMin.style.left  = 'auto';
+  tMin.style.right = (100 - minPct) + '%';
+  tMin.style.transform = 'translate(50%,-50%)';
+
+  /* tMax thumb: positioned from LEFT */
+  tMax.style.right = 'auto';
+  tMax.style.left  = maxPct + '%';
+  tMax.style.transform = 'translate(-50%,-50%)';
+
+  /* fill between tMax (left) and tMin (right) */
+  cFill.style.left  = maxPct + '%';
+  cFill.style.right = (100 - minPct) + '%';
+  cFill.style.width = 'auto';
+
+  vMin.textContent = '$' + curMin.toLocaleString();
+  vMax.textContent = '$' + curMax.toLocaleString();
+}
+
+function makeDraggable(thumb, isMin){
+  let dragging = false;
+
+  function onStart(e){
+    dragging = true;
+    thumb.classList.add('drag');
+    e.preventDefault();
+  }
+  function onMove(e){
+    if(!dragging) return;
+    const rect = slider.getBoundingClientRect();
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    /* leftPct: 0% = leftmost (high price), 100% = rightmost (low price) */
+    let leftPct = (clientX - rect.left) / rect.width * 100;
+    leftPct = Math.max(0, Math.min(100, leftPct));
+    const price = leftPctToPrice(leftPct);
+
+    if(isMin){
+      /* min thumb (right side): price cannot exceed curMax-10 */
+      curMin = Math.min(price, curMax - 10);
+      curMin = Math.max(PRICE_MIN, curMin);
+    } else {
+      /* max thumb (left side): price cannot go below curMin+10 */
+      curMax = Math.max(price, curMin + 10);
+      curMax = Math.min(PRICE_MAX, curMax);
+    }
+    renderSlider();
+    applyAllFilters();
+  }
+  function onEnd(){
+    dragging = false;
+    thumb.classList.remove('drag');
+  }
+
+  thumb.addEventListener('mousedown',  onStart);
+  thumb.addEventListener('touchstart', onStart, {passive:false});
+  document.addEventListener('mousemove',  onMove);
+  document.addEventListener('touchmove',  onMove, {passive:false});
+  document.addEventListener('mouseup',   onEnd);
+  document.addEventListener('touchend',  onEnd);
+}
+
+makeDraggable(tMin, true);   // right thumb = حد أدنى
+makeDraggable(tMax, false);  // left  thumb = حد أعلى
+renderSlider();
 
 /* ════════════ FILTERS & SEARCH ════════════ */
 let activeF='all';
@@ -558,7 +645,7 @@ document.getElementById('searchInput').addEventListener('input',function(){
 });
 
 function applyAllFilters(){
-  const lo=+rMin.value, hi=+rMax.value;
+  const lo=curMin, hi=curMax;
   let visCount=0;
   let anyVisible=false;
 
@@ -584,7 +671,7 @@ function applyAllFilters(){
     });
 
     /* if filtering, show all matching rows regardless of "show more" */
-    if(searchQ||lo>20||hi<2030){
+    if(searchQ||lo>PRICE_MIN||hi<PRICE_MAX){
       card.querySelectorAll('tr[data-usd]').forEach(row=>{
         if(!row.classList.contains('hidden-by-range')){
           row.classList.remove('rh');
