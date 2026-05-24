@@ -128,7 +128,7 @@ h1 em{font-style:normal;color:var(--gold);}
 /* Header row */
 .plist-head{
   display:flex; align-items:center;
-  padding:7px 14px;
+  padding:6px 12px;
   background:var(--card2);
   border-bottom:2px solid var(--border);
   gap:0;
@@ -139,24 +139,25 @@ h1 em{font-style:normal;color:var(--gold);}
   white-space:nowrap; flex-shrink:0;
 }
 /* fixed widths — same in header and rows */
-.col-syp  { width:70px;  text-align:right; direction:ltr; flex-shrink:0; }
-.col-usd  { width:65px;  text-align:right; direction:ltr; flex-shrink:0; }
-.col-stor { width:46px;  text-align:center; flex-shrink:0; }
-.col-ram  { width:40px;  text-align:center; flex-shrink:0; }
+.col-syp  { width:56px;  text-align:right; direction:ltr; flex-shrink:0; }
+.col-usd  { width:58px;  text-align:right; direction:ltr; flex-shrink:0; }
+.col-stor { width:42px;  text-align:center; flex-shrink:0; }
+.col-ram  { width:38px;  text-align:center; flex-shrink:0; }
 .col-mod  { flex:1; min-width:0; text-align:left; padding-left:2px; }
 
-/* mobile: hide RAM to save space, keep SYP visible */
-@media(max-width:480px){
-  .col-ram, .cell-ram { display:none !important; }
-  .col-syp  { width:62px; }
-  .col-usd  { width:60px; }
-  .col-stor { width:44px; }
+/* no hiding on mobile — just tighter */
+@media(max-width:400px){
+  .col-syp  { width:50px; }
+  .col-usd  { width:52px; }
+  .col-stor { width:38px; }
+  .col-ram  { width:34px; }
+  .prow, .plist-head { padding-left:8px; padding-right:8px; }
 }
 
 /* Data rows */
 .prow{
   display:flex; align-items:center;
-  padding:8px 14px;
+  padding:7px 12px;
   border-bottom:1px solid var(--border);
   transition:background .12s;
   gap:0;
@@ -169,20 +170,21 @@ h1 em{font-style:normal;color:var(--gold);}
 
 /* SYP cell */
 .cell-syp{
-  width:70px; flex-shrink:0;
+  width:56px; flex-shrink:0;
   direction:ltr; text-align:right;
 }
-.syp-inner{display:inline-flex;align-items:center;gap:3px;}
-.arr{font-size:11px;font-weight:900;line-height:1;}
-.arr.up{color:var(--green);}
-.arr.down{color:var(--red);}
-.syp-num{font-size:11.5px;font-weight:700;font-family:'Tajawal',sans-serif;color:var(--muted);}
+.syp-inner{display:inline-flex;align-items:center;gap:2px;justify-content:flex-end;}
+.arr{font-size:10px;font-weight:900;line-height:1;}
+.arr.up{color:var(--red);}
+.arr.down{color:var(--green);}
+.arr.flat{color:var(--pale);}
+.syp-num{font-size:10.5px;font-weight:700;font-family:'Tajawal',sans-serif;color:var(--muted);}
 
 /* USD cell */
 .cell-usd{
-  width:65px; flex-shrink:0;
+  width:58px; flex-shrink:0;
   direction:ltr; text-align:right;
-  font-size:13px; font-weight:800;
+  font-size:12.5px; font-weight:800;
   font-family:'Tajawal',sans-serif; white-space:nowrap;
 }
 
@@ -190,10 +192,10 @@ h1 em{font-style:normal;color:var(--gold);}
 .cell-stor,.cell-ram{
   flex-shrink:0;
   text-align:center;
-  font-size:11px; color:var(--pale); white-space:nowrap;
+  font-size:10.5px; color:var(--pale); white-space:nowrap;
 }
-.cell-stor{ width:46px; }
-.cell-ram { width:40px; }
+.cell-stor{ width:42px; }
+.cell-ram { width:38px; }
 
 /* Model — takes remaining space, truncates from end */
 .cell-mod{
@@ -288,10 +290,10 @@ h1 em{font-style:normal;color:var(--gold);}
   <div class="no-results" id="noResults">😕 لا توجد نتائج مطابقة</div>
 
   <div class="legend">
-    <span class="leg-item"><span class="arr up">↑</span> ارتفع السعر</span>
-    <span class="leg-item"><span class="arr down">↓</span> انخفض السعر</span>
+    <span class="leg-item"><span class="arr up">▲</span> ارتفع السعر</span>
+    <span class="leg-item"><span class="arr down">▼</span> انخفض السعر</span>
+    <span class="leg-item"><span class="arr flat">—</span> مستقر</span>
     <span class="leg-item" style="color:var(--gold);font-weight:700">جديد</span>
-    <span class="leg-item"><span style="color:var(--pale)">—</span> لا يوجد تغيير</span>
   </div>
 </div>
 
@@ -593,16 +595,19 @@ function buildCards() {
 
     function rowHtml(ph, hidden) {
       let arrowHtml = '';
+      let arrowClass = '';
       if (ph.isnew) {
-        arrowHtml = `<span style="color:var(--gold);font-size:10px;font-weight:700;">جديد</span>`;
+        arrowHtml = `<span style="color:var(--gold);font-size:9px;font-weight:700;">جديد</span>`;
       } else if (ph.p > ph.pp) {
-        arrowHtml = `<span class="arr up">↑</span>`;
+        arrowHtml = `<span class="arr up">▲</span>`;
       } else if (ph.p < ph.pp) {
-        arrowHtml = `<span class="arr down">↓</span>`;
+        arrowHtml = `<span class="arr down">▼</span>`;
+      } else {
+        arrowHtml = `<span class="arr flat">—</span>`;
       }
 
       const sypHtml = ph.isnew
-        ? `<span style="color:var(--gold);font-size:10px;font-weight:700;">جديد</span>`
+        ? `<span style="color:var(--gold);font-size:9px;font-weight:700;">جديد</span>`
         : `<span class="syp-inner">${arrowHtml}<span class="syp-num">${fmtSYP(ph.p)}</span></span>`;
 
       /* Flexbox row — RTL: items render right→left
