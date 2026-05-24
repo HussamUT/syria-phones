@@ -17,18 +17,18 @@ body{font-family:'Cairo','Tajawal',sans-serif;background:var(--bg);color:var(--i
 body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
   background:radial-gradient(ellipse 60% 50% at 5% 5%,rgba(200,164,62,.14) 0%,transparent 100%),
              radial-gradient(ellipse 50% 40% at 95% 95%,rgba(24,150,90,.08) 0%,transparent 100%);}
-.page{position:relative;z-index:1;max-width:1180px;margin:0 auto;padding:0 18px 80px;}
+.page{position:relative;z-index:1;max-width:1180px;margin:0 auto;padding:0 16px 80px;}
 
-/* ══ HERO ══ */
-.hero{text-align:center;padding:46px 16px 24px;}
+/* HERO */
+.hero{text-align:center;padding:44px 16px 22px;}
 .live-badge{display:inline-flex;align-items:center;gap:7px;background:var(--ink);color:var(--gold);font-size:10.5px;font-weight:700;letter-spacing:2px;padding:5px 16px;border-radius:100px;margin-bottom:16px;}
 .live-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);animation:blink 1.5s ease-in-out infinite;}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.1}}
-h1{font-family:'Tajawal',sans-serif;font-size:clamp(30px,5.5vw,70px);font-weight:900;line-height:1.05;margin-bottom:7px;}
+h1{font-family:'Tajawal',sans-serif;font-size:clamp(28px,5.5vw,68px);font-weight:900;line-height:1.05;margin-bottom:7px;}
 h1 em{font-style:normal;color:var(--gold);}
 .subtitle{font-size:13px;color:var(--muted);margin-bottom:18px;}
 
-/* ══ RATE PILL ══ */
+/* RATE PILL */
 .rate-pill{display:inline-flex;align-items:center;gap:10px;background:var(--ink);color:#fff;padding:8px 18px;border-radius:100px;margin-bottom:18px;flex-wrap:wrap;justify-content:center;}
 .rl{color:var(--gold);font-size:10px;font-weight:700;letter-spacing:1.5px;}
 .rv{font-family:'Tajawal',sans-serif;font-size:16px;font-weight:800;}
@@ -40,61 +40,73 @@ h1 em{font-style:normal;color:var(--gold);}
 .spin{width:8px;height:8px;border:2px solid rgba(255,255,255,.2);border-top-color:var(--gold);border-radius:50%;animation:spin .75s linear infinite;display:none;}
 @keyframes spin{to{transform:rotate(360deg)}}
 
-/* ══ SEARCH ══ */
+/* SEARCH */
 .sw{max-width:440px;margin:0 auto 12px;position:relative;}
 .sw input{width:100%;padding:12px 44px 12px 18px;border:2px solid var(--border);border-radius:100px;background:var(--card);font-family:'Cairo',sans-serif;font-size:13.5px;color:var(--ink);outline:none;direction:rtl;transition:border-color .2s,box-shadow .2s;}
 .sw input::placeholder{color:var(--pale);}
 .sw input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(200,164,62,.13);}
 .si{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:15px;pointer-events:none;}
 
-/* ══ PRICE RANGE SLIDER — Custom RTL ══ */
-.range-wrap{max-width:540px;margin:0 auto 16px;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px 22px 20px;}
-.range-labels{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;}
+/* PRICE RANGE SLIDER */
+.range-wrap{max-width:540px;margin:0 auto 16px;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px 22px 16px;}
+.range-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;}
 .range-title{font-size:12px;font-weight:700;color:var(--muted);}
 .range-vals{display:flex;gap:6px;align-items:center;font-family:'Tajawal',sans-serif;font-size:13px;font-weight:800;}
 .range-val{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:3px 10px;color:var(--ink);}
 .range-sep{color:var(--pale);font-size:11px;}
 
-/* custom slider container */
-.cslider{position:relative;height:20px;margin:0 0 10px;user-select:none;}
-.cslider-track{position:absolute;top:50%;transform:translateY(-50%);left:0;right:0;height:5px;background:var(--border);border-radius:10px;}
-.cslider-fill{position:absolute;top:0;height:100%;background:var(--gold);border-radius:10px;}
+/* slider track */
+.cslider{position:relative;height:6px;margin:0 10px 28px;user-select:none;}
+.ctrack{width:100%;height:100%;background:var(--border);border-radius:10px;position:absolute;top:0;}
+.cfill{position:absolute;height:100%;background:var(--gold);border-radius:10px;}
+
 /* thumbs */
 .cthumb{
-  position:absolute;top:50%;transform:translate(-50%,-50%);
-  width:20px;height:20px;border-radius:50%;
+  position:absolute;top:50%;
+  width:22px;height:22px;border-radius:50%;
   background:#fff;border:3px solid var(--gold);
   cursor:grab;box-shadow:0 2px 8px rgba(0,0,0,.18);
-  transition:transform .12s,box-shadow .12s;
-  z-index:2;
+  transition:box-shadow .12s,transform .12s;
+  z-index:2;touch-action:none;
 }
-.cthumb:hover,.cthumb.drag{transform:translate(-50%,-50%) scale(1.25);box-shadow:0 4px 12px rgba(200,164,62,.4);cursor:grabbing;}
-/* labels under thumbs */
-.cthumb-label{
-  position:absolute;top:22px;
-  transform:translateX(-50%);
-  font-size:9px;font-weight:700;color:var(--gold);
-  font-family:'Tajawal',sans-serif;white-space:nowrap;pointer-events:none;
+.cthumb:hover,.cthumb.dragging{
+  box-shadow:0 4px 14px rgba(200,164,62,.45);
+  transform:translateY(-50%) scale(1.22);
+  cursor:grabbing;
 }
-.range-ticks{display:flex;justify-content:space-between;font-size:10px;color:var(--pale);font-family:'Tajawal',sans-serif;margin-top:4px;}
+.cthumb{transform:translateY(-50%);}
 
-/* ══ FILTERS ══ */
+/* label BELOW thumb — fixed position relative to track */
+.cthumb-lbl{
+  position:absolute;
+  top:16px; /* below the thumb */
+  font-size:9.5px;font-weight:700;
+  color:var(--gold);font-family:'Tajawal',sans-serif;
+  white-space:nowrap;pointer-events:none;
+  transform:translateX(-50%);
+  left:50%;
+}
+
+/* ticks */
+.range-ticks{display:flex;justify-content:space-between;font-size:10px;color:var(--pale);font-family:'Tajawal',sans-serif;padding:0 10px;}
+
+/* FILTERS */
 .filters{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-bottom:22px;}
 .fbtn{padding:6px 14px;border:2px solid var(--border);border-radius:100px;background:var(--card);font-family:'Cairo',sans-serif;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;transition:all .2s;}
 .fbtn:hover,.fbtn.active{background:var(--ink);border-color:var(--ink);color:#fff;}
 
-/* ══ STATS ══ */
+/* STATS */
 .stats-bar{display:flex;justify-content:center;align-items:center;gap:18px;flex-wrap:wrap;padding:12px 20px;background:var(--card);border-radius:14px;border:1px solid var(--border);max-width:540px;margin:0 auto 28px;box-shadow:0 2px 10px rgba(22,19,13,.05);}
 .st{text-align:center;}
 .stn{font-size:19px;font-weight:800;font-family:'Tajawal',sans-serif;}
 .stl{font-size:10px;color:var(--muted);}
 .sdiv{width:1px;height:26px;background:var(--border);}
 
-/* ══ 2-COL GRID ══ */
+/* GRID: 2 col desktop, 1 col mobile */
 .brands-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;}
-@media(max-width:640px){.brands-grid{grid-template-columns:1fr;}}
+@media(max-width:680px){.brands-grid{grid-template-columns:1fr;}}
 
-/* ══ CARD ══ */
+/* CARD */
 .brand-card{background:var(--card);border-radius:var(--r);border:1px solid var(--border);overflow:hidden;box-shadow:0 2px 12px rgba(22,19,13,.06);transition:transform .28s cubic-bezier(.22,.68,0,1.2),box-shadow .28s;animation:fadeUp .45s ease both;}
 .brand-card:hover{transform:translateY(-4px);box-shadow:0 12px 36px rgba(22,19,13,.1);}
 @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
@@ -108,69 +120,79 @@ h1 em{font-style:normal;color:var(--gold);}
 .brand-count{font-size:10px;color:var(--muted);}
 .card-icon{font-size:26px;opacity:.07;flex-shrink:0;}
 
-/* ══ PRICE TABLE — 5 cols, RTL: [ل.س][دولار][تخزين][رام][الموديل] right→left ══ */
+/* TABLE
+   HTML col order (RTL: first=rightmost visually):
+   [ل.س] [دولار $] [تخزين] [رام] [الموديل]
+   Visual left→right: الموديل | رام | تخزين | دولار | ل.س
+*/
 .price-table{width:100%;border-collapse:collapse;table-layout:fixed;}
-/* col widths — HTML order maps to RTL visual: first=right, last=left */
-/* Visual: [ل.س][دولار][تخزين][رام][الموديل] right→left */
-.price-table colgroup col:nth-child(1){width:98px;}  /* ل.س */
-.price-table colgroup col:nth-child(2){width:72px;}  /* $ */
-.price-table colgroup col:nth-child(3){width:58px;}  /* تخزين */
-.price-table colgroup col:nth-child(4){width:48px;}  /* رام */
-.price-table colgroup col:nth-child(5){width:auto;}  /* الموديل — takes ALL remaining */
+.price-table col.c-syp  {width:100px;}
+.price-table col.c-usd  {width:74px;}
+.price-table col.c-stor {width:58px;}
+.price-table col.c-ram  {width:48px;}
+.price-table col.c-mod  {width:auto;}  /* takes all remaining space */
 
 .price-table thead tr{background:var(--card2);border-bottom:2px solid var(--border);}
-.price-table thead th{padding:6px 8px;font-size:10.5px;font-weight:700;color:var(--muted);white-space:nowrap;overflow:hidden;}
-.thk{text-align:left;direction:ltr;}   /* ل.س */
-.thu{text-align:left;direction:ltr;}   /* $ */
-.ths{text-align:center;}               /* تخزين */
-.thr{text-align:center;}               /* رام */
+.price-table thead th{padding:7px 6px;font-size:10.5px;font-weight:700;color:var(--muted);white-space:nowrap;}
+/* header alignment matches data cells */
+.th-syp {text-align:left; direction:ltr; padding-left:10px;}
+.th-usd {text-align:left; direction:ltr;}
+.th-stor{text-align:center;}
+.th-ram {text-align:center;}
+.th-mod {text-align:left;  padding-left:10px;}  /* model: left aligned */
 
-/* data cells */
+/* DATA ROWS */
 .price-table tbody tr{border-bottom:1px solid var(--border);transition:background .12s;}
 .price-table tbody tr:last-child{border-bottom:none;}
 .price-table tbody tr:hover{background:var(--card2);}
 .price-table tbody tr.rh{display:none;}
-.price-table td{padding:8px 8px;overflow:hidden;vertical-align:middle;}
+.price-table tbody tr.hbr{display:none;}
+.price-table td{padding:8px 6px;overflow:hidden;vertical-align:middle;}
 
-/* ل.س */
-.tdk{text-align:left;direction:ltr;}
+/* SYP cell */
+.td-syp{text-align:left;direction:ltr;padding-left:10px !important;}
 .syp-inner{display:inline-flex;align-items:center;gap:3px;}
-.arr{font-size:11px;font-weight:900;line-height:1;flex-shrink:0;}
+.arr{font-size:11px;font-weight:900;line-height:1;}
 .arr.up{color:var(--green);}
 .arr.down{color:var(--red);}
-/* no arrow for same — empty */
 .syp-num{font-size:11.5px;font-weight:700;font-family:'Tajawal',sans-serif;color:var(--muted);}
 
-/* $ */
-.tdu{text-align:left;direction:ltr;font-size:13px;font-weight:800;font-family:'Tajawal',sans-serif;white-space:nowrap;}
+/* USD */
+.td-usd{text-align:left;direction:ltr;font-size:13px;font-weight:800;font-family:'Tajawal',sans-serif;white-space:nowrap;}
 
-/* تخزين / رام */
-.tds,.tdr{text-align:center;font-size:11px;color:var(--pale);white-space:nowrap;}
+/* storage/ram */
+.td-stor,.td-ram{text-align:center;font-size:11px;color:var(--pale);white-space:nowrap;}
 
-/* موديل — leftmost column, full name shown, truncate from end */
-.tdm{
+/* MODEL — key fix: left-aligned, LTR text, truncate at end */
+.td-mod{
   text-align:left;
   direction:ltr;
-  unicode-bidi:plaintext;
   font-size:12px;font-weight:600;
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
-  max-width:0; /* required for ellipsis with table-layout:fixed */
-  padding-left:12px !important;
+  max-width:0;
+  padding-left:10px !important;
 }
-.thm{text-align:left !important; padding-left:12px !important;}
 
 /* SHOW MORE */
 .more-btn{width:100%;padding:10px;border:none;border-top:1px solid var(--border);background:none;cursor:pointer;font-family:'Cairo',sans-serif;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:4px;transition:background .15s;}
 .more-btn:hover{background:var(--card2);}
 
+/* legend */
+.legend{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;padding:20px 0 0;font-size:11px;color:var(--muted);}
+.leg-item{display:flex;align-items:center;gap:4px;}
+
 .no-results{text-align:center;padding:50px 20px;color:var(--muted);display:none;}
-.hidden-by-range{display:none !important;}
+
+/* mobile: hide RAM col to save space */
+@media(max-width:400px){
+  .price-table col.c-ram{width:0;}
+  .td-ram,.th-ram{display:none;}
+}
 </style>
 </head>
 <body>
 <div class="page">
 
-  <!-- HERO -->
   <div class="hero">
     <div class="live-badge"><span class="live-dot"></span>تحديث تلقائي كل ١٠ دقائق</div>
     <h1>أسعار الهواتف<br>في <em>سورية</em></h1>
@@ -178,7 +200,7 @@ h1 em{font-style:normal;color:var(--gold);}
 
     <div class="rate-pill">
       <span class="rl">سعر الدولار</span>
-      <span class="rv" id="rateNum">13,500</span>
+      <span class="rv" id="rateNum">—</span>
       <span class="ru">ل.س</span>
       <div class="rdiv"></div>
       <div class="ri">
@@ -188,33 +210,31 @@ h1 em{font-style:normal;color:var(--gold);}
       <div class="spin" id="rateSpin"></div>
     </div>
 
-    <!-- SEARCH -->
     <div class="sw">
       <input type="text" id="searchInput" placeholder="ابحث... iPhone 17، Galaxy S26، Poco X8"/>
       <span class="si">🔍</span>
     </div>
 
-    <!-- PRICE RANGE SLIDER — Custom RTL: right thumb = min, left thumb = max -->
+    <!-- PRICE RANGE SLIDER -->
     <div class="range-wrap">
-      <div class="range-labels">
+      <div class="range-top">
         <span class="range-title">🎯 فلتر حسب السعر بالدولار</span>
         <div class="range-vals">
-          <span class="range-val" id="valMin">$20</span>
-          <span class="range-sep">—</span>
           <span class="range-val" id="valMax">$2,030</span>
+          <span class="range-sep">—</span>
+          <span class="range-val" id="valMin">$20</span>
         </div>
       </div>
       <div class="cslider" id="cslider">
-        <div class="cslider-track">
-          <div class="cslider-fill" id="cFill"></div>
+        <div class="ctrack"></div>
+        <div class="cfill" id="cfill"></div>
+        <!-- LEFT thumb = حد أعلى (max price) -->
+        <div class="cthumb" id="tMax">
+          <div class="cthumb-lbl">حد أعلى</div>
         </div>
         <!-- RIGHT thumb = حد أدنى (min price) -->
-        <div class="cthumb" id="tMin" style="right:0%;left:auto;transform:translate(50%,-50%)">
-          <div class="cthumb-label">حد أدنى</div>
-        </div>
-        <!-- LEFT thumb = حد أعلى (max price) -->
-        <div class="cthumb" id="tMax" style="left:0%;transform:translate(-50%,-50%)">
-          <div class="cthumb-label">حد أعلى</div>
+        <div class="cthumb" id="tMin">
+          <div class="cthumb-lbl">حد أدنى</div>
         </div>
       </div>
       <div class="range-ticks">
@@ -222,17 +242,15 @@ h1 em{font-style:normal;color:var(--gold);}
       </div>
     </div>
 
-    <!-- BRAND FILTERS -->
     <div class="filters" id="filtersBar">
       <button class="fbtn active" data-bid="all">الكل</button>
     </div>
   </div>
 
-  <!-- STATS -->
-  <div class="stats-bar" id="statsBar">
+  <div class="stats-bar">
     <div class="st"><div class="stn">6</div><div class="stl">ماركة</div></div>
     <div class="sdiv"></div>
-    <div class="st"><div class="stn" id="visCount">83+</div><div class="stl">موديل مرئي</div></div>
+    <div class="st"><div class="stn" id="visCount">—</div><div class="stl">موديل</div></div>
     <div class="sdiv"></div>
     <div class="st"><div class="stn">$20</div><div class="stl">أقل سعر</div></div>
     <div class="sdiv"></div>
@@ -241,437 +259,537 @@ h1 em{font-style:normal;color:var(--gold);}
 
   <div class="brands-grid" id="brandsGrid"></div>
   <div class="no-results" id="noResults">😕 لا توجد نتائج مطابقة</div>
+
+  <div class="legend">
+    <span class="leg-item"><span class="arr up">↑</span> ارتفع السعر</span>
+    <span class="leg-item"><span class="arr down">↓</span> انخفض السعر</span>
+    <span class="leg-item" style="color:var(--gold);font-weight:700">جديد</span>
+    <span class="leg-item"><span style="color:var(--pale)">—</span> لا يوجد تغيير</span>
+  </div>
 </div>
 
 <script>
-/* ════════════ DATA ════════════ */
+/* ══════════════════════════════════
+   FULL DATA — updated from newsletter
+══════════════════════════════════ */
 const DATA = [
   { id:'xiaomi', name:'Xiaomi', color:'#ff6900',
     logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Xiaomi_logo.svg/120px-Xiaomi_logo.svg.png',
     phones:[
-      {m:'Mi Mix Flip',        r:'12GB',s:'512GB',p:590, pp:575},
-      {m:'Mi 17',              r:'12GB',s:'512GB',p:780, pp:780},
-      {m:'Mi 13 Ultra',        r:'16GB',s:'512GB',p:1170,pp:1190},
-      {m:'14 T Pro',           r:'12GB',s:'1TB',  p:590, pp:560},
-      {m:'Poco F8 Ultra',      r:'16GB',s:'512GB',p:780, pp:790},
-      {m:'Poco F8 Pro',        r:'12GB',s:'512GB',p:595, pp:595},
-      {m:'Poco X8 PRO MAX 5G', r:'12GB',s:'256GB',p:455, pp:470},
-      {m:'Poco X8 PRO MAX 5G', r:'12GB',s:'512GB',p:500, pp:500},
-      {m:'Poco X8 PRO 5G',     r:'8GB', s:'256GB',p:330, pp:320},
-      {m:'Poco X8 PRO 5G',     r:'8GB', s:'512GB',p:351, pp:360},
-      {m:'Poco X7 Pro',        r:'12GB',s:'512GB',p:386, pp:386},
-      {m:'Poco X7 Pro',        r:'8GB', s:'256GB',p:310, pp:300},
-      {m:'Poco X7 5G',         r:'12GB',s:'512GB',p:350, pp:355},
-      {m:'Poco X7 5G',         r:'8GB', s:'256GB',p:237, pp:237},
-      {m:'Poco M8 5G',         r:'12GB',s:'512GB',p:335, pp:340},
+      {m:'Mi Mix Flip',         r:'12GB',s:'512GB', p:590,  pp:590,  isnew:false},
+      {m:'Mi 17',               r:'12GB',s:'512GB', p:780,  pp:780,  isnew:false},
+      {m:'Mi 13 Ultra',         r:'16GB',s:'512GB', p:1170, pp:1170, isnew:false},
+      {m:'14 T Pro',            r:'12GB',s:'1TB',   p:590,  pp:590,  isnew:false},
+      {m:'Poco F8 Ultra',       r:'16GB',s:'512GB', p:780,  pp:780,  isnew:false},
+      {m:'Poco F8 Pro',         r:'12GB',s:'512GB', p:595,  pp:595,  isnew:false},
+      {m:'Poco X8 PRO MAX 5G',  r:'12GB',s:'256GB', p:455,  pp:455,  isnew:false},
+      {m:'Poco X8 PRO MAX 5G',  r:'12GB',s:'512GB', p:500,  pp:500,  isnew:false},
+      {m:'Poco X8 PRO 5G',      r:'8GB', s:'256GB', p:330,  pp:330,  isnew:false},
+      {m:'Poco X8 PRO 5G',      r:'8GB', s:'512GB', p:351,  pp:360,  isnew:false},
+      {m:'Poco X7 Pro',         r:'12GB',s:'512GB', p:386,  pp:386,  isnew:false},
+      {m:'Poco X7 Pro',         r:'8GB', s:'256GB', p:310,  pp:310,  isnew:false},
+      {m:'Poco X7 5G',          r:'12GB',s:'512GB', p:350,  pp:355,  isnew:false},
+      {m:'Poco X7 5G',          r:'8GB', s:'256GB', p:237,  pp:237,  isnew:false},
+      {m:'Poco M8 5G',          r:'12GB',s:'512GB', p:335,  pp:335,  isnew:false},
+      {m:'Poco M8 5G',          r:'12GB',s:'256GB', p:255,  pp:260,  isnew:false},
+      {m:'Poco M7',             r:'8GB', s:'256GB', p:157,  pp:150,  isnew:false},
+      {m:'Poco M7',             r:'6GB', s:'128GB', p:135,  pp:135,  isnew:false},
+      {m:'Poco C85',            r:'8GB', s:'256GB', p:128,  pp:122,  isnew:false},
+      {m:'Poco C85',            r:'6GB', s:'128GB', p:113,  pp:109,  isnew:false},
+      {m:'Poco C75',            r:'8GB', s:'256GB', p:121,  pp:125,  isnew:false},
+      {m:'Poco C71',            r:'3GB', s:'64GB',  p:85,   pp:85,   isnew:false},
+      {m:'Poco C71',            r:'4GB', s:'128GB', p:93,   pp:93,   isnew:false},
+      {m:'Note 15',             r:'8GB', s:'256GB', p:191,  pp:191,  isnew:false},
+      {m:'Note 15 Pro 4G',      r:'12GB',s:'512GB', p:296,  pp:306,  isnew:false},
+      {m:'Note 15 Pro 4G',      r:'8GB', s:'256GB', p:260,  pp:260,  isnew:false},
+      {m:'Note 15 Pro Plus 5G', r:'12GB',s:'512GB', p:391,  pp:401,  isnew:false},
+      {m:'Note 15 Pro Plus 5G', r:'12GB',s:'256GB', p:308,  pp:308,  isnew:false},
+      {m:'Note 15 Pro Plus 5G', r:'12GB',s:'128GB', p:0,    pp:0,    isnew:true},
+      {m:'Note 14 Pro Plus 5G', r:'12GB',s:'512GB', p:351,  pp:351,  isnew:false},
+      {m:'Note 14 Pro 4G',      r:'8GB', s:'256GB', p:239,  pp:239,  isnew:false},
     ]},
   { id:'iphone', name:'iPhone', color:'#1d1d1f',
     logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Apple_logo_black.svg/80px-Apple_logo_black.svg.png',
     phones:[
-      {m:'iPhone 17 Pro Max 1SIM 2TB',  r:'—',s:'2TB',  p:1960,pp:1940},
-      {m:'iPhone 17 Pro Max 1SIM 1TB',  r:'—',s:'1TB',  p:1840,pp:1850},
-      {m:'iPhone 17 Pro Max 1SIM 512G', r:'—',s:'512GB',p:1580,pp:1580},
-      {m:'iPhone 17 Pro Max 2SIM 256G', r:'—',s:'256GB',p:1520,pp:1500},
-      {m:'iPhone 17 Pro Max Esim 2TB',  r:'—',s:'2TB',  p:2030,pp:2030},
-      {m:'iPhone 17 Pro Max Esim 1TB',  r:'—',s:'1TB',  p:1610,pp:1625},
-      {m:'iPhone 17 Pro Max Esim 512G', r:'—',s:'512GB',p:1470,pp:1450},
-      {m:'iPhone 17 Pro Max Esim 256G', r:'—',s:'256GB',p:1280,pp:1280},
-      {m:'iPhone 17 Pro Esim 256GB',    r:'—',s:'256GB',p:1200,pp:1210},
-      {m:'iPhone 17 Pro Esim 512GB',    r:'—',s:'512GB',p:1370,pp:1370},
-      {m:'iPhone 17 Pro Esim 1TB',      r:'—',s:'1TB',  p:1570,pp:1550},
-      {m:'iPhone 17 Pro 2SIM 256GB',    r:'—',s:'256GB',p:1400,pp:1400},
-      {m:'iPhone 17 Pro 1SIM 1TB',      r:'—',s:'1TB',  p:1660,pp:1680},
-      {m:'iPhone 17 Pro 1SIM 512GB',    r:'—',s:'512GB',p:1500,pp:1490},
-      {m:'iPhone 17 Pro 1SIM 256GB',    r:'—',s:'256GB',p:1310,pp:1310},
+      {m:'iPhone 17 Pro Max 1SIM', r:'—',s:'2TB',   p:1960,pp:1960,isnew:false},
+      {m:'iPhone 17 Pro Max 1SIM', r:'—',s:'1TB',   p:1840,pp:1840,isnew:false},
+      {m:'iPhone 17 Pro Max 1SIM', r:'—',s:'512GB', p:1580,pp:1580,isnew:false},
+      {m:'iPhone 17 Pro Max 2SIM', r:'—',s:'256GB', p:1520,pp:1520,isnew:false},
+      {m:'iPhone 17 Pro Max Esim', r:'—',s:'2TB',   p:2030,pp:2030,isnew:false},
+      {m:'iPhone 17 Pro Max Esim', r:'—',s:'1TB',   p:1610,pp:1610,isnew:false},
+      {m:'iPhone 17 Pro Max Esim', r:'—',s:'512GB', p:1470,pp:1470,isnew:false},
+      {m:'iPhone 17 Pro Max Esim', r:'—',s:'256GB', p:1280,pp:1280,isnew:false},
+      {m:'iPhone 17 Pro Esim',     r:'—',s:'256GB', p:1200,pp:1200,isnew:false},
+      {m:'iPhone 17 Pro Esim',     r:'—',s:'512GB', p:1370,pp:1370,isnew:false},
+      {m:'iPhone 17 Pro Esim',     r:'—',s:'1TB',   p:1570,pp:1570,isnew:false},
+      {m:'iPhone 17 Pro 2SIM',     r:'—',s:'256GB', p:1400,pp:1400,isnew:false},
+      {m:'iPhone 17 Pro 1SIM',     r:'—',s:'1TB',   p:1660,pp:1660,isnew:false},
+      {m:'iPhone 17 Pro 1SIM',     r:'—',s:'512GB', p:1500,pp:1500,isnew:false},
+      {m:'iPhone 17 Pro 1SIM',     r:'—',s:'256GB', p:1310,pp:1310,isnew:false},
+      {m:'iPhone 17 Air',          r:'—',s:'512GB', p:1160,pp:1160,isnew:false},
+      {m:'iPhone 17 Air',          r:'—',s:'256GB', p:930, pp:930, isnew:false},
+      {m:'iPhone 17 Esim',         r:'—',s:'256GB', p:790, pp:790, isnew:false},
+      {m:'iPhone 17 E 1SIM Active',r:'—',s:'256GB', p:755, pp:755, isnew:false},
+      {m:'iPhone 17 E',            r:'—',s:'256GB', p:620, pp:620, isnew:false},
+      {m:'iPhone 17 E',            r:'—',s:'512GB', p:855, pp:855, isnew:false},
+      {m:'iPhone 17 2SIM',         r:'—',s:'256GB', p:920, pp:920, isnew:false},
+      {m:'iPhone 17 1SIM Active',  r:'—',s:'256GB', p:755, pp:755, isnew:false},
+      {m:'iPhone 17 1SIM',         r:'—',s:'256GB', p:835, pp:835, isnew:false},
+      {m:'iPhone 16 Pro Max 1SIM', r:'—',s:'1TB',   p:1560,pp:1560,isnew:false},
+      {m:'iPhone 16 Pro Max 1SIM', r:'—',s:'256GB', p:1215,pp:1215,isnew:false},
+      {m:'iPhone 16 Pro 1SIM',     r:'—',s:'128GB', p:935, pp:935, isnew:false},
+      {m:'iPhone 16 Pro Plus 1SIM',r:'—',s:'128GB', p:785, pp:785, isnew:false},
+      {m:'iPhone 16 1SIM',         r:'—',s:'128GB', p:705, pp:705, isnew:false},
     ]},
   { id:'samsung', name:'Samsung', color:'#1428a0',
     logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Samsung_Logo.svg/120px-Samsung_Logo.svg.png',
     phones:[
-      {m:'Galaxy S26 Ultra',  r:'16GB',s:'1TB',  p:1599,pp:1620},
-      {m:'Galaxy S26 Ultra',  r:'12GB',s:'512GB',p:1180,pp:1180},
-      {m:'Galaxy S26 Ultra',  r:'12GB',s:'256GB',p:1139,pp:1150},
-      {m:'Galaxy S26+',       r:'12GB',s:'256GB',p:865, pp:850},
-      {m:'Galaxy S26',        r:'12GB',s:'256GB',p:754, pp:754},
-      {m:'Galaxy S25 Ultra',  r:'12GB',s:'256GB',p:930, pp:945},
-      {m:'Galaxy Z Fold 7',   r:'16GB',s:'1TB',  p:1599,pp:1580},
-      {m:'Galaxy A56',        r:'12GB',s:'256GB',p:380, pp:380},
-      {m:'Galaxy A36',        r:'8GB', s:'256GB',p:288, pp:295},
-      {m:'Galaxy A26',        r:'8GB', s:'256GB',p:240, pp:240},
-      {m:'Galaxy A17',        r:'8GB', s:'128GB',p:210, pp:205},
-      {m:'Galaxy A07',        r:'4GB', s:'128GB',p:105, pp:105},
-      {m:'Galaxy A07',        r:'4GB', s:'64GB', p:90,  pp:92},
-      {m:'Galaxy A07 Big box',r:'4GB', s:'64GB', p:90,  pp:90},
-      {m:'Galaxy A17',        r:'4GB', s:'128GB',p:145, pp:148},
+      {m:'Galaxy A07 Big box', r:'4GB',s:'64GB',  p:90,  pp:90,  isnew:false},
+      {m:'Galaxy A07',        r:'4GB',s:'128GB', p:105, pp:105, isnew:false},
+      {m:'Galaxy A07',        r:'4GB',s:'128GB', p:127, pp:127, isnew:false},
+      {m:'Galaxy A17',        r:'4GB',s:'128GB', p:145, pp:145, isnew:false},
+      {m:'Galaxy A17',        r:'4GB',s:'128GB', p:157, pp:157, isnew:false},
+      {m:'Galaxy A17',        r:'8GB',s:'128GB', p:210, pp:210, isnew:false},
+      {m:'Galaxy A26',        r:'8GB',s:'256GB', p:240, pp:240, isnew:false},
+      {m:'Galaxy A36',        r:'8GB',s:'256GB', p:288, pp:288, isnew:false},
+      {m:'Galaxy A56',        r:'12GB',s:'256GB',p:380, pp:380, isnew:false},
+      {m:'Galaxy A56',        r:'12GB',s:'256GB',p:348, pp:348, isnew:false},
+      {m:'Galaxy S25 Ultra',  r:'12GB',s:'256GB',p:930, pp:930, isnew:false},
+      {m:'Galaxy S26',        r:'12GB',s:'256GB',p:754, pp:754, isnew:false},
+      {m:'Galaxy S26+',       r:'12GB',s:'256GB',p:865, pp:850, isnew:false},
+      {m:'Galaxy S26 Ultra',  r:'12GB',s:'256GB',p:1139,pp:1139,isnew:false},
+      {m:'Galaxy S26 Ultra',  r:'12GB',s:'512GB',p:1180,pp:1180,isnew:false},
+      {m:'Galaxy S26 Ultra',  r:'16GB',s:'1TB',  p:1599,pp:1599,isnew:false},
+      {m:'Galaxy Z Fold 7',   r:'16GB',s:'1TB',  p:1599,pp:1599,isnew:false},
+      {m:'Galaxy A07',        r:'4GB',s:'64GB',  p:85,  pp:85,  isnew:false},
+      {m:'Galaxy A07',        r:'4GB',s:'128GB', p:99,  pp:99,  isnew:false},
+      {m:'Galaxy A26',        r:'6GB',s:'128GB', p:214, pp:214, isnew:false},
+      {m:'Galaxy A36',        r:'8GB',s:'128GB', p:245, pp:245, isnew:false},
+      {m:'Galaxy A56',        r:'8GB',s:'128GB', p:295, pp:295, isnew:false},
     ]},
   { id:'honor', name:'Honor', color:'#cf0a2c',
     logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Honor_brand_logo.svg/120px-Honor_brand_logo.svg.png',
     phones:[
-      {m:'Honor Magic V5',        r:'16GB',s:'512GB',p:1450,pp:1470},
-      {m:'Honor Magic 8 Pro',     r:'12GB',s:'512GB',p:940, pp:940},
-      {m:'Honor Magic 7 Pro',     r:'12GB',s:'512GB',p:780, pp:795},
-      {m:'Honor 600 PRO',         r:'12GB',s:'512GB',p:735, pp:720},
-      {m:'Honor 400 Pro',         r:'12GB',s:'512GB',p:595, pp:595},
-      {m:'Honor 400',             r:'12GB',s:'512GB',p:390, pp:400},
-      {m:'Honor 400',             r:'12GB',s:'256GB',p:360, pp:360},
-      {m:'Honor X9d',             r:'12GB',s:'256GB',p:318, pp:310},
-      {m:'Honor X9C',             r:'8GB', s:'256GB',p:265, pp:265},
-      {m:'Honor Pad 10',          r:'8GB', s:'256GB',p:280, pp:285},
-      {m:'Honor Watch 4',         r:'—',   s:'—',    p:130, pp:130},
-      {m:'Honor Watch 2i',        r:'—',   s:'—',    p:35,  pp:35},
-      {m:'Honor Earbuds Clip',    r:'—',   s:'—',    p:50,  pp:52},
-      {m:'Honor Earbuds X7 Lite', r:'—',   s:'—',    p:20,  pp:20},
-      {m:'Honor Play 10',         r:'3GB', s:'64GB', p:85,  pp:85},
+      {m:'Honor Play 10',       r:'3GB', s:'64GB',  p:85,  pp:85,  isnew:false},
+      {m:'Honor X6c',           r:'6GB', s:'128GB', p:122, pp:122, isnew:false},
+      {m:'Honor X6c',           r:'6GB', s:'256GB', p:132, pp:132, isnew:false},
+      {m:'Honor X5c Plus',      r:'4GB', s:'128GB', p:108, pp:108, isnew:false},
+      {m:'Honor X5c',           r:'4GB', s:'64GB',  p:88,  pp:88,  isnew:false},
+      {m:'Honor X9C',           r:'8GB', s:'256GB', p:265, pp:265, isnew:false},
+      {m:'Honor X9d',           r:'12GB',s:'256GB', p:318, pp:318, isnew:false},
+      {m:'Honor X9d',           r:'8GB', s:'256GB', p:292, pp:300, isnew:false},
+      {m:'Honor X8d',           r:'8GB', s:'256GB', p:238, pp:238, isnew:false},
+      {m:'Honor X7d',           r:'8GB', s:'256GB', p:170, pp:170, isnew:false},
+      {m:'Honor 400 Pro',       r:'12GB',s:'512GB', p:595, pp:595, isnew:false},
+      {m:'Honor 400',           r:'12GB',s:'256GB', p:360, pp:360, isnew:false},
+      {m:'Honor 400',           r:'12GB',s:'512GB', p:390, pp:380, isnew:false},
+      {m:'Honor 600',           r:'12GB',s:'256GB', p:455, pp:455, isnew:false},
+      {m:'Honor 600',           r:'8GB', s:'256GB', p:405, pp:405, isnew:false},
+      {m:'Honor 600 PRO',       r:'12GB',s:'512GB', p:735, pp:735, isnew:false},
+      {m:'Honor 600 Lite',      r:'8GB', s:'256GB', p:280, pp:280, isnew:false},
+      {m:'Honor Magic V5',      r:'16GB',s:'512GB', p:1450,pp:1450,isnew:false},
+      {m:'Honor Magic 8 Pro',   r:'12GB',s:'512GB', p:940, pp:940, isnew:false},
+      {m:'Honor Magic 7 Pro',   r:'12GB',s:'512GB', p:780, pp:780, isnew:false},
+      {m:'Honor X7',            r:'4GB', s:'128GB', p:110, pp:120, isnew:false},
+      {m:'Honor X8b',           r:'4GB', s:'128GB', p:180, pp:180, isnew:false},
+      {m:'Honor X8a',           r:'4GB', s:'128GB', p:145, pp:145, isnew:false},
+      {m:'Honor X9a',           r:'4GB', s:'128GB', p:185, pp:185, isnew:false},
+      {m:'Honor Pad 10',        r:'8GB', s:'256GB', p:280, pp:280, isnew:false},
+      {m:'Honor Magic Pad 3',   r:'16GB',s:'512GB', p:735, pp:735, isnew:false},
+      {m:'Honor Watch 4',       r:'—',   s:'—',     p:130, pp:130, isnew:false},
+      {m:'Honor Watch 2i',      r:'—',   s:'—',     p:35,  pp:35,  isnew:false},
+      {m:'Honor Earbuds X7 Lite',r:'—',  s:'—',     p:20,  pp:20,  isnew:false},
+      {m:'Honor Earbuds Clip',  r:'—',   s:'—',     p:50,  pp:50,  isnew:false},
     ]},
   { id:'infinix', name:'Infinix', color:'#00a651',
     logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/Infinix_Mobility_logo.svg/120px-Infinix_Mobility_logo.svg.png',
     phones:[
-      {m:'Note 60 Pro',             r:'12GB',s:'256GB',p:405,pp:405},
-      {m:'Note 60 PRO XWATCH H5PRO',r:'8GB', s:'256GB',p:357,pp:360},
-      {m:'Note 60 Pro',             r:'8GB', s:'256GB',p:330,pp:325},
-      {m:'Note Edge 5G',            r:'8GB', s:'256GB',p:240,pp:240},
-      {m:'Hot 60 Pro Plus',         r:'8GB', s:'256GB',p:180,pp:185},
-      {m:'Hot 60 Pro',              r:'8GB', s:'256GB',p:154,pp:154},
-      {m:'Hot 60i 5G',              r:'8GB', s:'256GB',p:145,pp:140},
-      {m:'Smart 10 Pro',            r:'4GB', s:'256GB',p:129,pp:129},
-      {m:'Smart 10 Plus',           r:'4GB', s:'128GB',p:100,pp:100},
-      {m:'Smart 10',                r:'4GB', s:'128GB',p:95, pp:97},
-      {m:'Smart 10',                r:'3GB', s:'64GB', p:80, pp:80},
-      {m:'Smart 20',                r:'4GB', s:'256GB',p:133,pp:133},
-      {m:'X Pad 20 Wifi 4G',        r:'8GB', s:'256GB',p:167,pp:170},
-      {m:'X Pad 30 E 4G + Cover',   r:'4GB', s:'128GB',p:250,pp:250},
-      {m:'Smart 20',                r:'4GB', s:'64GB', p:108,pp:108},
+      {m:'Note Edge 5G',           r:'8GB', s:'256GB',p:240,pp:240,isnew:false},
+      {m:'Note 60 PRO XWATCH H5PRO',r:'8GB',s:'256GB',p:357,pp:357,isnew:false},
+      {m:'Note 60 Pro',            r:'8GB', s:'256GB',p:330,pp:330,isnew:false},
+      {m:'Note 60 Pro',            r:'12GB',s:'256GB',p:405,pp:405,isnew:false},
+      {m:'Hot 60 Pro Plus',        r:'8GB', s:'256GB',p:180,pp:180,isnew:false},
+      {m:'Hot 60 Pro',             r:'8GB', s:'256GB',p:154,pp:154,isnew:false},
+      {m:'Hot 60i 5G',             r:'8GB', s:'256GB',p:145,pp:145,isnew:false},
+      {m:'Hot 60i',                r:'8GB', s:'256GB',p:144,pp:144,isnew:false},
+      {m:'Hot 60i',                r:'4GB', s:'128GB',p:124,pp:124,isnew:false},
+      {m:'Smart 10 Pro',           r:'4GB', s:'256GB',p:129,pp:129,isnew:false},
+      {m:'Smart 10 Plus',          r:'4GB', s:'128GB',p:100,pp:100,isnew:false},
+      {m:'Smart 10',               r:'4GB', s:'128GB',p:95, pp:95, isnew:false},
+      {m:'Smart 10',               r:'4GB', s:'64GB', p:90, pp:90, isnew:false},
+      {m:'Smart 10',               r:'3GB', s:'64GB', p:85, pp:85, isnew:false},
+      {m:'Smart 10',               r:'3GB', s:'64GB', p:80, pp:80, isnew:false},
+      {m:'Smart 20',               r:'4GB', s:'64GB', p:108,pp:108,isnew:false},
+      {m:'Smart 20',               r:'4GB', s:'128GB',p:118,pp:118,isnew:false},
+      {m:'Smart 20',               r:'4GB', s:'256GB',p:133,pp:133,isnew:false},
+      {m:'X Pad 20 Wifi 4G',       r:'8GB', s:'256GB',p:167,pp:167,isnew:false},
+      {m:'X Pad 20 Wifi 4G',       r:'4GB', s:'128GB',p:135,pp:135,isnew:false},
+      {m:'X Pad 30 E 4G + Cover',  r:'4GB', s:'128GB',p:250,pp:250,isnew:false},
     ]},
   { id:'tecno', name:'Tecno', color:'#0057b8',
     logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Tecno_Mobile_logo.svg/120px-Tecno_Mobile_logo.svg.png',
     phones:[
-      {m:'POVA 7 ULTRA 5G', r:'12GB',s:'256GB',p:320,pp:315},
-      {m:'POVA 7 5G',       r:'8GB', s:'256GB',p:205,pp:205},
-      {m:'POVA Slim 5G',    r:'8GB', s:'256GB',p:220,pp:225},
-      {m:'CAMON 40 pro 4G', r:'8GB', s:'256GB',p:228,pp:228},
-      {m:'CAMON 40 4G',     r:'8GB', s:'256GB',p:195,pp:195},
-      {m:'SPARK 40',        r:'8GB', s:'256GB',p:133,pp:135},
-      {m:'SPARK 40 C',      r:'8GB', s:'256GB',p:126,pp:126},
-      {m:'SPARK 40',        r:'4GB', s:'256GB',p:123,pp:120},
+      {m:'POVA 7 ULTRA 5G', r:'12GB',s:'256GB',p:320,pp:320,isnew:false},
+      {m:'POVA 7 5G',       r:'8GB', s:'256GB',p:205,pp:205,isnew:false},
+      {m:'POVA Slim 5G',    r:'8GB', s:'256GB',p:220,pp:220,isnew:false},
+      {m:'CAMON 40 pro 4G', r:'8GB', s:'256GB',p:228,pp:228,isnew:false},
+      {m:'CAMON 40 4G',     r:'8GB', s:'256GB',p:195,pp:195,isnew:false},
+      {m:'SPARK 40',        r:'4GB', s:'256GB',p:123,pp:123,isnew:false},
+      {m:'SPARK 40',        r:'8GB', s:'256GB',p:133,pp:133,isnew:false},
+      {m:'SPARK 40 C',      r:'8GB', s:'256GB',p:126,pp:126,isnew:false},
     ]},
 ];
 
-/* ════════════ RATE ════════════ */
-let RATE = 13500;
+/* ════════════ EXCHANGE RATE ════════════ */
+let RATE = null;
 let cdTimer = null;
 
 async function fetchRate() {
   document.getElementById('rateSpin').style.display = '';
+  document.getElementById('rateSt').textContent = '⏳ جاري جلب السعر...';
+
+  // Multiple reliable sources tried in order
   const sources = [
+    // 1. ExchangeRate-API (free, reliable, has SYP)
     async () => {
-      const r = await fetch('https://open.er-api.com/v6/latest/USD',{signal:AbortSignal.timeout(7000)});
+      const r = await fetch('https://open.er-api.com/v6/latest/USD', {signal: AbortSignal.timeout(8000)});
       const d = await r.json();
-      return (d.result==='success' && d.rates?.SYP > 8000) ? d.rates.SYP : null;
+      if (d.result === 'success' && d.rates && d.rates.SYP > 8000) return d.rates.SYP;
+      return null;
     },
+    // 2. Frankfurter fallback (no SYP but try)
     async () => {
-      const u = encodeURIComponent('https://sp-today.com/');
-      const r = await fetch('https://api.allorigins.win/raw?url='+u,{signal:AbortSignal.timeout(8000)});
-      const h = await r.text();
-      for (const pat of [/الدولار[^٠-٩\d]*([\d,]+)/,/\b(1[2-9]\d{3}|[23]\d{4})\b/]) {
-        const m = h.match(pat);
-        if (m){const v=parseFloat(m[1].replace(/,/g,''));if(v>8000&&v<600000)return v;}
+      const r = await fetch('https://api.exchangerate.host/latest?base=USD&symbols=SYP', {signal: AbortSignal.timeout(8000)});
+      const d = await r.json();
+      if (d.success && d.rates && d.rates.SYP > 8000) return d.rates.SYP;
+      return null;
+    },
+    // 3. Fixer alternative
+    async () => {
+      const r = await fetch('https://api.fxratesapi.com/latest?base=USD&currencies=SYP', {signal: AbortSignal.timeout(8000)});
+      const d = await r.json();
+      if (d.success && d.rates && d.rates.SYP > 8000) return d.rates.SYP;
+      return null;
+    },
+    // 4. sp-today via proxy
+    async () => {
+      const proxies = [
+        'https://api.allorigins.win/raw?url=',
+        'https://corsproxy.io/?',
+      ];
+      for (const px of proxies) {
+        try {
+          const r = await fetch(px + encodeURIComponent('https://sp-today.com/'), {signal: AbortSignal.timeout(9000)});
+          const html = await r.text();
+          const pats = [
+            /class="[^"]*exchange[^"]*"[^>]*>\s*([0-9,]+)/i,
+            /الدولار[^0-9]*([0-9,]{4,7})/,
+            /\bUSD[^0-9]*([0-9,]{4,7})/i,
+            /([0-9]{2}[,\s][0-9]{3})/,
+            /\b(1[2-9][0-9]{3}|[2-9][0-9]{4})\b/,
+          ];
+          for (const pat of pats) {
+            const m = html.match(pat);
+            if (m) {
+              const v = parseFloat(m[1].replace(/[,\s]/g, ''));
+              if (v > 8000 && v < 800000) return v;
+            }
+          }
+        } catch(e) {}
       }
       return null;
     }
   ];
+
   for (const src of sources) {
     try {
-      const v = await src();
-      if (v) {
-        RATE = v;
-        document.getElementById('rateNum').textContent = Math.round(v).toLocaleString('en-US');
-        document.getElementById('rateSt').textContent  = '✓ محدّث';
+      const val = await src();
+      if (val && val > 8000) {
+        RATE = Math.round(val);
+        document.getElementById('rateNum').textContent = RATE.toLocaleString('en-US');
+        document.getElementById('rateSt').textContent = '✓ محدّث';
         document.getElementById('rateSpin').style.display = 'none';
-        refreshSYP(); startCountdown(); return;
+        refreshSYP();
+        startCountdown();
+        return;
       }
-    } catch(e){}
+    } catch(e) {}
   }
-  document.getElementById('rateSt').textContent = '⚠️ سعر تقريبي';
+
+  // All sources failed — use cached or show error
+  document.getElementById('rateSt').textContent = '⚠️ تعذّر الاتصال';
   document.getElementById('rateSpin').style.display = 'none';
-  refreshSYP(); startCountdown();
+  startCountdown();
 }
 
-function startCountdown(){
-  if(cdTimer)clearInterval(cdTimer);
-  let s=600;
-  const el=document.getElementById('rateCd');
-  cdTimer=setInterval(()=>{
+function startCountdown() {
+  if (cdTimer) clearInterval(cdTimer);
+  let s = 600;
+  const el = document.getElementById('rateCd');
+  cdTimer = setInterval(() => {
     s--;
-    el.textContent=`تحديث بعد ${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`;
-    if(s<=0){clearInterval(cdTimer);fetchRate();}
-  },1000);
+    el.textContent = `تحديث بعد ${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`;
+    if (s <= 0) { clearInterval(cdTimer); fetchRate(); }
+  }, 1000);
 }
 
-/* ════════════ SYP ════════════ */
-function fmtSYP(usd){
-  const v=Math.round(usd*RATE);
-  if(v>=1000000)return(v/1000000).toFixed(1).replace('.0','')+'M';
-  if(v>=1000)return Math.round(v/1000)+'K';
+function fmtSYP(usd) {
+  if (!RATE) return '—';
+  const v = Math.round(usd * RATE);
+  if (v >= 1000000) return (v/1000000).toFixed(1).replace('.0','') + 'M';
+  if (v >= 1000) return (v/1000).toFixed(0) + 'K';
   return v.toLocaleString();
 }
 
 /* ════════════ BUILD CARDS ════════════ */
-function buildCards(){
-  const grid=document.getElementById('brandsGrid');
-  grid.innerHTML='';
-  DATA.forEach((brand,bi)=>{
-    const card=document.createElement('div');
-    card.className='brand-card';
-    card.dataset.bid=brand.id;
-    card.style.animationDelay=(bi*.07)+'s';
+function buildCards() {
+  const grid = document.getElementById('brandsGrid');
+  grid.innerHTML = '';
+  let total = 0;
 
-    const fb=`<div class="brand-logo-fb" style="background:${brand.color}">${brand.name.slice(0,3).toUpperCase()}</div>`;
-    const logoHtml=brand.logo
-      ?`<img class="brand-logo-img" src="${brand.logo}" alt="${brand.name}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">${fb.replace('display:flex','display:none')}`
-      :fb;
+  DATA.forEach((brand, bi) => {
+    const validPhones = brand.phones.filter(p => p.p > 0);
+    total += validPhones.length;
+    const card = document.createElement('div');
+    card.className = 'brand-card';
+    card.dataset.bid = brand.id;
+    card.style.animationDelay = (bi * .07) + 's';
 
-    const preview=brand.phones.slice(0,6);
-    const extra=brand.phones.slice(6);
-    const tbId='tb-'+brand.id;
+    const fb = `<div class="brand-logo-fb" style="background:${brand.color}">${brand.name.slice(0,3).toUpperCase()}</div>`;
+    const logoHtml = brand.logo
+      ? `<img class="brand-logo-img" src="${brand.logo}" alt="${brand.name}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">${fb.replace('display:flex','display:none')}`
+      : fb;
 
-    function rowHtml(ph,hidden){
-      /* Arrow: only show if changed, empty if same */
-      let arrHtml='';
-      if(ph.p>ph.pp) arrHtml=`<span class="arr up">↑</span>`;
-      else if(ph.p<ph.pp) arrHtml=`<span class="arr down">↓</span>`;
+    const preview = validPhones.slice(0, 6);
+    const extra   = validPhones.slice(6);
+    const tbId = 'tb-' + brand.id;
 
-      /* Column ORDER in HTML (RTL: first=rightmost visually):
-         [ل.س] [دولار] [تخزين] [رام] [موديل]
-         Visually left→right: موديل | رام | تخزين | دولار | ل.س
-      */
-      return `<tr class="${hidden?'rh':''}" data-usd="${ph.p}" data-prev="${ph.pp}" data-model="${ph.m.toLowerCase()}">
-        <td class="tdk"><span class="syp-inner">${arrHtml}<span class="syp-num">${fmtSYP(ph.p)}</span></span></td>
-        <td class="tdu" style="color:${brand.color}">$${ph.p.toLocaleString()}</td>
-        <td class="tds">${ph.s||'—'}</td>
-        <td class="tdr">${ph.r||'—'}</td>
-        <td class="tdm" title="${ph.m}">${ph.m}</td>
+    function rowHtml(ph, hidden) {
+      let arrowHtml = '';
+      if (ph.isnew) {
+        arrowHtml = `<span style="color:var(--gold);font-size:10px;font-weight:700;">جديد</span>`;
+      } else if (ph.p > ph.pp) {
+        arrowHtml = `<span class="arr up">↑</span>`;
+      } else if (ph.p < ph.pp) {
+        arrowHtml = `<span class="arr down">↓</span>`;
+      }
+
+      const sypHtml = ph.isnew
+        ? `<span style="color:var(--gold);font-size:10px;font-weight:700;">جديد</span>`
+        : `<span class="syp-inner">${arrowHtml}<span class="syp-num">${fmtSYP(ph.p)}</span></span>`;
+
+      return `<tr class="${hidden ? 'rh' : ''}" data-usd="${ph.p}" data-prev="${ph.pp}" data-model="${ph.m.toLowerCase()}" data-new="${ph.isnew}">
+        <td class="td-syp">${sypHtml}</td>
+        <td class="td-usd" style="color:${brand.color}">$${ph.p.toLocaleString()}</td>
+        <td class="td-stor">${ph.s || '—'}</td>
+        <td class="td-ram">${ph.r || '—'}</td>
+        <td class="td-mod" title="${ph.m}">${ph.m}</td>
       </tr>`;
     }
 
-    card.innerHTML=`
+    card.innerHTML = `
       <div class="card-header">
         ${logoHtml}
         <div class="brand-text">
           <div class="brand-name">${brand.name}</div>
-          <div class="brand-count">${brand.phones.length} موديل</div>
+          <div class="brand-count">${validPhones.length} موديل</div>
         </div>
         <div class="card-icon">📱</div>
       </div>
       <table class="price-table">
-        <colgroup><col><col><col><col><col></colgroup>
+        <colgroup>
+          <col class="c-syp"><col class="c-usd"><col class="c-stor"><col class="c-ram"><col class="c-mod">
+        </colgroup>
         <thead><tr>
-          <th class="thk">↕ ل.س</th>
-          <th class="thu">$ دولار</th>
-          <th class="ths">التخزين</th>
-          <th class="thr">الرام</th>
-          <th class="thm">الموديل</th>
+          <th class="th-syp">↕ ل.س</th>
+          <th class="th-usd">$ دولار</th>
+          <th class="th-stor">التخزين</th>
+          <th class="th-ram">الرام</th>
+          <th class="th-mod">الموديل</th>
         </tr></thead>
         <tbody id="${tbId}">
-          ${preview.map(ph=>rowHtml(ph,false)).join('')}
-          ${extra.map(ph=>rowHtml(ph,true)).join('')}
+          ${preview.map(ph => rowHtml(ph, false)).join('')}
+          ${extra.map(ph => rowHtml(ph, true)).join('')}
         </tbody>
       </table>
-      ${extra.length?`<button class="more-btn" style="color:${brand.color}" data-open="0"
+      ${extra.length ? `<button class="more-btn" style="color:${brand.color}" data-open="0"
         onclick="toggleMore(this,'${tbId}',${extra.length})">
-        عرض المزيد (${extra.length} موديل) ↓</button>`:''}`;
+        عرض المزيد (${extra.length} موديل) ↓</button>` : ''}`;
     grid.appendChild(card);
   });
+
+  document.getElementById('visCount').textContent = total + '+';
 }
 
-function refreshSYP(){
-  document.querySelectorAll('tr[data-usd]').forEach(row=>{
-    const usd=+row.dataset.usd,prev=+row.dataset.prev;
-    const valEl=row.querySelector('.syp-num');
-    const syp=row.querySelector('.syp-inner');
-    if(!valEl)return;
-    valEl.textContent=fmtSYP(usd);
-    let arrHtml='';
-    if(usd>prev) arrHtml=`<span class="arr up">↑</span>`;
-    else if(usd<prev) arrHtml=`<span class="arr down">↓</span>`;
-    syp.innerHTML=arrHtml+`<span class="syp-num">${fmtSYP(usd)}</span>`;
+function refreshSYP() {
+  document.querySelectorAll('tr[data-usd]').forEach(row => {
+    if (row.dataset.new === 'true') return;
+    const usd = +row.dataset.usd, prev = +row.dataset.prev;
+    const cell = row.querySelector('.td-syp');
+    if (!cell) return;
+    let arrowHtml = '';
+    if (usd > prev) arrowHtml = `<span class="arr up">↑</span>`;
+    else if (usd < prev) arrowHtml = `<span class="arr down">↓</span>`;
+    cell.innerHTML = `<span class="syp-inner">${arrowHtml}<span class="syp-num">${fmtSYP(usd)}</span></span>`;
   });
 }
 
-function toggleMore(btn,tbId,n){
-  const open=btn.dataset.open==='1';
-  if(open){
-    let i=0;
-    document.querySelectorAll(`#${tbId} tr`).forEach(r=>{if(i++>=6)r.classList.add('rh');});
+function toggleMore(btn, tbId, n) {
+  const open = btn.dataset.open === '1';
+  if (open) {
+    let i = 0;
+    document.querySelectorAll(`#${tbId} tr`).forEach(r => { if (i++ >= 6) r.classList.add('rh'); });
   } else {
-    document.querySelectorAll(`#${tbId} tr.rh`).forEach(r=>r.classList.remove('rh'));
+    document.querySelectorAll(`#${tbId} tr.rh`).forEach(r => r.classList.remove('rh'));
   }
-  btn.dataset.open=open?'0':'1';
-  btn.textContent=open?`عرض المزيد (${n} موديل) ↓`:'عرض أقل ↑';
+  btn.dataset.open = open ? '0' : '1';
+  btn.textContent = open ? `عرض المزيد (${n} موديل) ↓` : 'عرض أقل ↑';
 }
 
-/* ════════════ CUSTOM RTL DUAL SLIDER ════════════
-   RTL: right side = low price (min), left side = high price (max)
-   tMin thumb on RIGHT controls minimum price
-   tMax thumb on LEFT  controls maximum price
-════════════════════════════════════════════════ */
-const PRICE_MIN = 20;
-const PRICE_MAX = 2030;
-let curMin = PRICE_MIN;
-let curMax = PRICE_MAX;
+/* ════════════ DUAL RANGE SLIDER ════════════
+   RTL: RIGHT = حد أدنى (min), LEFT = حد أعلى (max)
+   tMin on right side, tMax on left side
+════════════════════════════════════════════ */
+const PMIN = 20, PMAX = 2030;
+let curMin = PMIN, curMax = PMAX;
 
-const slider  = document.getElementById('cslider');
-const tMin    = document.getElementById('tMin');
-const tMax    = document.getElementById('tMax');
-const cFill   = document.getElementById('cFill');
-const vMin    = document.getElementById('valMin');
-const vMax    = document.getElementById('valMax');
+const slider = document.getElementById('cslider');
+const tMin   = document.getElementById('tMin');
+const tMax   = document.getElementById('tMax');
+const cfill  = document.getElementById('cfill');
 
-/* price → percent from LEFT (0%=left=max price, 100%=right=min price)
-   In RTL: left=high, right=low
-   pct from left = (PRICE_MAX - price) / range * 100  */
-function priceToLeftPct(price){
-  return (PRICE_MAX - price) / (PRICE_MAX - PRICE_MIN) * 100;
+// In RTL: left%=0 means leftmost (high price), left%=100 means rightmost (low price)
+// We position tMin from right (high left%), tMax from left (low left%)
+function priceToLeft(price) {
+  // Maps PMAX→0% (leftmost), PMIN→100% (rightmost)
+  return (PMAX - price) / (PMAX - PMIN) * 100;
 }
-function leftPctToPrice(pct){
-  return Math.round((PRICE_MAX - pct / 100 * (PRICE_MAX - PRICE_MIN)) / 10) * 10;
+function leftToPrice(pct) {
+  return Math.round((PMAX - pct / 100 * (PMAX - PMIN)) / 10) * 10;
 }
 
-function renderSlider(){
-  const minPct = priceToLeftPct(curMin); // right side → larger leftPct
-  const maxPct = priceToLeftPct(curMax); // left side  → smaller leftPct
+function renderSlider() {
+  const maxLeft = priceToLeft(curMax); // tMax thumb left position
+  const minLeft = priceToLeft(curMin); // tMin thumb left position (larger = more right)
 
-  /* tMin thumb: positioned from RIGHT */
-  tMin.style.left  = 'auto';
-  tMin.style.right = (100 - minPct) + '%';
-  tMin.style.transform = 'translate(50%,-50%)';
+  tMax.style.left = maxLeft + '%';
+  tMin.style.left = minLeft + '%';
 
-  /* tMax thumb: positioned from LEFT */
-  tMax.style.right = 'auto';
-  tMax.style.left  = maxPct + '%';
-  tMax.style.transform = 'translate(-50%,-50%)';
+  // Fill between tMax and tMin
+  cfill.style.left  = maxLeft + '%';
+  cfill.style.width = (minLeft - maxLeft) + '%';
 
-  /* fill between tMax (left) and tMin (right) */
-  cFill.style.left  = maxPct + '%';
-  cFill.style.right = (100 - minPct) + '%';
-  cFill.style.width = 'auto';
-
-  vMin.textContent = '$' + curMin.toLocaleString();
-  vMax.textContent = '$' + curMax.toLocaleString();
+  document.getElementById('valMin').textContent = '$' + curMin.toLocaleString();
+  document.getElementById('valMax').textContent = '$' + curMax.toLocaleString();
 }
 
-function makeDraggable(thumb, isMin){
-  let dragging = false;
-
-  function onStart(e){
-    dragging = true;
-    thumb.classList.add('drag');
-    e.preventDefault();
-  }
-  function onMove(e){
-    if(!dragging) return;
+function makeDraggable(thumb, isMin) {
+  function getLeftPct(clientX) {
     const rect = slider.getBoundingClientRect();
-    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-    /* leftPct: 0% = leftmost (high price), 100% = rightmost (low price) */
-    let leftPct = (clientX - rect.left) / rect.width * 100;
-    leftPct = Math.max(0, Math.min(100, leftPct));
-    const price = leftPctToPrice(leftPct);
+    let pct = (clientX - rect.left) / rect.width * 100;
+    return Math.max(0, Math.min(100, pct));
+  }
 
-    if(isMin){
-      /* min thumb (right side): price cannot exceed curMax-10 */
-      curMin = Math.min(price, curMax - 10);
-      curMin = Math.max(PRICE_MIN, curMin);
+  function onMove(e) {
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const pct = getLeftPct(clientX);
+    const price = leftToPrice(pct);
+
+    if (isMin) {
+      // min thumb (right side): curMin <= curMax - 10
+      curMin = Math.max(PMIN, Math.min(price, curMax - 10));
     } else {
-      /* max thumb (left side): price cannot go below curMin+10 */
-      curMax = Math.max(price, curMin + 10);
-      curMax = Math.min(PRICE_MAX, curMax);
+      // max thumb (left side): curMax >= curMin + 10
+      curMax = Math.min(PMAX, Math.max(price, curMin + 10));
     }
     renderSlider();
-    applyAllFilters();
-  }
-  function onEnd(){
-    dragging = false;
-    thumb.classList.remove('drag');
+    applyFilters();
   }
 
-  thumb.addEventListener('mousedown',  onStart);
-  thumb.addEventListener('touchstart', onStart, {passive:false});
-  document.addEventListener('mousemove',  onMove);
-  document.addEventListener('touchmove',  onMove, {passive:false});
-  document.addEventListener('mouseup',   onEnd);
-  document.addEventListener('touchend',  onEnd);
+  function onStart(e) {
+    thumb.classList.add('dragging');
+    e.preventDefault();
+    document.addEventListener('mousemove', onMove);
+    document.addEventListener('touchmove', onMove, {passive: false});
+    function onEnd() {
+      thumb.classList.remove('dragging');
+      document.removeEventListener('mousemove', onMove);
+      document.removeEventListener('touchmove', onMove);
+      document.removeEventListener('mouseup', onEnd);
+      document.removeEventListener('touchend', onEnd);
+    }
+    document.addEventListener('mouseup', onEnd);
+    document.addEventListener('touchend', onEnd);
+  }
+
+  thumb.addEventListener('mousedown', onStart);
+  thumb.addEventListener('touchstart', onStart, {passive: false});
 }
 
-makeDraggable(tMin, true);   // right thumb = حد أدنى
-makeDraggable(tMax, false);  // left  thumb = حد أعلى
+makeDraggable(tMin, true);
+makeDraggable(tMax, false);
 renderSlider();
 
 /* ════════════ FILTERS & SEARCH ════════════ */
-let activeF='all';
-let searchQ='';
+let activeF = 'all', searchQ = '';
 
-function buildFilters(){
-  const bar=document.getElementById('filtersBar');
-  DATA.forEach(b=>{
-    const btn=document.createElement('button');
-    btn.className='fbtn'; btn.dataset.bid=b.id; btn.textContent=b.name;
-    btn.onclick=()=>setFilter(b.id);
+function buildFilters() {
+  const bar = document.getElementById('filtersBar');
+  DATA.forEach(b => {
+    const btn = document.createElement('button');
+    btn.className = 'fbtn'; btn.dataset.bid = b.id; btn.textContent = b.name;
+    btn.onclick = () => setFilter(b.id);
     bar.appendChild(btn);
   });
-  document.querySelector('[data-bid="all"]').onclick=()=>setFilter('all');
-}
-function setFilter(id){
-  activeF=id;
-  document.querySelectorAll('.fbtn').forEach(b=>b.classList.toggle('active',b.dataset.bid===id));
-  applyAllFilters();
+  document.querySelector('[data-bid="all"]').onclick = () => setFilter('all');
 }
 
-document.getElementById('searchInput').addEventListener('input',function(){
-  searchQ=this.value.toLowerCase().trim();
-  applyAllFilters();
+function setFilter(id) {
+  activeF = id;
+  document.querySelectorAll('.fbtn').forEach(b => b.classList.toggle('active', b.dataset.bid === id));
+  applyFilters();
+}
+
+document.getElementById('searchInput').addEventListener('input', function() {
+  searchQ = this.value.toLowerCase().trim();
+  applyFilters();
 });
 
-function applyAllFilters(){
-  const lo=curMin, hi=curMax;
-  let visCount=0;
-  let anyVisible=false;
+function applyFilters() {
+  let vis = 0, any = false;
+  const filtering = searchQ || curMin > PMIN || curMax < PMAX;
 
-  document.querySelectorAll('.brand-card').forEach(card=>{
-    const brandMatch=(activeF==='all'||card.dataset.bid===activeF);
-    if(!brandMatch){card.style.display='none';return;}
-    card.style.display='';
+  document.querySelectorAll('.brand-card').forEach(card => {
+    if (activeF !== 'all' && card.dataset.bid !== activeF) {
+      card.style.display = 'none'; return;
+    }
+    card.style.display = '';
+    let cardHit = false;
 
-    let cardHit=false;
-    card.querySelectorAll('tr[data-usd]').forEach(row=>{
-      const usd=+row.dataset.usd;
-      const name=row.dataset.model||'';
-      const inRange=(usd>=lo && usd<=hi);
-      const inSearch=(!searchQ||name.includes(searchQ));
-      /* only show if not manually hidden by "show more" */
-      const wasHidden=row.classList.contains('rh');
-      if(inRange&&inSearch){
-        row.classList.remove('hidden-by-range');
-        if(!wasHidden){cardHit=true;visCount++;}
+    card.querySelectorAll('tr[data-usd]').forEach(row => {
+      const usd = +row.dataset.usd;
+      const name = row.dataset.model || '';
+      const inRange = usd >= curMin && usd <= curMax;
+      const inSearch = !searchQ || name.includes(searchQ);
+
+      if (filtering) {
+        if (inRange && inSearch) {
+          row.style.display = ''; row.classList.remove('rh');
+          cardHit = true; vis++; any = true;
+        } else {
+          row.style.display = 'none';
+        }
       } else {
-        row.classList.add('hidden-by-range');
+        row.style.display = '';
+        if (!row.classList.contains('rh')) { cardHit = true; vis++; any = true; }
       }
     });
 
-    /* if filtering, show all matching rows regardless of "show more" */
-    if(searchQ||lo>PRICE_MIN||hi<PRICE_MAX){
-      card.querySelectorAll('tr[data-usd]').forEach(row=>{
-        if(!row.classList.contains('hidden-by-range')){
-          row.classList.remove('rh');
-          cardHit=true; visCount++;
-        }
-      });
-    }
-
-    const hasAny=card.querySelectorAll('tr[data-usd]:not(.hidden-by-range)').length>0;
-    card.style.display=hasAny?'':'none';
-    if(hasAny)anyVisible=true;
+    card.style.display = cardHit ? '' : 'none';
   });
 
-  document.getElementById('noResults').style.display=anyVisible?'none':'block';
-  document.getElementById('visCount').textContent=visCount+'+';
+  document.getElementById('visCount').textContent = vis + '+';
+  document.getElementById('noResults').style.display = (any ? 'none' : 'block');
 }
 
 /* ════════════ INIT ════════════ */
