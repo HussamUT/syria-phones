@@ -4,487 +4,476 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>أسعار الهواتف في سورية</title>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Tajawal:wght@400;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Tajawal:wght@700;800;900&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg:#f2f0eb; --surface:#fff; --surface2:#f8f6f2;
-  --ink:#18150f; --muted:#6b6257; --light:#b0a89e;
-  --accent:#c9a84c; --green:#1a9e5c; --red:#d93f3f;
-  --border:#e5e0d8; --shadow:rgba(24,21,15,.07); --r:18px;
+  --bg:#edeae3; --card:#fff; --card2:#f8f6f2;
+  --ink:#161310; --muted:#6c6258; --pale:#b2a99e;
+  --gold:#c8a43e; --green:#18965a; --red:#ce3b3b;
+  --border:#e0dbd2; --r:18px;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'Cairo','Tajawal',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;direction:rtl;}
-body::before{
-  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
-  background:radial-gradient(ellipse at 10% 10%,rgba(201,168,76,.13) 0%,transparent 50%),
-             radial-gradient(ellipse at 90% 90%,rgba(26,158,92,.07) 0%,transparent 50%);
-}
-.wrap{max-width:1320px;margin:0 auto;padding:0 20px 80px;position:relative;z-index:1;}
+body{font-family:'Cairo','Tajawal',sans-serif;background:var(--bg);color:var(--ink);direction:rtl;min-height:100vh;}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(ellipse 60% 50% at 5% 5%,rgba(200,164,62,.15) 0%,transparent 100%),
+             radial-gradient(ellipse 50% 40% at 95% 95%,rgba(24,150,90,.09) 0%,transparent 100%);}
+.page{position:relative;z-index:1;max-width:1180px;margin:0 auto;padding:0 18px 80px;}
 
 /* HERO */
-.hero{text-align:center;padding:52px 20px 32px;}
-.badge{display:inline-flex;align-items:center;gap:8px;background:var(--ink);color:var(--accent);font-size:11px;font-weight:700;letter-spacing:2px;padding:6px 18px;border-radius:100px;margin-bottom:20px;}
-.dot{width:6px;height:6px;border-radius:50%;background:var(--accent);animation:blink 1.4s infinite;}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
-h1{font-family:'Tajawal',sans-serif;font-size:clamp(36px,6.5vw,80px);font-weight:900;line-height:1.05;margin-bottom:10px;}
-h1 em{font-style:normal;color:var(--accent);}
-.sub{font-size:14px;color:var(--muted);margin-bottom:22px;}
+.hero{text-align:center;padding:48px 16px 26px;}
+.live-badge{display:inline-flex;align-items:center;gap:7px;background:var(--ink);color:var(--gold);font-size:10.5px;font-weight:700;letter-spacing:2px;padding:5px 16px;border-radius:100px;margin-bottom:18px;}
+.live-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);animation:blink 1.5s ease-in-out infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.1}}
+h1{font-family:'Tajawal',sans-serif;font-size:clamp(32px,6vw,74px);font-weight:900;line-height:1.05;margin-bottom:8px;}
+h1 em{font-style:normal;color:var(--gold);}
+.subtitle{font-size:13px;color:var(--muted);margin-bottom:20px;}
 
-/* RATE BAR */
-.rate-bar{display:inline-flex;align-items:center;gap:14px;background:var(--ink);color:#fff;padding:10px 22px;border-radius:100px;font-size:13px;font-weight:600;margin-bottom:22px;flex-wrap:wrap;justify-content:center;}
-.rate-label{color:var(--accent);font-size:11px;font-weight:700;letter-spacing:1px;}
-.rate-val{font-family:'Tajawal',sans-serif;font-size:17px;font-weight:800;}
-.rate-sep{width:1px;height:18px;background:rgba(255,255,255,.2);}
-.rate-status{font-size:10px;color:rgba(255,255,255,.45);}
-.rate-spin{width:8px;height:8px;border:2px solid rgba(255,255,255,.3);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite;display:none;}
+/* RATE PILL */
+.rate-pill{display:inline-flex;align-items:center;gap:10px;background:var(--ink);color:#fff;padding:8px 20px;border-radius:100px;margin-bottom:20px;flex-wrap:wrap;justify-content:center;}
+.rl{color:var(--gold);font-size:10px;font-weight:700;letter-spacing:1.5px;}
+.rv{font-family:'Tajawal',sans-serif;font-size:17px;font-weight:800;}
+.ru{color:var(--gold);font-size:11px;}
+.rdiv{width:1px;height:16px;background:rgba(255,255,255,.15);}
+.ri{display:flex;flex-direction:column;align-items:flex-start;gap:1px;}
+.rst{font-size:10px;color:rgba(255,255,255,.4);}
+.rcd{font-size:10px;color:rgba(255,255,255,.25);font-family:'Tajawal',sans-serif;}
+.spin{width:8px;height:8px;border:2px solid rgba(255,255,255,.2);border-top-color:var(--gold);border-radius:50%;animation:spin .75s linear infinite;display:none;}
 @keyframes spin{to{transform:rotate(360deg)}}
-.countdown{font-size:10px;color:rgba(255,255,255,.35);font-family:'Tajawal',sans-serif;}
 
 /* SEARCH */
-.search-box{max-width:480px;margin:0 auto 16px;position:relative;}
-.search-box input{width:100%;padding:14px 46px 14px 20px;border:2px solid var(--border);border-radius:100px;background:var(--surface);font-family:'Cairo',sans-serif;font-size:14px;color:var(--ink);outline:none;direction:rtl;transition:border-color .2s,box-shadow .2s;}
-.search-box input:focus{border-color:var(--accent);box-shadow:0 0 0 4px rgba(201,168,76,.12);}
-.search-box input::placeholder{color:var(--light);}
-.si{position:absolute;left:15px;top:50%;transform:translateY(-50%);font-size:16px;pointer-events:none;}
+.sw{max-width:440px;margin:0 auto 13px;position:relative;}
+.sw input{width:100%;padding:13px 44px 13px 18px;border:2px solid var(--border);border-radius:100px;background:var(--card);font-family:'Cairo',sans-serif;font-size:13.5px;color:var(--ink);outline:none;direction:rtl;transition:border-color .2s,box-shadow .2s;}
+.sw input::placeholder{color:var(--pale);}
+.sw input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(200,164,62,.13);}
+.si{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:15px;pointer-events:none;}
 
 /* FILTERS */
-.filters{display:flex;gap:7px;justify-content:center;flex-wrap:wrap;margin-bottom:30px;}
-.fbtn{padding:7px 16px;border:2px solid var(--border);border-radius:100px;background:var(--surface);font-family:'Cairo',sans-serif;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;transition:all .2s;}
-.fbtn:hover,.fbtn.on{background:var(--ink);border-color:var(--ink);color:#fff;}
+.filters{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-bottom:24px;}
+.fbtn{padding:6px 14px;border:2px solid var(--border);border-radius:100px;background:var(--card);font-family:'Cairo',sans-serif;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;transition:all .2s;}
+.fbtn:hover,.fbtn.active{background:var(--ink);border-color:var(--ink);color:#fff;}
 
 /* STATS */
-.stats{display:flex;justify-content:center;gap:28px;flex-wrap:wrap;padding:16px 28px;background:var(--surface);border-radius:var(--r);border:1px solid var(--border);max-width:640px;margin:0 auto 38px;box-shadow:0 4px 18px var(--shadow);}
+.stats-bar{display:flex;justify-content:center;align-items:center;gap:20px;flex-wrap:wrap;padding:13px 22px;background:var(--card);border-radius:14px;border:1px solid var(--border);max-width:560px;margin:0 auto 30px;box-shadow:0 2px 12px rgba(22,19,13,.06);}
 .st{text-align:center;}
-.st-n{font-size:22px;font-weight:800;font-family:'Tajawal',sans-serif;}
-.st-l{font-size:10px;color:var(--muted);margin-top:1px;}
-.sdiv{width:1px;background:var(--border);}
+.stn{font-size:20px;font-weight:800;font-family:'Tajawal',sans-serif;}
+.stl{font-size:10px;color:var(--muted);}
+.sdiv{width:1px;height:28px;background:var(--border);}
 
-/* GRID */
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
-@media(max-width:960px){.grid{grid-template-columns:repeat(2,1fr);}}
-@media(max-width:560px){.grid{grid-template-columns:1fr;}}
+/* 2-COL GRID */
+.brands-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;}
+@media(max-width:640px){.brands-grid{grid-template-columns:1fr;}}
 
 /* CARD */
-.card{background:var(--surface);border-radius:var(--r);border:1px solid var(--border);overflow:hidden;box-shadow:0 3px 18px var(--shadow);transition:transform .3s,box-shadow .3s;animation:fadeUp .5s ease both;}
-.card:hover{transform:translateY(-5px);box-shadow:0 14px 44px rgba(24,21,15,.12);}
-@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.brand-card{background:var(--card);border-radius:var(--r);border:1px solid var(--border);overflow:hidden;box-shadow:0 2px 14px rgba(22,19,13,.06);transition:transform .28s cubic-bezier(.22,.68,0,1.2),box-shadow .28s;animation:fadeUp .45s ease both;}
+.brand-card:hover{transform:translateY(-5px);box-shadow:0 14px 38px rgba(22,19,13,.11);}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 
 /* CARD HEADER */
-.card-top{display:flex;align-items:center;justify-content:space-between;padding:16px 18px 13px;border-bottom:1px solid var(--border);}
-.bi{display:flex;align-items:center;gap:12px;}
-.brand-img{height:32px;max-width:80px;object-fit:contain;display:block;}
-.brand-fallback{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;color:#fff;letter-spacing:-.5px;}
-.bname{font-size:17px;font-weight:800;font-family:'Tajawal',sans-serif;}
-.bcnt{font-size:10px;color:var(--muted);margin-top:1px;}
+.card-header{display:flex;align-items:center;gap:11px;padding:13px 16px 11px;border-bottom:1px solid var(--border);}
+.brand-logo-img{height:26px;max-width:70px;object-fit:contain;display:block;flex-shrink:0;}
+.brand-logo-fb{width:38px;height:38px;border-radius:10px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:900;color:#fff;}
+.brand-text{flex:1;min-width:0;}
+.brand-name{font-size:15px;font-weight:800;font-family:'Tajawal',sans-serif;line-height:1.1;}
+.brand-count{font-size:10px;color:var(--muted);}
+.card-icon{font-size:28px;opacity:.07;flex-shrink:0;}
 
-/* TABLE HEADER — 5 columns */
-.thead{
-  display:grid;
-  grid-template-columns: 1fr 56px 66px 76px 106px;
-  padding:6px 12px;background:var(--surface2);
-  font-size:10px;font-weight:700;color:var(--muted);
-  border-bottom:1px solid var(--border);gap:4px;
-  overflow:hidden;
-}
-.tc{text-align:center;}
-.tl{text-align:left;direction:ltr;}
+/* ══ PRICE TABLE ══
+   table-layout:fixed + explicit col widths
+   = headers ALWAYS aligned with data cells
+*/
+.price-table{width:100%;border-collapse:collapse;table-layout:fixed;}
 
-/* PHONE ROW */
-.prow{
-  display:grid;
-  grid-template-columns: 1fr 56px 66px 76px 106px;
-  align-items:center;padding:8px 12px;
-  border-bottom:1px solid var(--border);gap:4px;
-  transition:background .15s;
-  overflow:hidden;
-}
-.prow:last-child{border-bottom:none;}
-.prow:hover{background:var(--surface2);}
-.prow.gone{display:none!important;}
+/* fixed column widths */
+.price-table col.cm{width:auto;}
+.price-table col.cr{width:52px;}
+.price-table col.cs{width:62px;}
+.price-table col.cu{width:78px;}
+.price-table col.ck{width:108px;}
 
-/* model name */
-.pn{
-  font-size:12px;font-weight:600;
-  direction:ltr;text-align:right;
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
-  min-width:0;
-}
-.pram{ font-size:10.5px;color:var(--light);text-align:center;white-space:nowrap; }
-.pstor{ font-size:10.5px;color:var(--light);text-align:center;white-space:nowrap; }
+/* header */
+.price-table thead tr{background:var(--card2);border-bottom:2px solid var(--border);}
+.price-table thead th{padding:6px 8px;font-size:10.5px;font-weight:700;color:var(--muted);white-space:nowrap;overflow:hidden;}
+.thm{text-align:right;}
+.thr{text-align:center;}
+.ths{text-align:center;}
+.thu{text-align:left;direction:ltr;}
+.thk{text-align:left;direction:ltr;}
 
-/* USD — always visible */
-.pusd{
-  font-size:12.5px;font-weight:800;
-  text-align:left;direction:ltr;
-  font-family:'Tajawal',sans-serif;
-  white-space:nowrap;min-width:0;
-}
+/* rows */
+.price-table tbody tr{border-bottom:1px solid var(--border);transition:background .12s;}
+.price-table tbody tr:last-child{border-bottom:none;}
+.price-table tbody tr:hover{background:var(--card2);}
+.price-table tbody tr.rh{display:none;}
 
-/* SYP cell */
-.psyp-wrap{
-  display:flex;align-items:center;gap:2px;
-  direction:ltr;justify-content:flex-start;
-  min-width:0;overflow:hidden;
-}
-.psyp{
-  font-size:10.5px;font-weight:700;
-  font-family:'Tajawal',sans-serif;
-  color:var(--muted);white-space:nowrap;
-  overflow:hidden;text-overflow:ellipsis;
-}
-.arrow{font-size:11px;line-height:1;flex-shrink:0;font-weight:900;}
-.arrow.up{color:var(--green);}
-.arrow.down{color:var(--red);}
-.arrow.same{color:var(--light);}
+/* cells */
+.price-table td{padding:7px 8px;overflow:hidden;vertical-align:middle;}
+.tdm{text-align:right;direction:ltr;font-size:12.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:0;}
+.tdr{text-align:center;font-size:11px;color:var(--pale);white-space:nowrap;}
+.tds{text-align:center;font-size:11px;color:var(--pale);white-space:nowrap;}
+.tdu{text-align:left;direction:ltr;font-size:13px;font-weight:800;font-family:'Tajawal',sans-serif;white-space:nowrap;}
+.tdk{text-align:left;direction:ltr;white-space:nowrap;}
+
+/* SYP cell contents */
+.syp-inner{display:inline-flex;align-items:center;gap:2px;}
+.arr{font-size:11px;font-weight:900;line-height:1;flex-shrink:0;}
+.arr.up{color:var(--green);}
+.arr.down{color:var(--red);}
+.arr.same{color:var(--pale);}
+.syp-num{font-size:11.5px;font-weight:700;font-family:'Tajawal',sans-serif;color:var(--muted);}
 
 /* SHOW MORE */
-.more-btn{display:flex;align-items:center;justify-content:center;padding:11px;background:none;border:none;border-top:1px solid var(--border);font-family:'Cairo',sans-serif;font-size:12px;font-weight:700;cursor:pointer;width:100%;transition:background .15s;}
-.more-btn:hover{background:var(--surface2);}
+.more-btn{width:100%;padding:10px;border:none;border-top:1px solid var(--border);background:none;cursor:pointer;font-family:'Cairo',sans-serif;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:4px;transition:background .15s;}
+.more-btn:hover{background:var(--card2);}
 
-#loading{text-align:center;padding:70px;color:var(--muted);font-size:15px;}
-.empty{text-align:center;padding:40px;color:var(--muted);display:none;}
+.no-results{text-align:center;padding:50px 20px;color:var(--muted);display:none;}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <div class="hero">
-    <div class="badge"><span class="dot"></span>تحديث تلقائي كل 10 دقائق</div>
-    <h1>أسعار الهواتف<br>في <em>سورية</em></h1>
-    <p class="sub">أحدث الموديلات · أفضل الأسعار · بالدولار والليرة السورية</p>
+<div class="page">
 
-    <div class="rate-bar">
-      <span class="rate-label">سعر الدولار</span>
-      <span class="rate-val" id="rateVal">13,500</span>
-      <span style="color:var(--accent);font-size:12px;">ل.س</span>
-      <div class="rate-sep"></div>
-      <div style="display:flex;flex-direction:column;gap:2px;align-items:flex-start;">
-        <span class="rate-status" id="rateStatus">⏳ جاري جلب السعر الحقيقي...</span>
-        <span class="countdown" id="countdownEl"></span>
+  <div class="hero">
+    <div class="live-badge"><span class="live-dot"></span>تحديث تلقائي كل ١٠ دقائق</div>
+    <h1>أسعار الهواتف<br>في <em>سورية</em></h1>
+    <p class="subtitle">أحدث الموديلات · أفضل الأسعار · بالدولار والليرة السورية</p>
+
+    <div class="rate-pill">
+      <span class="rl">سعر الدولار</span>
+      <span class="rv" id="rateNum">13,500</span>
+      <span class="ru">ل.س</span>
+      <div class="rdiv"></div>
+      <div class="ri">
+        <span class="rst" id="rateSt">⏳ جاري جلب السعر...</span>
+        <span class="rcd" id="rateCd"></span>
       </div>
-      <div class="rate-spin" id="rateSpin"></div>
+      <div class="spin" id="rateSpin"></div>
     </div>
 
-    <div class="search-box">
-      <input id="q" type="text" placeholder="ابحث... iPhone 17، Galaxy S26، Poco X8"/>
+    <div class="sw">
+      <input type="text" id="searchInput" placeholder="ابحث... iPhone 17، Galaxy S26، Poco X8"/>
       <span class="si">🔍</span>
     </div>
-    <div class="filters" id="filters">
-      <button class="fbtn on" data-brand="all">الكل</button>
+
+    <div class="filters" id="filtersBar">
+      <button class="fbtn active" data-bid="all">الكل</button>
     </div>
   </div>
 
-  <div class="stats" id="stats" style="display:none">
-    <div class="st"><div class="st-n" id="s1">—</div><div class="st-l">ماركة</div></div>
+  <div class="stats-bar" id="statsBar">
+    <div class="st"><div class="stn" id="st1">6</div><div class="stl">ماركة</div></div>
     <div class="sdiv"></div>
-    <div class="st"><div class="st-n" id="s2">—</div><div class="st-l">موديل</div></div>
+    <div class="st"><div class="stn" id="st2">83+</div><div class="stl">موديل</div></div>
     <div class="sdiv"></div>
-    <div class="st"><div class="st-n" id="s3">—</div><div class="st-l">أقل سعر $</div></div>
+    <div class="st"><div class="stn" id="st3">$20</div><div class="stl">أقل سعر</div></div>
     <div class="sdiv"></div>
-    <div class="st"><div class="st-n" id="s4">—</div><div class="st-l">أعلى سعر $</div></div>
+    <div class="st"><div class="stn" id="st4">$2,030</div><div class="stl">أعلى سعر</div></div>
   </div>
 
-  <div id="loading">⏳ جاري تحميل الأسعار...</div>
-  <div class="grid" id="grid"></div>
-  <div class="empty" id="empty">😕 لا توجد نتائج</div>
+  <div class="brands-grid" id="brandsGrid"></div>
+  <div class="no-results" id="noResults">😕 لا توجد نتائج مطابقة</div>
 </div>
 
 <script>
-/* ══ EXCHANGE RATE ══ */
-let rate = 13500; // default so SYP shows immediately before real rate loads
+const DATA = [
+  { id:'xiaomi', name:'Xiaomi', color:'#ff6900',
+    logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Xiaomi_logo.svg/120px-Xiaomi_logo.svg.png',
+    phones:[
+      {m:'Mi Mix Flip',         r:'12GB', s:'512GB', p:590,  pp:575},
+      {m:'Mi 17',               r:'12GB', s:'512GB', p:780,  pp:780},
+      {m:'Mi 13 Ultra',         r:'16GB', s:'512GB', p:1170, pp:1190},
+      {m:'14 T Pro',            r:'12GB', s:'1TB',   p:590,  pp:560},
+      {m:'Poco F8 Ultra',       r:'16GB', s:'512GB', p:780,  pp:790},
+      {m:'Poco F8 Pro',         r:'12GB', s:'512GB', p:595,  pp:595},
+      {m:'Poco X8 PRO MAX 5G',  r:'12GB', s:'256GB', p:455,  pp:470},
+      {m:'Poco X8 PRO MAX 5G',  r:'12GB', s:'512GB', p:500,  pp:500},
+      {m:'Poco X8 PRO 5G',      r:'8GB',  s:'256GB', p:330,  pp:320},
+      {m:'Poco X8 PRO 5G',      r:'8GB',  s:'512GB', p:351,  pp:360},
+      {m:'Poco X7 Pro',         r:'12GB', s:'512GB', p:386,  pp:386},
+      {m:'Poco X7 Pro',         r:'8GB',  s:'256GB', p:310,  pp:300},
+      {m:'Poco X7 5G',          r:'12GB', s:'512GB', p:350,  pp:355},
+      {m:'Poco X7 5G',          r:'8GB',  s:'256GB', p:237,  pp:237},
+      {m:'Poco M8 5G',          r:'12GB', s:'512GB', p:335,  pp:340},
+    ]},
+  { id:'iphone', name:'iPhone', color:'#1d1d1f',
+    logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Apple_logo_black.svg/80px-Apple_logo_black.svg.png',
+    phones:[
+      {m:'iPhone 17 Pro Max 1SIM 2TB',   r:'—', s:'2TB',   p:1960, pp:1940},
+      {m:'iPhone 17 Pro Max 1SIM 1TB',   r:'—', s:'1TB',   p:1840, pp:1850},
+      {m:'iPhone 17 Pro Max 1SIM 512GB', r:'—', s:'512GB', p:1580, pp:1580},
+      {m:'iPhone 17 Pro Max 2SIM 256GB', r:'—', s:'256GB', p:1520, pp:1500},
+      {m:'iPhone 17 Pro Max Esim 2TB',   r:'—', s:'2TB',   p:2030, pp:2030},
+      {m:'iPhone 17 Pro Max Esim 1TB',   r:'—', s:'1TB',   p:1610, pp:1625},
+      {m:'iPhone 17 Pro Max Esim 512GB', r:'—', s:'512GB', p:1470, pp:1450},
+      {m:'iPhone 17 Pro Max Esim 256GB', r:'—', s:'256GB', p:1280, pp:1280},
+      {m:'iPhone 17 Pro Esim 256GB',     r:'—', s:'256GB', p:1200, pp:1210},
+      {m:'iPhone 17 Pro Esim 512GB',     r:'—', s:'512GB', p:1370, pp:1370},
+      {m:'iPhone 17 Pro Esim 1TB',       r:'—', s:'1TB',   p:1570, pp:1550},
+      {m:'iPhone 17 Pro 2SIM 256GB',     r:'—', s:'256GB', p:1400, pp:1400},
+      {m:'iPhone 17 Pro 1SIM 1TB',       r:'—', s:'1TB',   p:1660, pp:1680},
+      {m:'iPhone 17 Pro 1SIM 512GB',     r:'—', s:'512GB', p:1500, pp:1490},
+      {m:'iPhone 17 Pro 1SIM 256GB',     r:'—', s:'256GB', p:1310, pp:1310},
+    ]},
+  { id:'samsung', name:'Samsung', color:'#1428a0',
+    logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Samsung_Logo.svg/120px-Samsung_Logo.svg.png',
+    phones:[
+      {m:'Galaxy S26 Ultra',   r:'16GB', s:'1TB',   p:1599, pp:1620},
+      {m:'Galaxy S26 Ultra',   r:'12GB', s:'512GB', p:1180, pp:1180},
+      {m:'Galaxy S26 Ultra',   r:'12GB', s:'256GB', p:1139, pp:1150},
+      {m:'Galaxy S26+',        r:'12GB', s:'256GB', p:865,  pp:850},
+      {m:'Galaxy S26',         r:'12GB', s:'256GB', p:754,  pp:754},
+      {m:'Galaxy S25 Ultra',   r:'12GB', s:'256GB', p:930,  pp:945},
+      {m:'Galaxy Z Fold 7',    r:'16GB', s:'1TB',   p:1599, pp:1580},
+      {m:'Galaxy A56',         r:'12GB', s:'256GB', p:380,  pp:380},
+      {m:'Galaxy A36',         r:'8GB',  s:'256GB', p:288,  pp:295},
+      {m:'Galaxy A26',         r:'8GB',  s:'256GB', p:240,  pp:240},
+      {m:'Galaxy A17',         r:'8GB',  s:'128GB', p:210,  pp:205},
+      {m:'Galaxy A07',         r:'4GB',  s:'128GB', p:105,  pp:105},
+      {m:'Galaxy A07',         r:'4GB',  s:'64GB',  p:90,   pp:92},
+      {m:'Galaxy A07 Big box', r:'4GB',  s:'64GB',  p:90,   pp:90},
+      {m:'Galaxy A17',         r:'4GB',  s:'128GB', p:145,  pp:148},
+    ]},
+  { id:'honor', name:'Honor', color:'#cf0a2c',
+    logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Honor_brand_logo.svg/120px-Honor_brand_logo.svg.png',
+    phones:[
+      {m:'Honor Magic V5',        r:'16GB', s:'512GB', p:1450, pp:1470},
+      {m:'Honor Magic 8 Pro',     r:'12GB', s:'512GB', p:940,  pp:940},
+      {m:'Honor Magic 7 Pro',     r:'12GB', s:'512GB', p:780,  pp:795},
+      {m:'Honor 600 PRO',         r:'12GB', s:'512GB', p:735,  pp:720},
+      {m:'Honor 400 Pro',         r:'12GB', s:'512GB', p:595,  pp:595},
+      {m:'Honor 400',             r:'12GB', s:'512GB', p:390,  pp:400},
+      {m:'Honor 400',             r:'12GB', s:'256GB', p:360,  pp:360},
+      {m:'Honor X9d',             r:'12GB', s:'256GB', p:318,  pp:310},
+      {m:'Honor X9C',             r:'8GB',  s:'256GB', p:265,  pp:265},
+      {m:'Honor Pad 10',          r:'8GB',  s:'256GB', p:280,  pp:285},
+      {m:'Honor Watch 4',         r:'—',    s:'—',     p:130,  pp:130},
+      {m:'Honor Watch 2i',        r:'—',    s:'—',     p:35,   pp:35},
+      {m:'Honor Earbuds Clip',    r:'—',    s:'—',     p:50,   pp:52},
+      {m:'Honor Earbuds X7 Lite', r:'—',    s:'—',     p:20,   pp:20},
+      {m:'Honor Play 10',         r:'3GB',  s:'64GB',  p:85,   pp:85},
+    ]},
+  { id:'infinix', name:'Infinix', color:'#00a651',
+    logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/Infinix_Mobility_logo.svg/120px-Infinix_Mobility_logo.svg.png',
+    phones:[
+      {m:'Note 60 Pro',              r:'12GB', s:'256GB', p:405, pp:405},
+      {m:'Note 60 PRO XWATCH H5PRO', r:'8GB',  s:'256GB', p:357, pp:360},
+      {m:'Note 60 Pro',              r:'8GB',  s:'256GB', p:330, pp:325},
+      {m:'Note Edge 5G',             r:'8GB',  s:'256GB', p:240, pp:240},
+      {m:'Hot 60 Pro Plus',          r:'8GB',  s:'256GB', p:180, pp:185},
+      {m:'Hot 60 Pro',               r:'8GB',  s:'256GB', p:154, pp:154},
+      {m:'Hot 60i 5G',               r:'8GB',  s:'256GB', p:145, pp:140},
+      {m:'Smart 10 Pro',             r:'4GB',  s:'256GB', p:129, pp:129},
+      {m:'Smart 10 Plus',            r:'4GB',  s:'128GB', p:100, pp:100},
+      {m:'Smart 10',                 r:'4GB',  s:'128GB', p:95,  pp:97},
+      {m:'Smart 10',                 r:'3GB',  s:'64GB',  p:80,  pp:80},
+      {m:'Smart 20',                 r:'4GB',  s:'256GB', p:133, pp:133},
+      {m:'X Pad 20 Wifi 4G',         r:'8GB',  s:'256GB', p:167, pp:170},
+      {m:'X Pad 30 E 4G + Cover',    r:'4GB',  s:'128GB', p:250, pp:250},
+      {m:'Smart 20',                 r:'4GB',  s:'64GB',  p:108, pp:108},
+    ]},
+  { id:'tecno', name:'Tecno', color:'#0057b8',
+    logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Tecno_Mobile_logo.svg/120px-Tecno_Mobile_logo.svg.png',
+    phones:[
+      {m:'POVA 7 ULTRA 5G', r:'12GB', s:'256GB', p:320, pp:315},
+      {m:'POVA 7 5G',       r:'8GB',  s:'256GB', p:205, pp:205},
+      {m:'POVA Slim 5G',    r:'8GB',  s:'256GB', p:220, pp:225},
+      {m:'CAMON 40 pro 4G', r:'8GB',  s:'256GB', p:228, pp:228},
+      {m:'CAMON 40 4G',     r:'8GB',  s:'256GB', p:195, pp:195},
+      {m:'SPARK 40',        r:'8GB',  s:'256GB', p:133, pp:135},
+      {m:'SPARK 40 C',      r:'8GB',  s:'256GB', p:126, pp:126},
+      {m:'SPARK 40',        r:'4GB',  s:'256GB', p:123, pp:120},
+    ]},
+];
+
+/* ══ RATE ══ */
+let RATE = 13500;
 let cdTimer = null;
 
 async function fetchRate() {
   document.getElementById('rateSpin').style.display = '';
-  document.getElementById('rateStatus').textContent = 'جاري جلب السعر...';
-
-  const SOURCES = [
-    // Try exchangerate-api (free, no key needed for basic)
+  const sources = [
     async () => {
-      const r = await fetch('https://open.er-api.com/v6/latest/USD', {signal:AbortSignal.timeout(6000)});
+      const r = await fetch('https://open.er-api.com/v6/latest/USD',{signal:AbortSignal.timeout(7000)});
       const d = await r.json();
-      if (d.rates && d.rates.SYP) return d.rates.SYP;
-      return null;
+      return (d.result==='success' && d.rates?.SYP > 8000) ? d.rates.SYP : null;
     },
-    // Try frankfurter (no SYP but fallback)
     async () => {
-      // scrape sp-today via proxy
-      const proxies = [
-        'https://api.allorigins.win/raw?url=',
-        'https://corsproxy.io/?',
-      ];
-      for (const p of proxies) {
-        try {
-          const r = await fetch(p + encodeURIComponent('https://sp-today.com/'), {signal:AbortSignal.timeout(7000)});
-          const html = await r.text();
-          // sp-today patterns
-          const pats = [
-            /class="[^"]*rate[^"]*"[^>]*>\s*([\d,]+)/i,
-            /الدولار[^\d]*([\d,]{4,7})/,
-            /USD[^\d]*([\d,]{4,7})/i,
-            /\b(1[2-9]\d{3}|[2-9]\d{4})\b/,
-          ];
-          for (const pat of pats) {
-            const m = html.match(pat);
-            if (m) {
-              const v = parseFloat(m[1].replace(/,/g,''));
-              if (v > 8000 && v < 500000) return v;
-            }
-          }
-        } catch(e) {}
+      const u = encodeURIComponent('https://sp-today.com/');
+      const r = await fetch('https://api.allorigins.win/raw?url='+u,{signal:AbortSignal.timeout(8000)});
+      const h = await r.text();
+      for (const pat of [/الدولار[^٠-٩\d]*([\d,]+)/,/\b(1[2-9]\d{3}|[23]\d{4})\b/]) {
+        const m = h.match(pat);
+        if (m) { const v=parseFloat(m[1].replace(/,/g,'')); if(v>8000&&v<600000) return v; }
       }
       return null;
     }
   ];
-
-  for (const src of SOURCES) {
+  for (const src of sources) {
     try {
-      const val = await src();
-      if (val && val > 8000) {
-        rate = val;
-        document.getElementById('rateVal').textContent = Math.round(val).toLocaleString('en-US');
-        document.getElementById('rateStatus').textContent = '✓ محدّث';
+      const v = await src();
+      if (v) {
+        RATE = v;
+        document.getElementById('rateNum').textContent = Math.round(v).toLocaleString('en-US');
+        document.getElementById('rateSt').textContent  = '✓ محدّث';
         document.getElementById('rateSpin').style.display = 'none';
-        updateAllSYP();
-        startCountdown();
-        return;
+        refreshSYP(); startCountdown(); return;
       }
-    } catch(e) {}
+    } catch(e){}
   }
-
-  // Hard fallback
-  if (!rate) {
-    rate = 13500;
-    document.getElementById('rateVal').textContent = (13500).toLocaleString('en-US') + ' *';
-    document.getElementById('rateStatus').textContent = '⚠️ سعر تقريبي';
-  }
+  document.getElementById('rateSt').textContent = '⚠️ سعر تقريبي';
   document.getElementById('rateSpin').style.display = 'none';
-  updateAllSYP();
-  startCountdown();
+  refreshSYP(); startCountdown();
 }
 
 function startCountdown() {
   if (cdTimer) clearInterval(cdTimer);
-  let secs = 600;
-  const el = document.getElementById('countdownEl');
-  cdTimer = setInterval(() => {
-    secs--;
-    const m = Math.floor(secs/60), s = secs%60;
-    el.textContent = `تحديث بعد ${m}:${String(s).padStart(2,'0')}`;
-    if (secs <= 0) { clearInterval(cdTimer); fetchRate(); }
-  }, 1000);
+  let s = 600;
+  const el = document.getElementById('rateCd');
+  cdTimer = setInterval(()=>{
+    s--;
+    el.textContent = `تحديث بعد ${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`;
+    if (s<=0){clearInterval(cdTimer);fetchRate();}
+  },1000);
 }
 
-/* ══ MD PARSER — fixed to handle all header keywords ══ */
-function parseMD(text) {
-  const lines = text.split('\n');
-  const result = { updated:'', brands:[] };
-  let brand = null;
-  // All possible Arabic header column names — rows matching these are skipped
-  const SKIP = ['الموديل','اسم الموديل','model','السعر','الرام','التخزين'];
-
-  for (const raw of lines) {
-    const t = raw.trim();
-    if (!t) continue;
-    if (t.startsWith('updated:')) { result.updated = t.replace('updated:','').trim(); continue; }
-    if (t.startsWith('# ')) continue;
-    if (t.startsWith('## ')) {
-      brand = { name:t.replace('## ','').trim(), color:'#888', logo:'', phones:[] };
-      result.brands.push(brand);
-      continue;
-    }
-    if (!brand) continue;
-    if (t.startsWith('color:')) { brand.color = t.replace('color:','').trim(); continue; }
-    if (t.startsWith('logo:'))  { brand.logo  = t.replace('logo:','').trim();  continue; }
-
-    if (t.startsWith('|')) {
-      // Skip separator rows (---|---|...)
-      if (t.replace(/[\|\-\s]/g,'') === '') continue;
-
-      const cols = t.split('|').map(c=>c.trim()).filter(Boolean);
-      if (cols.length < 4) continue;
-
-      // Skip any header row
-      if (SKIP.includes(cols[0])) continue;
-
-      const model    = cols[0];
-      const ram      = (cols[1]==='—'||cols[1]==='-') ? '' : cols[1];
-      const storage  = (cols[2]==='—'||cols[2]==='-') ? '' : cols[2];
-      const price    = parseInt(cols[3].replace(/\D/g,''), 10);
-      const prevPrice= cols[4] ? parseInt(cols[4].replace(/\D/g,''), 10) : price;
-
-      if (!model || isNaN(price) || price < 1) continue;
-      brand.phones.push({ model, ram, storage, price, prevPrice });
-    }
-  }
-  return result;
+/* ══ HELPERS ══ */
+function fmtSYP(usd) {
+  const v = Math.round(usd * RATE);
+  if (v >= 1000000) return (v/1000000).toFixed(1).replace('.0','')+'M';
+  if (v >= 1000)    return Math.round(v/1000)+'K';
+  return v.toLocaleString();
+}
+function arrowOf(p, pp) {
+  if (!pp || p===pp) return {sym:'→',cls:'same'};
+  return p>pp ? {sym:'↑',cls:'up'} : {sym:'↓',cls:'down'};
 }
 
-/* ══ SYP HELPER ══ */
-function toSYP(usd) {
-  const val = Math.round(usd * rate);
-  // Format as e.g. 7.9M or 500K for large numbers to fit in column
-  if (val >= 1000000) return (val/1000000).toFixed(1) + 'M';
-  if (val >= 10000)   return Math.round(val/1000) + 'K';
-  return val.toLocaleString('en-US');
-}
-
-function arrowCls(price, prev) {
-  if (!prev || price === prev) return ['→','same'];
-  return price > prev ? ['↑','up'] : ['↓','down'];
-}
-
-/* ══ RENDER ══ */
-let allData = null;
-let activeBrand = 'all';
-
-function render(brands) {
-  const grid = document.getElementById('grid');
+/* ══ BUILD CARDS ══ */
+function buildCards() {
+  const grid = document.getElementById('brandsGrid');
   grid.innerHTML = '';
-  brands.forEach((b, i) => {
+  DATA.forEach((brand, bi) => {
     const card = document.createElement('div');
-    card.className = 'card';
-    card.dataset.brand = b.name;
-    card.style.animationDelay = (i*.07)+'s';
+    card.className = 'brand-card';
+    card.dataset.bid = brand.id;
+    card.style.animationDelay = (bi*.07)+'s';
 
-    const preview = b.phones.slice(0,6);
-    const extra   = b.phones.slice(6);
+    const fbHtml = `<div class="brand-logo-fb" style="background:${brand.color}">${brand.name.slice(0,3).toUpperCase()}</div>`;
+    const logoHtml = brand.logo
+      ? `<img class="brand-logo-img" src="${brand.logo}" alt="${brand.name}"
+           onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"
+         >${fbHtml.replace('display:flex','display:none')}`
+      : fbHtml;
 
-    const logoHTML = b.logo
-      ? `<img class="brand-img" src="${b.logo}" alt="${b.name}"
-           onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'brand-fallback',style:'background:${b.color}',textContent:'${b.name.substring(0,3).toUpperCase()}'}))">`
-      : `<div class="brand-fallback" style="background:${b.color}">${b.name.substring(0,3).toUpperCase()}</div>`;
+    const preview = brand.phones.slice(0,6);
+    const extra   = brand.phones.slice(6);
+    const tbId    = 'tb-'+brand.id;
+
+    function rowHtml(ph, hidden) {
+      const a = arrowOf(ph.p, ph.pp);
+      return `<tr class="${hidden?'rh':''}" data-usd="${ph.p}" data-prev="${ph.pp}">
+        <td class="tdm" title="${ph.m}">${ph.m}</td>
+        <td class="tdr">${ph.r||'—'}</td>
+        <td class="tds">${ph.s||'—'}</td>
+        <td class="tdu" style="color:${brand.color}">$${ph.p.toLocaleString()}</td>
+        <td class="tdk"><span class="syp-inner">
+          <span class="arr ${a.cls}">${a.sym}</span>
+          <span class="syp-num">${fmtSYP(ph.p)}</span>
+        </span></td>
+      </tr>`;
+    }
 
     card.innerHTML = `
-      <div class="card-top">
-        <div class="bi">
-          ${logoHTML}
-          <div>
-            <div class="bname">${b.name}</div>
-            <div class="bcnt">${b.phones.length} موديل</div>
-          </div>
+      <div class="card-header">
+        ${logoHtml}
+        <div class="brand-text">
+          <div class="brand-name">${brand.name}</div>
+          <div class="brand-count">${brand.phones.length} موديل</div>
         </div>
-        <div style="font-size:28px;opacity:.1">📱</div>
+        <div class="card-icon">📱</div>
       </div>
-      <div class="thead">
-        <div>الموديل</div>
-        <div class="tc">الرام</div>
-        <div class="tc">التخزين</div>
-        <div class="tl">$ دولار</div>
-        <div class="tl">ل.س ليرة</div>
-      </div>
-      <div id="pl-${i}">
-        ${preview.map(p=>makeRow(p,b.color)).join('')}
-        ${extra.map(p=>makeRow(p,b.color,true)).join('')}
-      </div>
-      ${extra.length ? `<button class="more-btn" style="color:${b.color}" data-open="0"
-        onclick="toggleMore(this,'pl-${i}',${extra.length})">
-        عرض المزيد (${extra.length} موديل) ↓</button>` : ''}
-    `;
+      <table class="price-table">
+        <colgroup>
+          <col class="cm"><col class="cr"><col class="cs"><col class="cu"><col class="ck">
+        </colgroup>
+        <thead><tr>
+          <th class="thm">الموديل</th>
+          <th class="thr">الرام</th>
+          <th class="ths">التخزين</th>
+          <th class="thu">$ دولار</th>
+          <th class="thk">↕ ل.س</th>
+        </tr></thead>
+        <tbody id="${tbId}">
+          ${preview.map(ph=>rowHtml(ph,false)).join('')}
+          ${extra.map(ph=>rowHtml(ph,true)).join('')}
+        </tbody>
+      </table>
+      ${extra.length ? `<button class="more-btn" style="color:${brand.color}"
+        data-open="0" onclick="toggleMore(this,'${tbId}',${extra.length})">
+        عرض المزيد (${extra.length} موديل) ↓</button>` : ''}`;
     grid.appendChild(card);
   });
 }
 
-function makeRow(p, color, hidden=false) {
-  const [arrow, cls] = arrowCls(p.price, p.prevPrice);
-  const syp = toSYP(p.price);
-  return `<div class="prow${hidden?' gone':''}" data-usd="${p.price}" data-prev="${p.prevPrice||p.price}">
-    <span class="pn" title="${p.model}">${p.model}</span>
-    <span class="pram">${p.ram||'—'}</span>
-    <span class="pstor">${p.storage||'—'}</span>
-    <span class="pusd" style="color:${color}">$${p.price.toLocaleString()}</span>
-    <div class="psyp-wrap">
-      <span class="arrow ${cls}">${arrow}</span>
-      <span class="psyp syp-cell">${syp}</span>
-    </div>
-  </div>`;
-}
-
-function updateAllSYP() {
-  document.querySelectorAll('.prow').forEach(row => {
-    const usd  = parseFloat(row.dataset.usd);
-    const prev = parseFloat(row.dataset.prev);
-    const sypEl   = row.querySelector('.syp-cell');
-    const arrowEl = row.querySelector('.arrow');
-    if (sypEl)   sypEl.textContent = toSYP(usd);
-    if (arrowEl) {
-      const [arrow, cls] = arrowCls(usd, prev);
-      arrowEl.textContent = arrow;
-      arrowEl.className   = 'arrow ' + cls;
-    }
+function refreshSYP() {
+  document.querySelectorAll('tr[data-usd]').forEach(row => {
+    const usd=+row.dataset.usd, prev=+row.dataset.prev;
+    const valEl=row.querySelector('.syp-num'), arrEl=row.querySelector('.arr');
+    if (valEl) valEl.textContent = fmtSYP(usd);
+    if (arrEl) { const a=arrowOf(usd,prev); arrEl.textContent=a.sym; arrEl.className='arr '+a.cls; }
   });
 }
 
-function toggleMore(btn, listId, n) {
+function toggleMore(btn, tbId, n) {
   const open = btn.dataset.open==='1';
-  document.querySelectorAll(`#${listId} .gone`).forEach(r=>r.classList.toggle('gone',open));
+  if (open) {
+    let i=0;
+    document.querySelectorAll(`#${tbId} tr`).forEach(r=>{ if(i++>=6) r.classList.add('rh'); });
+  } else {
+    document.querySelectorAll(`#${tbId} tr.rh`).forEach(r=>r.classList.remove('rh'));
+  }
   btn.dataset.open = open?'0':'1';
   btn.textContent  = open ? `عرض المزيد (${n} موديل) ↓` : 'عرض أقل ↑';
 }
 
 /* ══ FILTERS & SEARCH ══ */
+let activeF = 'all';
+
 function buildFilters() {
-  const bar = document.getElementById('filters');
-  allData.brands.forEach(b => {
+  const bar = document.getElementById('filtersBar');
+  DATA.forEach(b => {
     const btn = document.createElement('button');
-    btn.className='fbtn'; btn.dataset.brand=b.name; btn.textContent=b.name;
-    btn.onclick=()=>applyBrand(b.name);
+    btn.className='fbtn'; btn.dataset.bid=b.id; btn.textContent=b.name;
+    btn.onclick=()=>setFilter(b.id);
     bar.appendChild(btn);
   });
-  document.querySelector('[data-brand="all"]').onclick=()=>applyBrand('all');
+  document.querySelector('[data-bid="all"]').onclick=()=>setFilter('all');
 }
-function applyBrand(brand) {
-  activeBrand = brand;
-  document.querySelectorAll('.fbtn').forEach(b=>b.classList.toggle('on',b.dataset.brand===brand));
-  document.querySelectorAll('.card').forEach(c=>c.style.display=(brand==='all'||c.dataset.brand===brand)?'':'none');
+function setFilter(id) {
+  activeF = id;
+  document.querySelectorAll('.fbtn').forEach(b=>b.classList.toggle('active',b.dataset.bid===id));
+  document.querySelectorAll('.brand-card').forEach(c=>
+    c.style.display=(id==='all'||c.dataset.bid===id)?'':'none');
 }
-document.getElementById('q').addEventListener('input',function(){
+
+document.getElementById('searchInput').addEventListener('input', function(){
   const q=this.value.toLowerCase().trim();
   let any=false;
-  document.querySelectorAll('.card').forEach(card=>{
-    if(activeBrand!=='all'&&card.dataset.brand!==activeBrand)return;
+  document.querySelectorAll('.brand-card').forEach(card=>{
+    if(activeF!=='all'&&card.dataset.bid!==activeF)return;
     let hit=false;
-    card.querySelectorAll('.prow').forEach(r=>{
-      const show=!q||r.querySelector('.pn').textContent.toLowerCase().includes(q);
-      r.style.display=show?'':'none';
+    card.querySelectorAll('tr[data-usd]').forEach(row=>{
+      const show=!q||row.querySelector('.tdm').textContent.toLowerCase().includes(q);
+      row.style.display=show?'':'none';
       if(show){hit=true;any=true;}
     });
     card.style.display=(q&&!hit)?'none':'';
   });
-  document.getElementById('empty').style.display=(q&&!any)?'block':'none';
+  document.getElementById('noResults').style.display=(q&&!any)?'block':'none';
 });
 
-/* ══ STATS ══ */
-function showStats() {
-  const all=allData.brands.flatMap(b=>b.phones).map(p=>p.price);
-  document.getElementById('s1').textContent=allData.brands.length;
-  document.getElementById('s2').textContent=all.length+'+';
-  document.getElementById('s3').textContent='$'+Math.min(...all).toLocaleString();
-  document.getElementById('s4').textContent='$'+Math.max(...all).toLocaleString();
-  document.getElementById('stats').style.display='flex';
-}
-
 /* ══ INIT ══ */
-async function init() {
-  try {
-    const res = await fetch('prices.md');
-    if (!res.ok) throw new Error();
-    allData = parseMD(await res.text());
-
-    if (!allData.brands.length) throw new Error('no brands');
-    const total = allData.brands.reduce((s,b)=>s+b.phones.length,0);
-    if (!total) throw new Error('no phones');
-
-    document.getElementById('loading').style.display='none';
-    showStats();
-    buildFilters();
-    render(allData.brands);
-  } catch(e) {
-    document.getElementById('loading').innerHTML='❌ خطأ في تحميل prices.md — '+e.message;
-    return;
-  }
-  fetchRate();
-}
-init();
+buildFilters();
+buildCards();
+fetchRate();
 </script>
 </body>
 </html>
