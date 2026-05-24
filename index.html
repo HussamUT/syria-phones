@@ -139,18 +139,18 @@ h1 em{font-style:normal;color:var(--gold);}
   white-space:nowrap; flex-shrink:0;
 }
 /* fixed widths — same in header and rows */
-.col-syp  { width:72px;  text-align:left;  direction:ltr; flex-shrink:0; }
-.col-usd  { width:68px;  text-align:left;  direction:ltr; flex-shrink:0; }
-.col-stor { width:50px;  text-align:center; flex-shrink:0; }
-.col-ram  { width:42px;  text-align:center; flex-shrink:0; }
+.col-syp  { width:70px;  text-align:right; direction:ltr; flex-shrink:0; }
+.col-usd  { width:65px;  text-align:right; direction:ltr; flex-shrink:0; }
+.col-stor { width:46px;  text-align:center; flex-shrink:0; }
+.col-ram  { width:40px;  text-align:center; flex-shrink:0; }
 .col-mod  { flex:1; min-width:0; text-align:left; padding-left:2px; }
 
-/* mobile: hide SYP col to free space for model name */
+/* mobile: hide RAM to save space, keep SYP visible */
 @media(max-width:480px){
-  .col-syp, .cell-syp { display:none !important; }
-  .col-usd  { width:62px; }
-  .col-stor { width:48px; }
-  .col-ram  { width:38px; }
+  .col-ram, .cell-ram { display:none !important; }
+  .col-syp  { width:62px; }
+  .col-usd  { width:60px; }
+  .col-stor { width:44px; }
 }
 
 /* Data rows */
@@ -169,8 +169,8 @@ h1 em{font-style:normal;color:var(--gold);}
 
 /* SYP cell */
 .cell-syp{
-  width:72px; flex-shrink:0;
-  direction:ltr; text-align:left;
+  width:70px; flex-shrink:0;
+  direction:ltr; text-align:right;
 }
 .syp-inner{display:inline-flex;align-items:center;gap:3px;}
 .arr{font-size:11px;font-weight:900;line-height:1;}
@@ -180,8 +180,8 @@ h1 em{font-style:normal;color:var(--gold);}
 
 /* USD cell */
 .cell-usd{
-  width:68px; flex-shrink:0;
-  direction:ltr; text-align:left;
+  width:65px; flex-shrink:0;
+  direction:ltr; text-align:right;
   font-size:13px; font-weight:800;
   font-family:'Tajawal',sans-serif; white-space:nowrap;
 }
@@ -192,8 +192,8 @@ h1 em{font-style:normal;color:var(--gold);}
   text-align:center;
   font-size:11px; color:var(--pale); white-space:nowrap;
 }
-.cell-stor{ width:50px; }
-.cell-ram { width:42px; }
+.cell-stor{ width:46px; }
+.cell-ram { width:40px; }
 
 /* Model — takes remaining space, truncates from end */
 .cell-mod{
