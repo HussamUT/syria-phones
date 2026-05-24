@@ -120,47 +120,35 @@ h1 em{font-style:normal;color:var(--gold);}
 .brand-count{font-size:10px;color:var(--muted);}
 .card-icon{font-size:26px;opacity:.07;flex-shrink:0;}
 
-/* ══ PRICE LIST — flexbox rows, no table, works on all screens ══
-   Visual order left→right: [الموديل flex-grow] [رام] [تخزين] [$ دولار] [ل.س]
-   In RTL direction this renders:  ل.س | دولار | تخزين | رام | الموديل
-*/
+/* ══ PRICE LIST ══ */
 
 /* Header row */
 .plist-head{
   display:flex; align-items:center;
-  padding:6px 12px;
+  padding:6px 10px;
   background:var(--card2);
   border-bottom:2px solid var(--border);
-  gap:0;
   direction:ltr;
 }
 .plist-head span{
-  font-size:10.5px; font-weight:700; color:var(--muted);
+  font-size:10px; font-weight:700; color:var(--muted);
   white-space:nowrap; flex-shrink:0;
 }
-/* fixed widths — same in header and rows */
-.col-syp  { width:56px;  text-align:right; direction:ltr; flex-shrink:0; }
-.col-usd  { width:58px;  text-align:right; direction:ltr; flex-shrink:0; }
-.col-stor { width:42px;  text-align:center; flex-shrink:0; }
-.col-ram  { width:38px;  text-align:center; flex-shrink:0; }
-.col-mod  { flex:1; min-width:0; text-align:left; padding-left:2px; }
 
-/* no hiding on mobile — just tighter */
-@media(max-width:400px){
-  .col-syp  { width:50px; }
-  .col-usd  { width:52px; }
-  .col-stor { width:38px; }
-  .col-ram  { width:34px; }
-  .prow, .plist-head { padding-left:8px; padding-right:8px; }
-}
+/* fixed widths — header & rows must match exactly */
+.col-mod,  .cell-mod  { flex:1; min-width:0; text-align:left; }
+.col-ram,  .cell-ram  { width:36px; text-align:center; flex-shrink:0; }
+.col-stor, .cell-stor { width:44px; text-align:center; flex-shrink:0; }
+.col-usd,  .cell-usd  { width:58px; text-align:right;  flex-shrink:0; direction:ltr; }
+.col-ind               { width:18px; text-align:center; flex-shrink:0; }
+.col-syp,  .cell-syp  { width:48px; text-align:right;  flex-shrink:0; direction:ltr; }
 
 /* Data rows */
 .prow{
   display:flex; align-items:center;
-  padding:7px 12px;
+  padding:7px 10px;
   border-bottom:1px solid var(--border);
   transition:background .12s;
-  gap:0;
   cursor:default;
   direction:ltr;
 }
@@ -168,43 +156,34 @@ h1 em{font-style:normal;color:var(--gold);}
 .prow:hover{background:var(--card2);}
 .prow.rh{display:none;}
 
-/* SYP cell */
-.cell-syp{
-  width:56px; flex-shrink:0;
-  direction:ltr; text-align:right;
+/* cell styles */
+.cell-mod{
+  font-size:12px; font-weight:600;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
 }
-.syp-inner{display:inline-flex;align-items:center;gap:2px;justify-content:flex-end;}
-.arr{font-size:10px;font-weight:900;line-height:1;}
-.arr.up{color:var(--red);}
-.arr.down{color:var(--green);}
-.arr.flat{color:var(--pale);}
-.syp-num{font-size:10.5px;font-weight:700;font-family:'Tajawal',sans-serif;color:var(--muted);}
-
-/* USD cell */
+.cell-ram, .cell-stor{
+  font-size:10.5px; color:var(--pale); white-space:nowrap;
+}
 .cell-usd{
-  width:58px; flex-shrink:0;
-  direction:ltr; text-align:right;
   font-size:12.5px; font-weight:800;
   font-family:'Tajawal',sans-serif; white-space:nowrap;
 }
-
-/* Storage / RAM */
-.cell-stor,.cell-ram{
-  flex-shrink:0;
-  text-align:center;
-  font-size:10.5px; color:var(--pale); white-space:nowrap;
+.cell-ind{
+  width:18px; flex-shrink:0; text-align:center;
+  font-size:10px; font-weight:900; line-height:1;
 }
-.cell-stor{ width:42px; }
-.cell-ram { width:38px; }
-
-/* Model — takes remaining space, truncates from end */
-.cell-mod{
-  flex:1; min-width:0;
-  direction:ltr; text-align:left;
-  font-size:12.5px; font-weight:600;
-  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
-  padding-left:4px;
+.cell-syp{
+  font-family:'Tajawal',sans-serif;
+  font-size:10.5px; font-weight:700; color:var(--muted);
+  white-space:nowrap;
 }
+
+/* arrows */
+.arr.up  { color:var(--red);   }
+.arr.down{ color:var(--green); }
+.arr.flat{ color:var(--pale);  }
+.syp-inner{ display:flex; align-items:center; justify-content:flex-end; }
+
 
 /* SHOW MORE */
 .more-btn{width:100%;padding:10px;border:none;border-top:1px solid var(--border);background:none;cursor:pointer;font-family:'Cairo',sans-serif;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:4px;transition:background .15s;}
@@ -594,21 +573,26 @@ function buildCards() {
     const tbId = 'tb-' + brand.id;
 
     function rowHtml(ph, hidden) {
-      let arrowHtml = '';
-      let arrowClass = '';
+      let indHtml = '', sypHtml = '';
       if (ph.isnew) {
-        arrowHtml = `<span style="color:var(--gold);font-size:9px;font-weight:700;">جديد</span>`;
-      } else if (ph.p > ph.pp) {
-        arrowHtml = `<span class="arr up">▲</span>`;
-      } else if (ph.p < ph.pp) {
-        arrowHtml = `<span class="arr down">▼</span>`;
+        indHtml = `<span style="color:var(--gold);font-size:8px;font-weight:700;">NEW</span>`;
+        sypHtml = `<span style="color:var(--gold);font-size:9px;font-weight:700;">جديد</span>`;
       } else {
-        arrowHtml = `<span class="arr flat">—</span>`;
+        if (ph.p > ph.pp)      indHtml = `<span class="arr up">▲</span>`;
+        else if (ph.p < ph.pp) indHtml = `<span class="arr down">▼</span>`;
+        else                   indHtml = `<span class="arr flat">—</span>`;
+        sypHtml = `<span class="syp-num">${fmtSYP(ph.p)}</span>`;
       }
 
-      const sypHtml = ph.isnew
-        ? `<span style="color:var(--gold);font-size:9px;font-weight:700;">جديد</span>`
-        : `<span class="syp-inner">${arrowHtml}<span class="syp-num">${fmtSYP(ph.p)}</span></span>`;
+      return `<div class="prow${hidden ? ' rh' : ''}" data-usd="${ph.p}" data-prev="${ph.pp}" data-model="${ph.m.toLowerCase()}" data-new="${ph.isnew}">
+        <div class="cell-mod" title="${ph.m}">${ph.m}</div>
+        <div class="cell-ram">${ph.r || '—'}</div>
+        <div class="cell-stor">${ph.s || '—'}</div>
+        <div class="cell-usd" style="color:${brand.color}">$${ph.p.toLocaleString()}</div>
+        <div class="cell-ind">${indHtml}</div>
+        <div class="cell-syp">${sypHtml}</div>
+      </div>`;
+    }
 
       /* Flexbox row — RTL: items render right→left
          Order in HTML: [ل.س] [دولار] [تخزين] [رام] [موديل]
@@ -638,7 +622,8 @@ function buildCards() {
         <span class="col-ram">الرام</span>
         <span class="col-stor">التخزين</span>
         <span class="col-usd">$ دولار</span>
-        <span class="col-syp">↕ ل.س</span>
+        <span class="col-ind"></span>
+        <span class="col-syp">ل.س</span>
       </div>
       <div id="${tbId}">
         ${preview.map(ph => rowHtml(ph, false)).join('')}
@@ -656,13 +641,10 @@ function buildCards() {
 function refreshSYP() {
   document.querySelectorAll('.prow[data-usd]').forEach(row => {
     if (row.dataset.new === 'true') return;
-    const usd = +row.dataset.usd, prev = +row.dataset.prev;
+    const usd = +row.dataset.usd;
     const cell = row.querySelector('.cell-syp');
     if (!cell) return;
-    let arrowHtml = '';
-    if (usd > prev) arrowHtml = `<span class="arr up">↑</span>`;
-    else if (usd < prev) arrowHtml = `<span class="arr down">↓</span>`;
-    cell.innerHTML = `<span class="syp-inner">${arrowHtml}<span class="syp-num">${fmtSYP(usd)}</span></span>`;
+    cell.innerHTML = `<span class="syp-num">${fmtSYP(usd)}</span>`;
   });
 }
 
