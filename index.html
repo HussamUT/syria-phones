@@ -120,57 +120,78 @@ h1 em{font-style:normal;color:var(--gold);}
 .brand-count{font-size:10px;color:var(--muted);}
 .card-icon{font-size:26px;opacity:.07;flex-shrink:0;}
 
-/* TABLE
-   HTML col order (RTL: first=rightmost visually):
-   [ل.س] [دولار $] [تخزين] [رام] [الموديل]
-   Visual left→right: الموديل | رام | تخزين | دولار | ل.س
+/* ══ PRICE LIST — flexbox rows, no table, works on all screens ══
+   Visual order left→right: [الموديل flex-grow] [رام] [تخزين] [$ دولار] [ل.س]
+   In RTL direction this renders:  ل.س | دولار | تخزين | رام | الموديل
 */
-.price-table{width:100%;border-collapse:collapse;table-layout:fixed;}
-.price-table col.c-syp  {width:100px;}
-.price-table col.c-usd  {width:74px;}
-.price-table col.c-stor {width:58px;}
-.price-table col.c-ram  {width:48px;}
-.price-table col.c-mod  {width:auto;}  /* takes all remaining space */
 
-.price-table thead tr{background:var(--card2);border-bottom:2px solid var(--border);}
-.price-table thead th{padding:7px 6px;font-size:10.5px;font-weight:700;color:var(--muted);white-space:nowrap;}
-/* header alignment matches data cells */
-.th-syp {text-align:left; direction:ltr; padding-left:10px;}
-.th-usd {text-align:left; direction:ltr;}
-.th-stor{text-align:center;}
-.th-ram {text-align:center;}
-.th-mod {text-align:left;  padding-left:10px;}  /* model: left aligned */
+/* Header row */
+.plist-head{
+  display:flex; align-items:center;
+  padding:7px 14px;
+  background:var(--card2);
+  border-bottom:2px solid var(--border);
+  gap:0;
+}
+.plist-head span{
+  font-size:10.5px; font-weight:700; color:var(--muted);
+  white-space:nowrap; flex-shrink:0;
+}
+/* fixed widths — same in header and rows */
+.col-syp  { width:90px;  text-align:left;  direction:ltr; }
+.col-usd  { width:76px;  text-align:left;  direction:ltr; }
+.col-stor { width:56px;  text-align:center; }
+.col-ram  { width:46px;  text-align:center; }
+.col-mod  { flex:1; min-width:0; text-align:left; padding-left:2px; }
 
-/* DATA ROWS */
-.price-table tbody tr{border-bottom:1px solid var(--border);transition:background .12s;}
-.price-table tbody tr:last-child{border-bottom:none;}
-.price-table tbody tr:hover{background:var(--card2);}
-.price-table tbody tr.rh{display:none;}
-.price-table tbody tr.hbr{display:none;}
-.price-table td{padding:8px 6px;overflow:hidden;vertical-align:middle;}
+/* Data rows */
+.prow{
+  display:flex; align-items:center;
+  padding:8px 14px;
+  border-bottom:1px solid var(--border);
+  transition:background .12s;
+  gap:0;
+  cursor:default;
+}
+.prow:last-child{border-bottom:none;}
+.prow:hover{background:var(--card2);}
+.prow.rh{display:none;}
 
 /* SYP cell */
-.td-syp{text-align:left;direction:ltr;padding-left:10px !important;}
+.cell-syp{
+  width:90px; flex-shrink:0;
+  direction:ltr; text-align:left;
+}
 .syp-inner{display:inline-flex;align-items:center;gap:3px;}
 .arr{font-size:11px;font-weight:900;line-height:1;}
 .arr.up{color:var(--green);}
 .arr.down{color:var(--red);}
 .syp-num{font-size:11.5px;font-weight:700;font-family:'Tajawal',sans-serif;color:var(--muted);}
 
-/* USD */
-.td-usd{text-align:left;direction:ltr;font-size:13px;font-weight:800;font-family:'Tajawal',sans-serif;white-space:nowrap;}
+/* USD cell */
+.cell-usd{
+  width:76px; flex-shrink:0;
+  direction:ltr; text-align:left;
+  font-size:13px; font-weight:800;
+  font-family:'Tajawal',sans-serif; white-space:nowrap;
+}
 
-/* storage/ram */
-.td-stor,.td-ram{text-align:center;font-size:11px;color:var(--pale);white-space:nowrap;}
+/* Storage / RAM */
+.cell-stor,.cell-ram{
+  flex-shrink:0;
+  text-align:center;
+  font-size:11px; color:var(--pale); white-space:nowrap;
+}
+.cell-stor{ width:56px; }
+.cell-ram { width:46px; }
 
-/* MODEL — key fix: left-aligned, LTR text, truncate at end */
-.td-mod{
-  text-align:left;
-  direction:ltr;
-  font-size:12px;font-weight:600;
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
-  max-width:0;
-  padding-left:10px !important;
+/* Model — takes remaining space, truncates from end */
+.cell-mod{
+  flex:1; min-width:0;
+  direction:ltr; text-align:left;
+  font-size:12.5px; font-weight:600;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  padding-left:4px;
 }
 
 /* SHOW MORE */
@@ -578,13 +599,18 @@ function buildCards() {
         ? `<span style="color:var(--gold);font-size:10px;font-weight:700;">جديد</span>`
         : `<span class="syp-inner">${arrowHtml}<span class="syp-num">${fmtSYP(ph.p)}</span></span>`;
 
-      return `<tr class="${hidden ? 'rh' : ''}" data-usd="${ph.p}" data-prev="${ph.pp}" data-model="${ph.m.toLowerCase()}" data-new="${ph.isnew}">
-        <td class="td-syp">${sypHtml}</td>
-        <td class="td-usd" style="color:${brand.color}">$${ph.p.toLocaleString()}</td>
-        <td class="td-stor">${ph.s || '—'}</td>
-        <td class="td-ram">${ph.r || '—'}</td>
-        <td class="td-mod" title="${ph.m}">${ph.m}</td>
-      </tr>`;
+      /* Flexbox row — RTL: items render right→left
+         Order in HTML: [ل.س] [دولار] [تخزين] [رام] [موديل]
+         Visually:       ل.س  | دولار | تخزين | رام | موديل  (right to left)
+         On screen:    right=ل.س .............. left=موديل  ✓
+      */
+      return `<div class="prow${hidden ? ' rh' : ''}" data-usd="${ph.p}" data-prev="${ph.pp}" data-model="${ph.m.toLowerCase()}" data-new="${ph.isnew}">
+        <div class="cell-syp">${sypHtml}</div>
+        <div class="cell-usd" style="color:${brand.color}">$${ph.p.toLocaleString()}</div>
+        <div class="cell-stor">${ph.s || '—'}</div>
+        <div class="cell-ram">${ph.r || '—'}</div>
+        <div class="cell-mod" title="${ph.m}">${ph.m}</div>
+      </div>`;
     }
 
     card.innerHTML = `
@@ -596,22 +622,17 @@ function buildCards() {
         </div>
         <div class="card-icon">📱</div>
       </div>
-      <table class="price-table">
-        <colgroup>
-          <col class="c-syp"><col class="c-usd"><col class="c-stor"><col class="c-ram"><col class="c-mod">
-        </colgroup>
-        <thead><tr>
-          <th class="th-syp">↕ ل.س</th>
-          <th class="th-usd">$ دولار</th>
-          <th class="th-stor">التخزين</th>
-          <th class="th-ram">الرام</th>
-          <th class="th-mod">الموديل</th>
-        </tr></thead>
-        <tbody id="${tbId}">
-          ${preview.map(ph => rowHtml(ph, false)).join('')}
-          ${extra.map(ph => rowHtml(ph, true)).join('')}
-        </tbody>
-      </table>
+      <div class="plist-head">
+        <span class="col-syp">↕ ل.س</span>
+        <span class="col-usd">$ دولار</span>
+        <span class="col-stor">التخزين</span>
+        <span class="col-ram">الرام</span>
+        <span class="col-mod">الموديل</span>
+      </div>
+      <div id="${tbId}">
+        ${preview.map(ph => rowHtml(ph, false)).join('')}
+        ${extra.map(ph => rowHtml(ph, true)).join('')}
+      </div>
       ${extra.length ? `<button class="more-btn" style="color:${brand.color}" data-open="0"
         onclick="toggleMore(this,'${tbId}',${extra.length})">
         عرض المزيد (${extra.length} موديل) ↓</button>` : ''}`;
@@ -622,10 +643,10 @@ function buildCards() {
 }
 
 function refreshSYP() {
-  document.querySelectorAll('tr[data-usd]').forEach(row => {
+  document.querySelectorAll('.prow[data-usd]').forEach(row => {
     if (row.dataset.new === 'true') return;
     const usd = +row.dataset.usd, prev = +row.dataset.prev;
-    const cell = row.querySelector('.td-syp');
+    const cell = row.querySelector('.cell-syp');
     if (!cell) return;
     let arrowHtml = '';
     if (usd > prev) arrowHtml = `<span class="arr up">↑</span>`;
@@ -638,9 +659,9 @@ function toggleMore(btn, tbId, n) {
   const open = btn.dataset.open === '1';
   if (open) {
     let i = 0;
-    document.querySelectorAll(`#${tbId} tr`).forEach(r => { if (i++ >= 6) r.classList.add('rh'); });
+    document.querySelectorAll(`#${tbId} .prow`).forEach(r => { if (i++ >= 6) r.classList.add('rh'); });
   } else {
-    document.querySelectorAll(`#${tbId} tr.rh`).forEach(r => r.classList.remove('rh'));
+    document.querySelectorAll(`#${tbId} .prow.rh`).forEach(r => r.classList.remove('rh'));
   }
   btn.dataset.open = open ? '0' : '1';
   btn.textContent = open ? `عرض المزيد (${n} موديل) ↓` : 'عرض أقل ↑';
@@ -766,7 +787,7 @@ function applyFilters() {
     card.style.display = '';
     let cardHit = false;
 
-    card.querySelectorAll('tr[data-usd]').forEach(row => {
+    card.querySelectorAll('.prow[data-usd]').forEach(row => {
       const usd = +row.dataset.usd;
       const name = row.dataset.model || '';
       const inRange = usd >= curMin && usd <= curMax;
