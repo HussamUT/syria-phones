@@ -594,20 +594,6 @@ function buildCards() {
       </div>`;
     }
 
-      /* Flexbox row — RTL: items render right→left
-         Order in HTML: [ل.س] [دولار] [تخزين] [رام] [موديل]
-         Visually:       ل.س  | دولار | تخزين | رام | موديل  (right to left)
-         On screen:    right=ل.س .............. left=موديل  ✓
-      */
-      return `<div class="prow${hidden ? ' rh' : ''}" data-usd="${ph.p}" data-prev="${ph.pp}" data-model="${ph.m.toLowerCase()}" data-new="${ph.isnew}">
-        <div class="cell-mod" title="${ph.m}">${ph.m}</div>
-        <div class="cell-ram">${ph.r || '—'}</div>
-        <div class="cell-stor">${ph.s || '—'}</div>
-        <div class="cell-usd" style="color:${brand.color}">$${ph.p.toLocaleString()}</div>
-        <div class="cell-syp">${sypHtml}</div>
-      </div>`;
-    }
-
     card.innerHTML = `
       <div class="card-header">
         ${logoHtml}
