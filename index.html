@@ -892,35 +892,70 @@ async function fetchSpecs(brand, model) {
   const key = brand + '|' + model;
   if (specCache[key]) return specCache[key];
 
-  // Build search query
-  const query = `${brand} ${model} specifications`;
-  const fullName = `${brand} ${model}`;
-
-  // Try multiple sources
-  const specs = await tryWikipedia(fullName) || await tryDDG(query) || {};
+  const specs = await tryWikipedia(brand, model) || await tryDDG(`${brand} ${model} specifications`) || {};
   specs._source = `https://www.kimovil.com/en/where-to-buy-${brandSlug(brand)}-${slugify(model)}`;
   specCache[key] = specs;
   return specs;
 }
 
-async function tryWikipedia(fullName) {
+async function tryWikipedia(brand, model) {
   try {
-    const url = `https://en.wikipedia.org/w/api.php?action=query&prop=extracts&exintro=1&explaintext=1&titles=${encodeURIComponent(fullName)}&format=json&origin=*`;
-    const r = await fetch(url, {signal: AbortSignal.timeout(6000)});
-    const j = await r.json();
-    const pages = j.query?.pages || {};
+    // Step 1: search to find the correct Wikipedia page title
+    const queries = [
+      `${brand} ${model}`,
+      `${model} smartphone`,
+      `${brand} ${model} phone`,
+    ];
+    // For iPhone strip brand from search
+    if (brand === 'iPhone') queries.unshift(model);
+
+    let pageTitle = null;
+    for (const q of queries) {
+      const searchUrl = `https://en.wikipedia.org/w/api.php?action=opensearch&search=${encodeURIComponent(q)}&limit=3&format=json&origin=*`;
+      const r = await fetch(searchUrl, {signal: AbortSignal.timeout(5000)});
+      const j = await r.json();
+      const titles = j[1] || [];
+      // Find best match — prefer title containing model keywords
+      const modelWords = model.toLowerCase().replace(/[^a-z0-9\s]/g,' ').trim().split(/\s+/);
+      const match = titles.find(t =>
+        modelWords.every(w => w.length < 2 || t.toLowerCase().includes(w))
+      ) || titles[0];
+      if (match) { pageTitle = match; break; }
+    }
+    if (!pageTitle) return null;
+
+    // Step 2: fetch the page extract
+    const extractUrl = `https://en.wikipedia.org/w/api.php?action=query&prop=extracts&exintro=1&explaintext=1&titles=${encodeURIComponent(pageTitle)}&format=json&origin=*`;
+    const r2 = await fetch(extractUrl, {signal: AbortSignal.timeout(6000)});
+    const j2 = await r2.json();
+    const pages = j2.query?.pages || {};
     const page = Object.values(pages)[0];
     if (!page || page.missing !== undefined || !page.extract) return null;
     const txt = page.extract;
 
+    // Extract specs using patterns
+    const get = (...pats) => { for (const p of pats) { const m = txt.match(p); if (m) return (m[1]||m[0]).trim(); } return null; };
+
     return {
-      screen:  txt.match(/(\d+\.?\d*["-]inch[^.]{0,60}(?:AMOLED|OLED|LCD|display)[^.]{0,30})/i)?.[1]
-              || txt.match(/(\d+\.?\d*["-]inch)/i)?.[1],
-      chip:    txt.match(/(Snapdragon[^,.]{3,30}|Dimensity[^,.]{3,30}|Exynos[^,.]{3,30}|Kirin[^,.]{3,30}|Apple A\d+[^,.]{0,15})/i)?.[1],
-      battery: txt.match(/(\d{3,5}[\s-]?mAh)/i)?.[1],
-      camera:  txt.match(/(\d{2,3}[\s]?MP[^.]{0,40})/i)?.[1],
-      weight:  txt.match(/(\d{2,3}\.?\d*\s*g(?:rams?)?)/i)?.[1],
-      os:      txt.match(/(Android\s*\d+(?:\.\d+)?|iOS\s*\d+(?:\.\d+)?)/i)?.[1],
+      screen:  get(/(\d+\.?\d*[-–]?inch[^.]{0,60}(?:AMOLED|OLED|LCD|Super Retina)[^.]{0,30})/i,
+                   /(\d+\.?\d*\s*(?:cm|inch)[^.]{0,30}(?:display|screen)[^.]{0,30})/i,
+                   /display[^.]{0,20}(\d+\.?\d*\s*inch[^.]{0,40})/i),
+      chip:    get(/(Snapdragon\s*\d+[^,.\n]{0,25})/i,
+                   /(Dimensity\s*\d+[^,.\n]{0,25})/i,
+                   /(Exynos\s*\d+[^,.\n]{0,25})/i,
+                   /(Kirin\s*\d+[^,.\n]{0,25})/i,
+                   /(Apple\s*A\d+[^,.\n]{0,20})/i,
+                   /(Bionic[^,.\n]{0,20})/i),
+      battery: get(/(\d{3,5}\s*mAh)/i),
+      camera:  get(/(\d{2,3}\s*(?:MP|megapixel)[^.]{0,50}(?:camera|lens|sensor)[^.]{0,30})/i,
+                   /(?:main|rear|primary)\s*camera[^.]{0,20}(\d{2,3}\s*MP[^.]{0,40})/i,
+                   /(\d{2,3}\s*MP)/i),
+      weight:  get(/(\d{3}\s*g(?:rams?)?)\b/i,
+                   /weigh(?:s|ing)[^.]{0,15}(\d{3}\s*g)/i),
+      os:      get(/(Android\s*\d+(?:\.\d+)?)/i,
+                   /(iOS\s*\d+(?:\.\d+)?)/i,
+                   /runs?\s*(Android\s*\d+[^,.]{0,20})/i),
+      _wikiTitle: pageTitle,
     };
   } catch(e) { return null; }
 }
@@ -931,14 +966,15 @@ async function tryDDG(query) {
     const r = await fetch(url, {signal: AbortSignal.timeout(6000)});
     const j = await r.json();
     const txt = (j.AbstractText || '') + ' ' + (j.Answer || '');
-    if (!txt.trim()) return null;
+    if (txt.trim().length < 20) return null;
+    const get = (...pats) => { for (const p of pats) { const m = txt.match(p); if (m) return (m[1]||m[0]).trim(); } return null; };
     return {
-      screen:  txt.match(/(\d+\.?\d*["-]inch[^.]{0,50})/i)?.[1],
-      chip:    txt.match(/(Snapdragon[^,.]{3,25}|Dimensity[^,.]{3,25}|Exynos[^,.]{3,25}|Apple A\d+[^,.]{0,15})/i)?.[1],
-      battery: txt.match(/(\d{3,5}[\s-]?mAh)/i)?.[1],
-      camera:  txt.match(/(\d{2,3}[\s]?MP[^.]{0,30})/i)?.[1],
-      weight:  txt.match(/(\d{2,3}\.?\d*\s*g(?:rams?)?)/i)?.[1],
-      os:      txt.match(/(Android\s*\d+(?:\.\d+)?|iOS\s*\d+(?:\.\d+)?)/i)?.[1],
+      screen:  get(/(\d+\.?\d*["-]?inch[^.]{0,50})/i),
+      chip:    get(/(Snapdragon\s*\d+[^,.]{0,25}|Dimensity\s*\d+[^,.]{0,25}|Exynos\s*\d+[^,.]{0,25}|Apple\s*A\d+[^,.]{0,20})/i),
+      battery: get(/(\d{3,5}\s*mAh)/i),
+      camera:  get(/(\d{2,3}\s*MP[^.]{0,30})/i),
+      weight:  get(/(\d{3}\s*g(?:rams?)?)\b/i),
+      os:      get(/(Android\s*\d+(?:\.\d+)?|iOS\s*\d+(?:\.\d+)?)/i),
     };
   } catch(e) { return null; }
 }
